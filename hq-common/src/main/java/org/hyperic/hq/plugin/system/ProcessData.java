@@ -44,6 +44,7 @@ import org.hyperic.sigar.ProcUtil;
 import org.hyperic.sigar.Sigar;
 import org.hyperic.sigar.SigarException;
 import org.hyperic.sigar.SigarProxy;
+import org.springframework.context.i18n.LocaleContextHolder;
 
 public class ProcessData {
     public static final String NA = "-";
@@ -270,7 +271,7 @@ public class ProcessData {
             fmt = "HH:mm";
         }
 
-        return new SimpleDateFormat(fmt).format(new Date(time));
+        return new SimpleDateFormat(fmt, LocaleContextHolder.getLocale()).format(new Date(time));
     }
 
     public String getFormattedSize() {
