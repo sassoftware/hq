@@ -125,7 +125,7 @@ public class DurationFormatter
                 StringUtil.formatDuration(tbd.nHours * 60 * 60 * 1000 +
                                           tbd.nMins * 60 * 1000 +
                                           tbd.nSecs * 1000 +
-                                          tbd.nMilli);
+                                          tbd.nMilli, locale);
         } else if(granularity == GRANULAR_HOURS ||
                   granularity == GRANULAR_MINS ||
                   granularity == GRANULAR_SECS) {
@@ -133,7 +133,7 @@ public class DurationFormatter
                 baseTime.divide(UnitsUtil.FACT_MILLIS, 
                                 BigDecimal.ROUND_HALF_EVEN).longValue();
             res = StringUtil.formatDuration(nMillis, milliDigits,
-                                            granularity == GRANULAR_SECS);
+                                            granularity == GRANULAR_SECS, locale);
 
             if(granularity == GRANULAR_SECS)
                 res = res + 's';                                            
@@ -141,7 +141,7 @@ public class DurationFormatter
             // Format into milliseconds
             double dMillis = baseTime.doubleValue() / 1000000;
             
-            NumberFormat fmt = NumberFormat.getInstance();
+            NumberFormat fmt = NumberFormat.getInstance(locale);
             fmt.setMinimumIntegerDigits(1);
             fmt.setMaximumIntegerDigits(3);
             fmt.setMinimumFractionDigits(0);
