@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="hq-server" basedir="." default="all">
+	<target name="init">
+		<property name="pkg_name" value="hq-server"/>
+		<property name="jar_name" value="hq-server-5.8.0.jar"/>
+		<property name='build_root' value="../../.."/>
+		<property name='work_dir' value="${build_root}/work/${pkg_name}"/>
+    	<property name='bin_dir' value="${build_root}/bin/${pkg_name}"/>
+	</target>
+
+    <target name="clean_jar" depends="init">
+		<delete file="${work_dir}/../${jar_name}"/>
+		<delete dir="${work_dir}"/>
+		<mkdir dir="${work_dir}"/>
+		
+		<unzip src="../../hyperic58lib/${jar_name}" dest="${work_dir}"/>
+    </target>
+	
+	<target name="removelist" depends="init">
+		<loadfile property="removelist_txt" srcFile="removelist.txt"/>
+		<filelist id="removelist_id" dir="${work_dir}" files="${removelist_txt}"/>
+		<delete>
+			<filelist refid="removelist_id"/>
+		</delete>
+	</target>
+
+    <target name="clean_bin" depends="init">
+		<delete dir="${bin_dir}"/>
+		<mkdir dir="${bin_dir}"/>
+
+        <copy includeemptydirs="false" todir="${bin_dir}">
+            <fileset dir="../Source/Java">
+                <exclude name="**/*.java"/>
+            </fileset>
+        </copy>
+    </target>
+
+    <target name="compile" depends="init">
+    	<property name="debuglevel" value="source,lines,vars"/>
+    	<property name="target" value="1.7"/>
+    	<property name="source" value="1.7"/>
+    	<property name="tomcat6lib" value="../../tomcat6lib"/>
+    	<property name="hyperic58lib" value="../../hyperic58lib"/>
+    	<path id="hypericorg.classpath">
+	        <pathelement location="${bin_dir}"/>
+	        <pathelement location="${tomcat6lib}/jsp-api.jar"/>
+	        <pathelement location="${tomcat6lib}/servlet-api.jar"/>
+	        <pathelement location="${tomcat6lib}/commons-logging-api-1.1.jar"/>
+	        <pathelement location="${tomcat6lib}/struts-core-1.3.10.jar"/>
+	        <pathelement location="${tomcat6lib}/spring-beans-3.0.5.RELEASE.jar"/>
+	        <pathelement location="${tomcat6lib}/spring-web-3.0.5.RELEASE.jar"/>
+	        <pathelement location="${tomcat6lib}/json-20090211.jar"/>
+	        <pathelement location="${tomcat6lib}/spring-context-3.0.5.RELEASE.jar"/>
+	        <pathelement location="${tomcat6lib}/spring-core-3.0.5.RELEASE.jar"/>
+    		<pathelement location="${tomcat6lib}/spring-security-core-3.0.5.RELEASE.jar"/>
+    		<pathelement location="${tomcat6lib}/spring-tx-3.0.5.RELEASE.jar"/>
+	        <pathelement location="${tomcat6lib}/sigar-1.6.6.10.jar"/>
+	        <pathelement location="${tomcat6lib}/struts-extras-1.3.10.jar"/>
+    		<pathelement location="${tomcat6lib}/hibernate-3.2.6.ga.jar"/>
+    		<pathelement location="${tomcat6lib}/commons-lang-2.5.jar"/>
+
+	        <pathelement location="${hyperic58lib}/hq-web-5.8.0-classes.jar"/>
+	        <pathelement location="${hyperic58lib}/hq-common-5.8.0.jar"/>
+	        <pathelement location="${hyperic58lib}/hq-server-5.8.0.jar"/>
+	        <pathelement location="${hyperic58lib}/hq-util-5.8.0.jar"/>
+	        <pathelement location="${hyperic58lib}/hq-pdk-5.8.0.jar"/>
+	        <pathelement location="${hyperic58lib}/hqee-server-5.8.0.jar"/>
+	        <pathelement location="${hyperic58lib}/hqee-web-5.8.0.jar"/>
+	        <pathelement location="${hyperic58lib}/hq-rendit-5.8.0.jar"/>
+	        <pathelement location="${hyperic58lib}/hq-lather-5.8.0.jar"/>
+
+	        <pathelement location="${hyperic58lib}/hq-api-5.8.0.jar"/>
+	        <pathelement location="${hyperic58lib}/hqee-api-5.8.0.jar"/>
+	        <pathelement location="${hyperic58lib}/hqee-common-5.8.0.jar"/>
+    	</path>
+    
+        <javac debug="true" debuglevel="${debuglevel}" destdir="${bin_dir}" includeantruntime="false" source="${source}" target="${target}">
+            <src path="../Source/Java"/>
+            <classpath refid="hypericorg.classpath"/>
+        </javac>
+    </target>
+    
+	<target name="all" depends="init,clean_jar,removelist,clean_bin,compile">
+        <copy includeemptydirs="false" todir="${work_dir}">
+            <fileset dir="${bin_dir}">
+                <exclude name="**/*.java"/>
+            </fileset>
+        </copy>
+        <jar jarfile="${work_dir}/../${jar_name}" compress="true" basedir="${work_dir}" manifest="${work_dir}/META-INF/MANIFEST.MF"/>
+    </target>
+	
+	<target name="clean" depends="init">
+		<delete file="${work_dir}/../${jar_name}"/>
+		<delete dir="${work_dir}"/>
+		<delete dir="${bin_dir}"/>
+	</target>
+</project>
