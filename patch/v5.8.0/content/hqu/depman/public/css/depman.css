@@ -1,0 +1,326 @@
+﻿/* General styles applied to all content */
+#depManLayout {
+	color: #545454;
+}
+
+.instructions {
+	margin-bottom: 0.25em;	
+}
+
+#availablePlatformsDialog input[type=button],
+#depManLayout input[type=button] {
+	font-size: 0.9em;
+}
+
+#availablePlatformsDialog input[type=button] {
+	font-size: 0.8em;
+}
+
+#availablePlatformsDialog input[type=text],
+#availablePlatformsDialog select,
+#depManLayout input[type=text],
+#depManLayout select {
+	border: 1px solid #c6c6c6;
+	padding: 0.125em
+}
+
+/* Filter tab panel specific styles */
+#filterTabPanel {
+	padding-bottom: 0.625em;
+	border-bottom: 0;
+	background-color: #efefef;
+}
+
+#filterTabPanel li.ui-state-default a {
+	color: #2e4b71;
+}
+
+#filterTabPanel li.ui-tabs-selected a {
+	color: #2e4b71;
+}
+
+.filterPanel {
+	padding-bottom: 0.625em;
+}
+
+.filterPanel strong,
+#filterTabPanel strong {
+	float: left;
+}
+
+#filterTabPanel strong {
+	padding: 0.5em 1em;
+}
+
+.filterPanel fieldset p,
+#filterTabPanel fieldset p {
+	margin: 0;
+	margin-right: 0.75em;
+	padding: 0.1875em;
+	float: left;	
+}
+
+.filterPanel fieldset p span,
+#filterTabPanel fieldset p span {
+	margin-right: 0.625em;
+	display: block;
+	float: left;
+	font-weight: bold;
+}
+
+.ui-widget {
+	font-family: inherit;
+}
+
+.ui-widget a:link,
+.ui-widget a:visited {
+	font-weight: normal;
+}
+
+.ui-tabs {
+	padding: 0;
+}
+
+.ui-tabs .ui-tabs-panel {
+	padding: 1em 1em 0;
+}
+
+.ui-widget-header {
+	border: 0;
+	border-bottom: 1px solid #c6c6c6;
+}
+
+.ui-corner-all {
+	-moz-border-radius: 0 !important;
+	-webkit-border-radius: 0 !important;
+}
+	
+span#radioContainer {
+	padding-top: 0.1875em;
+	display: table-cell;
+	vertical-align: middle;
+}
+
+span#radioContainer input[type=radio] {
+	margin-right: 0.1875em;
+}
+
+span#radioContainer label {
+	font-weight: normal;
+	white-space: nowrap;
+}
+
+#topLevelPlatformsList,
+#availablePlatformsList { 
+	list-style-type: none; 
+	margin: 0; 
+	padding: 0; 
+}
+
+#topLevelPlatformsList .message,
+#availablePlatformsList .message { 
+	padding: 0.625em;
+	display: block;
+	font-size: 1em;
+	color: #555;
+}
+
+#availablePlatformsList .ui-state-default,
+#topLevelPlatformsList .ui-state-default {
+	background-color: #efefef;
+	background-image: none;
+	border: 0;
+}
+
+#availablePlatformsList i {
+	font-size: 0.75em;	
+}
+
+#topLevelPlatformsList .listItem {
+	display: block;
+	padding: 0.5em 0.25em 0.4em;
+	cursor: pointer;
+}
+
+#availablePlatformsList li,
+#topLevelPlatformsList ul.dependencyList li {
+	padding: 0.5em;
+}
+
+#topLevelPlatformsList ul.dependencyList {
+	margin: 0;
+}
+
+#topLevelPlatformsList .ui-selectee,
+#availablePlatformsList .ui-selectee { 
+	cursor: pointer; 
+}
+
+.platformNameColumn {
+	width: 41.875em;	
+	display:block;
+	float:left;
+}
+
+span.platformTypeColumn {
+	margin-left: 2em;	
+}
+	
+.actionButtonContainer {
+	padding: 0.5em;
+	text-align: right;
+	background-color: #efefef;
+}
+
+div.actionButtonContainer div {
+	float: left;
+}
+
+#topLevelPlatformsListContainer,
+#dependentPlatformsListContainer,
+#availablePlatformListContainer {
+	background-color: #efefef;
+}
+
+#dependentPlatformsListContainer,
+#topLevelPlatformsListContainer {
+	border: 1px solid #c6c6c6;
+	border-top: 0;
+	padding: 1em;
+}
+
+.dependencyListContainer {
+	background-color: #EEE;
+	padding-left: 0;
+	border-top:1px solid #999;
+	border-bottom:1px solid #999;
+	height:25em;
+	overflow-y:auto;
+}
+
+ul#topLevelPlatformsList ul {
+	padding-left: 0;
+}
+
+#dependentFilters fieldset {
+	height: 25px;
+}
+
+ul#availablePlatformsList li.ui-state-default,
+ul#topLevelPlatformsList ul li.ui-state-default {
+	list-style: none;
+	background-color: #efefef;
+	border-bottom: 1px solid #999;
+}
+
+ul#dependentPlatformsList {
+	list-style: none;
+	padding: 0;
+}
+
+ul#dependentPlatformsList li {
+	background-color: #efefef;
+	padding: 0.5em;
+}
+
+ul#dependentPlatformsList li.odd-row {
+	background-color: #EBF1FA;
+}
+
+ul#dependentPlatformsList span#message {
+	padding: 0.5em;	
+	display: block;
+}
+
+#topLevelPlatformsList li.expanded {
+	background-color: #4883D0;
+	color: #fff;
+	font-weight: bold;
+}
+
+ul#availablePlatformsList li.odd-row,
+ul#topLevelPlatformsList ul li.odd-row {
+	background-color: #EBF1FA;
+}
+
+ul#availablePlatformsList li.ui-selected,
+ul#topLevelPlatformsList ul li.ui-selected {
+	background-color: #4883D0;
+	color: #fff;
+}
+
+#topLevelPlatformsListContainer .ui-icon {
+	float: left;
+}
+
+.expandablePanel {
+	background-color:#4883D0;
+	padding:0 0.45em 0.45em;
+}
+
+ul#availablePlatformsList {
+	height: 20em;
+	overflow-y: auto;
+	border: 1px solid #999;
+}
+
+.listActionButtonContainer {
+	text-align: right;
+	padding: 0.4em 0;
+}
+/*
+.button42 {
+	background-color: #E0C452;
+	color: #000;
+	padding: 0.1875em;
+	cursor: pointer;
+}
+*/
+input[disabled].button42 {
+	background-color: #EEE;
+	color: #888;
+	cursor: default;
+}
+
+.ui-widget-overlay {
+	background:#000 url(smoothness/images/ui-bg_flat_0_000000_40x100.png) repeat-x scroll 50% 50%;
+	opacity:0.5;
+}
+
+.ui-dialog .ui-dialog-content {
+	padding: 0.5em;
+}
+
+.ui-widget-content {
+	border-bottom: 0;	
+	background-color: #eeeeee;
+}
+
+.ui-tabs-selected {
+	/* background:#F0B367 url(../images/tab_active_background.gif) repeat-x scroll left top !important;  */
+	background-color: #efefef;
+	color: #545454;
+}
+
+.ui-tabs-selected a {
+	color: #2e4b71 !important;
+	font-weight: bold !important;
+}
+
+.userMessage {
+	background-color: #FFF;
+	float: right;
+	padding: 0.25em 0 0.25em 0.25em;
+	color: #4883D0;
+}
+
+.userError {
+	background-color: #FFF;
+	color: red;
+	font-size: 0.9em;
+}
+	
+.processing {
+	padding-left: 2em;
+	background:#FFFFFF url(../images/ajax-loader-gray.gif) no-repeat scroll 0.25em 50%;
+}

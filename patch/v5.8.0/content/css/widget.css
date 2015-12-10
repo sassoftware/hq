@@ -1,0 +1,195 @@
+
+.widget {
+/*    width: 450px;*/
+    height: 350px;
+    /* background: #000 url('/../../../../../../images/widget_bg.jpg') repeat-x; */
+    padding: 10px;
+    position: relative;
+    color: #FFF;
+}
+.widget h2, .widget h3 {
+    margin: 0px;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.widgetTitle {
+    /* background: url('/../../../../../../images/4.0/backgrounds/panel_gray.jpg') repeat-x left top;  */
+    margin: -10px; 
+    padding: 5px;
+    cursor: move;
+    border: 1px solid #e3e3e3;
+	background-color: #fafafa; 
+	background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#fafafa), to(#a5a5a5));
+	background-image: -webkit-linear-gradient(top, #fafafa, #a5a5a5); 
+	background-image:    -moz-linear-gradient(top, #fafafa, #a5a5a5);
+	background-image:     -ms-linear-gradient(top, #fafafa, #a5a5a5);
+	background-image:      -o-linear-gradient(top, #fafafa, #a5a5a5);
+
+}
+
+.widget .config_btn {
+    position: absolute;
+    right: 30px;
+    top: 4px;
+    cursor: default;
+}
+
+.widget .remove_btn {
+    position: absolute;
+    right: 10px;
+    top: 4px;
+    cursor: default;
+}
+
+.widget .expand_btn {
+    position: absolute;
+    right: 10px;
+    bottom: 10px;
+}
+
+.widget .pause_btn {
+    position: absolute;
+    left: 10px;
+    bottom: 10px;
+}
+
+.widget .play_btn {
+    position: absolute;
+    left: 10px;
+    bottom: 10px;
+}
+
+.widget .content select, .widget input {
+    width: 120px;
+    margin: 10px 0px;
+}
+
+.widget .content {
+/*  display: none;*/
+    display: block;
+/*        visibility: visible;*/
+}
+
+.widget .config {
+    display: none;
+    opacity: 0;
+/*        visibility: hidden;*/
+}
+
+.widget .config form fieldset {
+    margin-bottom: 10px;
+}
+
+.widget .config form legend {
+  padding: 0 2px;
+  font-weight: bold;
+}
+.widget .config form label {
+  display: inline-block;
+  width: 120px; /* Width of labels */
+
+   /* firefox 2 fix */
+  display: -moz-inline-box;
+    -moz-box-orient: vertical
+}
+
+/* fix for IE inline-block problem */
+<!--[if IE]><!-->
+.widget .config form label {
+    zoom: 1;
+    display: inline;
+}
+<!--<![endif]-->
+
+.widget .config form ol {
+  margin: 0;
+  padding: 0;
+}
+
+.widget .config form li {
+  list-style: none;
+  padding: 5px;
+  margin: 0;
+}
+
+/* chart widget stuff */
+.widget #chart_container {
+	position: absolute;
+	top: 45px;
+	right: 10px;
+/*  width: 300px;*/
+	height: 250px;
+	float: right;
+}
+
+.widget #widget_chart {
+/*    width: 300px;*/
+    height: 250px;
+    border: 1px solid #DDD;
+}
+
+/* summary widget stuff */
+
+#alert_summary fieldset {
+  padding-bottom: 2em;
+}
+
+#summaryWidget .content table {
+    margin-top: 10px;
+    color: #FFF;
+    border: 0px;
+    border-spacing: 0px;
+    font-size: 90%;
+    width: 100%;
+}
+#summaryWidget .content th {
+    width: 40%;
+    font-weight: normal;
+    margin: 0px;
+    text-align: right;
+    color: #FFF;
+}
+#summaryWidget .content thead th {
+    width: 30%;
+    text-align: center;
+}
+#summaryWidget .content td {
+    text-align: center;
+    padding: 4px;
+}
+#summaryWidget .content tr.even {
+    background-color: #4F4F4F;
+}
+#summaryWidget .content tr.odd {
+    background-color: transparent;
+}
+
+#summaryWidget .content .lcol {
+    border-right: 1px solid #FFF;
+    padding: 0px;
+    height: 300px;
+    vertical-align: top;
+}
+
+#summaryWidget .content .rcol {
+    padding: 0px;
+    vertical-align: top;
+}
+
+#summaryWidget .config .container
+{
+    width: 426px;
+    display: block;
+    padding-left: 50%;
+    margin-left: -213px;
+}
+
+#summaryWidget .config .container label
+{
+    display: inline;
+}
+ 
+#summaryWidget .config select {
+    width: 140px;
+}
