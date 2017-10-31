@@ -272,35 +272,36 @@ public class PlatformForm
                 ActionMessage err = new ActionMessage("resource.platform.inventory.error.IpAddressInvalid");
                 errors.add("ip[0].address", err);
             }
-        } else { 
-            for (int i = 1; i < ips.length; i++) {
-                IpValue ip = ips[i];
-                // address is required
-                String address = ip.getAddress();
-                if (address == null || "".equals(address)) {
-                    ActionMessage err = new ActionMessage("resource.platform.inventory.error.IpAddressIsRequired");
-                    errors.add("ip[" + i + "].address", err);
-                }
-            }
-            
-			Set<String> ipsets = new HashSet<String>();
-			String regex = "^[0-9]+\\.[0-9]+\\.[0-9]+\\.[0-9]+$";
-			for (int i = 0; i < ips.length; i++) {
-				IpValue ip = ips[i];
-				String address = ip.getAddress();
-				if(address != null && !"".equals(address.trim())){
-					if(!address.matches(regex)){
-						ActionMessage err = new ActionMessage("resource.platform.inventory.error.IpAddressInvalid");
-						errors.add("ip[" + i + "].address", err);
-					}
-					if (ipsets.contains(address)) {
-						ActionMessage err = new ActionMessage("resource.platform.inventory.error.IpAddressDuplicated");
-						errors.add("ip[" + i + "].address", err);
-					} else {
-						ipsets.add(address);
-					}
+        }  
+           
+		Set<String> ipsets = new HashSet<String>();
+		String regex = "^[0-9]+\\.[0-9]+\\.[0-9]+\\.[0-9]+$";
+		for (int i = 0; i < ips.length; i++) {
+			IpValue ip = ips[i];
+			String address = ip.getAddress();
+			if (address == null || "".equals(address)) {
+                ActionMessage err = new ActionMessage("resource.platform.inventory.error.IpAddressIsRequired");
+                errors.add("ip[" + i + "].address", err);
+            }else{
+            	if(!address.matches(regex)){
+					ActionMessage err = new ActionMessage("resource.platform.inventory.error.IpAddressInvalid");
+					errors.add("ip[" + i + "].address", err);
 				}
-			}
+				if (ipsets.contains(address)) {
+					ActionMessage err = new ActionMessage("resource.platform.inventory.error.IpAddressDuplicated");
+					errors.add("ip[" + i + "].address", err);
+				} else {
+					ipsets.add(address);
+				}
+            }
+			
+			String netmask = ip.getNetmask();
+			if(netmask != null && !"".equals(netmask.trim())){
+				if(!netmask.matches(regex)){
+					ActionMessage err = new ActionMessage("resource.platform.inventory.error.NetmaskInvalid");
+					errors.add("ip[" + i + "].netmask", err);
+				}
+			} 
              
         }
         return errors.isEmpty() ? null : errors;

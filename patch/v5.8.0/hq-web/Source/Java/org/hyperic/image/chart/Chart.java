@@ -526,6 +526,11 @@ public abstract class Chart extends WebImage
             
             g.graphics.setColor(this.m_clrLegendText);
             g.graphics.setFont(DEFAULT_LEGEND_PLAIN);
+            String osName = System.getProperty("os.name");
+            if(osName!=null&&osName.toUpperCase().startsWith("AIX")){
+            	Font font = new Font("Arial Unicode MS",Font.PLAIN,18);
+            	g.graphics.setFont(font);
+            }
             g.graphics.drawString( this.m_strNoDataOnLocale,
               (this.width / 2) - (metrics.stringWidth(this.m_strNoData) / 2),
               this.yOffset + (this.height / 2) + (metrics.getAscent() / 2) );

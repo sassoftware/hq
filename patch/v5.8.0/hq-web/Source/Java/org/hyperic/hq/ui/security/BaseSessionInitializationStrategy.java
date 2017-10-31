@@ -68,9 +68,10 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.web.authentication.session.SessionAuthenticationException;
 import org.springframework.security.web.authentication.session.SessionAuthenticationStrategy;
 import org.springframework.stereotype.Component;
+import org.springframework.security.web.authentication.session.SessionFixationProtectionStrategy;
 
 @Component
-public class BaseSessionInitializationStrategy implements SessionAuthenticationStrategy {
+public class BaseSessionInitializationStrategy extends SessionFixationProtectionStrategy implements SessionAuthenticationStrategy {
 	private static Log log = LogFactory.getLog(BaseSessionInitializationStrategy.class.getName());
     private SessionManager sessionManager;
     private AuthzSubjectManager authzSubjectManager;
@@ -95,6 +96,9 @@ public class BaseSessionInitializationStrategy implements SessionAuthenticationS
     public void onAuthentication(Authentication authentication, HttpServletRequest request,
     		                     HttpServletResponse response)
     throws SessionAuthenticationException {
+    	//Call Spring session fixation ahead in super class.
+    	super.onAuthentication(authentication, request, response);
+    	
         final boolean debug = log.isDebugEnabled();
 
         if (debug) log.debug("Initializing UI session parameters...");

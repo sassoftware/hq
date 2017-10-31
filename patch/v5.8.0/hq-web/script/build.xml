@@ -52,8 +52,8 @@
 	        <pathelement location="${tomcat6lib}/json-20090211.jar"/>
 	        <pathelement location="${tomcat6lib}/spring-context-3.0.5.RELEASE.jar"/>
 	        <pathelement location="${tomcat6lib}/spring-core-3.0.5.RELEASE.jar"/>
-	        <pathelement location="${tomcat6lib}/spring-security-core-3.0.5.RELEASE.jar"/>
-	        <pathelement location="${tomcat6lib}/spring-security-web-3.0.5.RELEASE.jar"/>
+	        <pathelement location="${tomcat6lib}/spring-security-core-3.2.9.RELEASE.jar"/>
+	        <pathelement location="${tomcat6lib}/spring-security-web-3.2.9.RELEASE.jar"/>
 	        <pathelement location="${tomcat6lib}/sigar-1.6.6.10.jar"/>
 	        <pathelement location="${tomcat6lib}/struts-extras-1.3.10.jar"/>
 	        <pathelement location="${tomcat6lib}/struts-tiles-1.3.10.jar"/>
@@ -89,6 +89,7 @@
         <copy includeemptydirs="false" todir="${work_dir}">
             <fileset dir="${bin_dir}">
                 <exclude name="**/*.java"/>
+            	<exclude name="**/GlobalTime.class"/>
             </fileset>
         </copy>
         <jar jarfile="${work_dir}/../${jar_name}" compress="true" basedir="${work_dir}" manifest="${work_dir}/META-INF/MANIFEST.MF"/>

@@ -363,6 +363,11 @@ public class VerticalChart extends Chart
         // Draw the Peak, Avg and Low Lines
 
         graph.setFont(this.font);
+        String osName = System.getProperty("os.name");
+        if(osName!=null&&osName.toUpperCase().startsWith("AIX")){
+        	java.awt.Font font = new java.awt.Font("Arial Unicode MS",java.awt.Font.PLAIN,18);
+        	g.graphics.setFont(font);
+        }
         
         int xLast = 0;
         

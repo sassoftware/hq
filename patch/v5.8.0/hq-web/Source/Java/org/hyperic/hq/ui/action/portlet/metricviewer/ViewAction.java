@@ -195,7 +195,7 @@ public class ViewAction
         TreeSet<MetricSummary> sortedSet = new TreeSet<MetricSummary>(new MetricSummaryComparator(isDescending));
         for (int i = 0; i < data.length; i++) {
             // Only show resources with data
-            if (vals[i] != null) {
+            if ((vals[i] != null) && (data[i] != null)) {
                 MetricSummary summary = new MetricSummary(data[i].getResource(), template, vals[i]);
                 sortedSet.add(summary);
             }
