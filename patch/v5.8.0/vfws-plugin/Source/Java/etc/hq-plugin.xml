@@ -1,0 +1,287 @@
+<?xml version="1.0"?>
+
+<plugin package="com.vmware.vfabric.hyperic.plugin.vfws" name="vfws">
+	<property name="PLUGIN_VERSION" value="1.5" />
+
+	<classpath>
+		<include name="pdk/plugins/netservices-plugin.jar" />
+	</classpath>
+
+	<filter name="template" value="${vfws-server.template}:${alias}" />
+
+	<metrics name="vfws-server">
+		<metric name="Availability" indicator="true" />
+
+		<metric name="Server Uptime" alias="ServerUptimeSeconds"
+			category="Availability" />
+
+		<metric name="Busy Workers" defaultOn="true" />
+
+		<metric name="Idle Workers" defaultOn="true" />
+
+		<metric name="Bytes Served per Second" alias="KilobytesPerSec"
+			category="THROUGHPUT" units="KB" />
+
+		<metric name="Bytes Served per Request" alias="KilobytesPerReq"
+			category="THROUGHPUT" units="KB" />
+
+		<metric name="Requests Served per Second" alias="ReqPerSec"
+			indicator="true" category="THROUGHPUT" />
+
+		<metric name="Requests Served" alias="TotalAccesses" indicator="true"
+			collectionType="trendsup" category="THROUGHPUT" />
+
+		<metric name="Bytes Served" alias="TotalTrafficKilobytes"
+			units="KB" indicator="true" collectionType="trendsup" category="THROUGHPUT" />
+
+		<metric name="Parent Server Generation" category="THROUGHPUT" />
+
+	</metrics>
+
+	<filter name="template" value="${vfws-vhost.template}:${alias}" />
+
+	<metrics name="vfws-vhost">
+		<metric name="Availability" indicator="true" />
+
+		<metric name="Start Elapsed" units="mu" defaultOn="true"
+			collectionType="static" category="Availability" />
+
+		<metric name="Start Time" units="epoch-millis" defaultOn="true"
+			collectionType="static" category="Availability" />
+
+		<metric name="In Bytes GET" indicator="true" defaultOn="true"
+			collectionType="trendsup" category="THROUGHPUT" />
+
+		<metric name="In Bytes HEAD" indicator="true" defaultOn="true"
+			collectionType="trendsup" category="THROUGHPUT" />
+
+		<metric name="In Bytes POST" indicator="true" defaultOn="true"
+			collectionType="trendsup" category="THROUGHPUT" />
+
+		<metric name="In Bytes PUT" defaultOn="true" indicator="true"
+			collectionType="trendsup" category="THROUGHPUT" />
+
+		<metric name="In Requests GET" indicator="true" defaultOn="true"
+			collectionType="trendsup" category="THROUGHPUT" />
+
+		<metric name="In Requests HEAD" indicator="true" defaultOn="true"
+			collectionType="trendsup" category="THROUGHPUT" />
+
+		<metric name="In Requests POST" defaultOn="true" indicator="true"
+			collectionType="trendsup" category="THROUGHPUT" />
+
+		<metric name="In Requests PUT" defaultOn="true" indicator="true"
+			collectionType="trendsup" category="THROUGHPUT" />
+
+		<metric name="Out Bytes 200" defaultOn="true" indicator="true"
+			collectionType="trendsup" category="THROUGHPUT" />
+
+		<metric name="Out Bytes 301" defaultOn="true" indicator="true"
+			collectionType="trendsup" category="THROUGHPUT" />
+
+		<metric name="Out Bytes 302" indicator="true" defaultOn="true"
+			collectionType="trendsup" category="THROUGHPUT" />
+
+		<metric name="Out Bytes 403" indicator="true" defaultOn="true"
+			collectionType="trendsup" category="THROUGHPUT" />
+
+		<metric name="Out Bytes 404" indicator="true" defaultOn="true"
+			collectionType="trendsup" category="THROUGHPUT" />
+
+		<metric name="Out Bytes 500" defaultOn="true" indicator="true"
+			collectionType="trendsup" category="THROUGHPUT" />
+
+		<metric name="Out Responses 200" indicator="true" defaultOn="true"
+			collectionType="trendsup" category="THROUGHPUT" />
+
+		<metric name="Out Responses 301" indicator="true" defaultOn="true"
+			collectionType="trendsup" category="THROUGHPUT" />
+
+		<metric name="Out Responses 302" indicator="true" defaultOn="true"
+			collectionType="trendsup" category="THROUGHPUT" />
+
+		<metric name="Out Responses 401" indicator="true" defaultOn="true"
+			collectionType="trendsup" category="THROUGHPUT" />
+
+		<metric name="Out Responses 403" indicator="true" defaultOn="true"
+			collectionType="trendsup" category="THROUGHPUT" />
+
+		<metric name="Out Responses 404" defaultOn="true" indicator="true"
+			collectionType="trendsup" category="THROUGHPUT" />
+
+		<metric name="Out Responses 500" defaultOn="true" indicator="true"
+			collectionType="trendsup" category="THROUGHPUT" />
+
+		<metric name="In Low Bytes" defaultOn="true" indicator="true"
+			collectionType="trendsup" category="THROUGHPUT" />
+
+		<metric name="In Requests" indicator="true" defaultOn="true"
+			collectionType="trendsup" category="THROUGHPUT" />
+
+		<metric name="Out Responses" indicator="true" defaultOn="true"
+			collectionType="trendsup" category="THROUGHPUT" />
+	</metrics>
+
+
+	<config name="vfws-server">
+		<option name="process.query" description="ptql"
+			default="State.Name.re=httpd.prefork" />
+		<option name="hostname" description="Hostname" default="localhost" />
+		<option name="port" description="Port" default="80" />
+		<option name="path" description="Path"
+			default="/bmx?query=mod_bmx_status:Name=ServerStatus,Type=Normal" />
+		<option name="ssl" description="Use SSL" type="boolean"
+			optional="true" default="false" />
+	</config>
+
+	<config name="vfws-vhost">
+		<option name="hostname" description="Hostname" default="localhost" />
+		<option name="port" description="Port" default="80" />
+		<option name="path" description="Path"
+			default="/bmx?query=mod_bmx_vhost:Type=since-start,Host=%replaceme%,Port=%replaceme%" />
+		<option name="ssl" description="Use SSL" type="boolean"
+			optional="true" default="false" />
+	</config>
+
+	<server name="vFabric Web Server" version="5.1" platforms="Unix,Win32">
+		<property name="PROC_QUERY" value="State.Name.re=httpd.prefork" />
+		<plugin type="autoinventory" class="VfwsServerDetector" />
+		<plugin type="measurement" class="org.hyperic.hq.product.MeasurementPlugin" />
+		<plugin type="collector" class="VfwsCollector" />
+
+		<properties>
+			<property name="version" />
+			<property name="ServerVersion" />
+		</properties>
+		<config include="vfws-server" />
+
+		<plugin type="config_track" class="org.hyperic.hq.product.FileChangeTrackPlugin">
+			<monitored>
+				<folder path="conf" recursive="true" filter=".*\.conf" />
+			</monitored>
+		</plugin>
+
+		<metrics include="vfws-server" />
+
+
+		<plugin type="control" class="VfwsControlPlugin" />
+
+		<actions include="start,stop,restart,graceful,gracefulstop,configtest" />
+
+		<plugin type="control" platform="Win32"
+			class="org.hyperic.hq.product.Win32ControlPlugin" />
+
+		<actions platform="Win32" include="start,stop,restart,graceful,configtest" />
+
+		<config type="control" platform="Win32">
+			<option name="service_name" description="VFWS Service Name" />
+		</config>
+
+		<plugin type="control" platform="Win32"
+			class="org.hyperic.hq.product.Win32ControlPlugin" />
+
+		<config type="control" platform="Win32">
+			<option name="service_name" description="Vfws Service Name" />
+		</config>
+
+		<service name="Virtual Host">
+			<plugin type="measurement" class="org.hyperic.hq.product.MeasurementPlugin" />
+			<plugin type="collector" class="VfwsCollector" />
+
+			<config include="vfws-vhost" />
+
+			<metrics include="vfws-vhost" />
+
+		</service>
+
+	</server>
+
+	<server name="vFabric Web Server" version="5.2" include="5.1">
+	</server>
+
+	<server name="vFabric Web Server" version="5.3" include="5.1">
+	</server>
+
+	<server name="Pivotal Web Server" version="5.4"
+		include="vFabric Web Server 5.1">
+		<plugin type="autoinventory" class="PWSServerDetector" />
+	</server>
+
+	<server name="Pivotal Web Server" version="5.5" include="5.4">
+	</server>
+
+	<server name="Pivotal Web Server" version="6.0" include="5.4">
+	</server>
+
+	<server name="Pivotal Web Server" version="6.1" include="6.0">
+	</server>
+
+
+	<help name="vFabric Web Server 5.1">
+    <![CDATA[
+    <h4>Configuration Help</h4>
+    <p>
+    mod_bmx must be enabled in httpd.conf or included file.  By default a vFabric Web Server will 
+    include extras/httpd-info.conf which contains the following:
+    </p>
+    <p>
+&lt;Location /bmx&gt;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;SetHandler bmx-handler<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;Order Deny,Allow<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;Deny from all<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;Allow from 127.0.0.1<br/>
+&lt;/Location&gt;
+    </p>
+    <p>
+    In addition by default mod_bmx_* modules are enabled in httpd.conf. 
+    </p>
+    <p>
+LoadModule bmx_module            "/opt/vmware/vfabric-web-server/httpd-2.2/modules/mod_bmx.so"<br/>
+LoadModule bmx_status_module     "/opt/vmware/vfabric-web-server/httpd-2.2/modules/mod_bmx_status.so"<br/>
+LoadModule bmx_vhost_module      "/opt/vmware/vfabric-web-server/httpd-2.2/modules/mod_bmx_vhost.so"<br/>
+    </p>
+    ]]>
+	</help>
+
+	<help name="vFabric Web Server 5.2" include="vFabric Web Server 5.1">
+	</help>
+
+	<help name="vFabric Web Server 5.3" include="vFabric Web Server 5.1">
+	</help>
+
+
+    <help name="Pivotal Web Server 5.4">
+    <![CDATA[
+    <h4>Configuration Help</h4>
+    <p>
+    mod_bmx must be enabled in httpd.conf or included file.  By default a vFabric Web Server will 
+    include extras/httpd-info.conf which contains the following:
+    </p>
+    <p>
+&lt;Location /bmx&gt;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;SetHandler bmx-handler<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;Order Deny,Allow<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;Deny from all<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;Allow from 127.0.0.1<br/>
+&lt;/Location&gt;
+    </p>
+    <p>
+    In addition by default mod_bmx_* modules are enabled in httpd.conf. 
+    </p>
+    <p>
+LoadModule bmx_module            "/opt/pivotal/webserver/httpd-2.2/modules/mod_bmx.so"<br/>
+LoadModule bmx_status_module     "/opt/pivotal/webserver/httpd-2.2/modules/mod_bmx_status.so"<br/>
+LoadModule bmx_vhost_module      "/opt/pivotal/webserver/httpd-2.2/modules/mod_bmx_vhost.so"<br/>
+    </p>
+    ]]>
+    </help>
+
+	<help name="Pivotal Web Server 5.5" include="Pivotal Web Server 5.4">
+	</help>
+
+	<help name="Pivotal Web Server 6.0" include="Pivotal Web Server 5.4">
+	</help>
+
+	<help name="Pivotal Web Server 6.1" include="Pivotal Web Server 6.0">
+	</help>
+</plugin>
