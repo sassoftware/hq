@@ -7,6 +7,8 @@
 <%@ taglib uri="/WEB-INF/tld/hq.tld" prefix="hq" %>
 <%@ taglib uri="/WEB-INF/tld/sas.tld" prefix="sas" %>
 <%@ taglib tagdir="/WEB-INF/tags/jsUtils" prefix="jsu" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+
 <%--
   NOTE: This copyright does *not* cover user programs that use HQ
   program services by normal system calls through the application
@@ -62,8 +64,80 @@
       					<span><sas:evmEventDateTimeTag value="${log.timeStamp}"/> - </span>
     				</td>
     				<td colspan="2"  class="BlockContent" style="padding-left: 4px;padding-bottom:3px;">
-      					<c:out value="${log.detail}"/>
-    				</td>
+                      <c:set var="myLogDetail" value="${log.detail}"/>
+                        <c:choose>
+                           <c:when test="${fn:startsWith(myLogDetail,'Notified users:')}">
+                                   <c:set var="stringAfter" value="${fn:substringAfter(myLogDetail, 'Notified users')}" />
+
+                                   <fmt:message key="Alert.Notified.Users"/>${stringAfter}
+
+                           </c:when>
+                           <c:when test="${fn:startsWith(myLogDetail,'Notified roles:')}">
+                                   <c:set var="stringAfter" value="${fn:substringAfter(myLogDetail, 'Notified roles')}" />
+
+                                   <fmt:message key="Alert.Notified.Roles"/>${stringAfter}
+
+                           </c:when>
+                           
+                           <c:when test="${fn:startsWith(myLogDetail,'Notified:')}">
+                                   <c:set var="stringAfter" value="${fn:substringAfter(myLogDetail, 'Notified')}" />
+
+                                   <fmt:message key="Alert.Notified.Common"/>${stringAfter}
+
+                           </c:when>
+                           
+                           <c:when test="${fn:startsWith(myLogDetail,'Syslog:')}">
+                                   <c:set var="stringAfter" value="${fn:substringAfter(myLogDetail, 'Syslog')}" />
+
+                                   <fmt:message key="Alert.Sys.Log"/>${stringAfter}
+
+                           </c:when>
+                           
+                           <c:when test="${fn:startsWith(myLogDetail,'No valid users or emails found to send alert.')}">
+                                   <fmt:message key="Alert.Sys.NoValidUsersOrEmail"/>
+                           </c:when>
+                           
+                           <c:when test="${myLogDetail=='HQ Administrator  acknowledged the alert'}">
+                                   <fmt:message key="Alert.Acknowledge.Alert"/>
+                           </c:when>
+                           
+                           <c:when test="${myLogDetail=='Suppress alerts'}">
+                                   <fmt:message key="Alert.Suppress.Alerts"/>
+                           </c:when>
+                           
+                           <c:when test="${fn:startsWith(myLogDetail,'SMS:')}">
+                           <c:set var="stringAfter" value="${fn:substringAfter(myLogDetail, 'SMS')}" />
+                                   <fmt:message key="Alert.Sys.SMS"/>${stringAfter}
+                           </c:when>
+ 
+                           <c:when test="${fn:startsWith(myLogDetail,'HQ Administrator  acknowledged the alert and paused escalation for')}">
+                           <c:set var="stringAfter" value="${fn:substringAfter(myLogDetail, 'HQ Administrator  acknowledged the alert and paused escalation for')}" />
+                                   <fmt:message key="Alert.Administrator.Acknowledge.Pause"/>${stringAfter}
+                           </c:when>
+ 
+                           <c:when test="${fn:startsWith(myLogDetail,'HQ Administrator  acknowledged the alert and paused escalation for')}">
+                           <c:set var="stringAfter" value="${fn:substringAfter(myLogDetail, 'HQ Administrator  acknowledged the alert and paused escalation for')}" />
+                                   <fmt:message key="Alert.Administrator.Acknowledge.Pause"/>${stringAfter}
+                           </c:when>
+
+                           <c:when test="${fn:startsWith(myLogDetail,'(Fixed by')}">
+                           <c:set var="stringAfter" value="${fn:substringAfter(myLogDetail, '(Fixed by')}" />
+                                   (<fmt:message key="Alert.Fixed.By"/>${stringAfter}
+                           </c:when>
+
+
+                           <c:when test="${myLogDetail=='Recovery Alert'}">
+                                   <fmt:message key="Alert.Recovery.Alert"/>
+                           </c:when>
+ 
+                           
+                           
+                       <c:otherwise>
+                            <c:out value="${log.detail}"/>
+                       </c:otherwise>
+
+                       </c:choose>    				
+                     </td>
   				</tr>
 			</c:if>
   		</c:forEach>

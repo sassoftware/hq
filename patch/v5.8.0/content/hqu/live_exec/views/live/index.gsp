@@ -24,8 +24,11 @@ var lastSelected = undefined;
 function showResult(eid) {
  /* hqDojo.byId("results_msgLive").innerHTML = "${l.selectResult} (" + liveResults.command +
                                        ")&nbsp;&nbsp;&nbsp;&nbsp;${l.target} " + resInfo[eid].name;*/
-                                       
-  hqDojo.byId("results_msgLive").innerHTML = "${l.selectResult} (${l.command} " + liveResults.command +"&nbsp;&nbsp;&nbsp;&nbsp;${l.target} " + resInfo[eid].name+")";
+  var liveResultsCommand = liveResults.command;
+  if(!liveResults.command){
+      liveResultsCommand = '${l.undefined}' ;
+  }                                     
+  hqDojo.byId("results_msgLive").innerHTML = "${l.selectResult} (${l.command} " + liveResultsCommand +"&nbsp;&nbsp;&nbsp;&nbsp;${l.target} " + resInfo[eid].name+")";
                                        
   var results = liveResults.results;
   for (var i=0; i<results.length; i++) {
@@ -155,8 +158,14 @@ hqDojo.ready(function(){
     updateLegend(hqDojo.byId("commandSelect"));
 });
 
-
 </script>
+
+<style type="text/css">
+	#result td{
+		word-wrap:break-word;
+	}
+</style>
+
 <div class="messagePanel messageInfo" style="display:none;" id="messagePanel"><div class="infoIcon"></div><span id="messagePanelMessage"></span></div>
 <div class="outerLiveDataCont" style="clear:both;">
 
@@ -180,12 +189,12 @@ hqDojo.ready(function(){
       </div>
       <div id="legend" style="padding: 1px 5px 5px 2px; font-style: italic;"></div>
       <% if (isGroup) { %>
-        <div class="grpmembertext">Group Members</div>
+        <div class="grpmembertext">${l.groupMembers}</div>
         <div id="groupMembers" class="pendingData">
         <ul>
         <% for (m in groupMembers) { %>
         <li>
-        <div id="clicker_${m.entityId}" style="float:left;display:inline;height:16px;width:18px;" class="restingExec" onclick="showResult('${m.entityId}')" title="Click to view query information on this resource">&nbsp;&nbsp;&nbsp;&nbsp;</div>
+        <div id="clicker_${m.entityId}" style="float:left;display:inline;height:16px;width:18px;" class="restingExec" onclick="showResult('${m.entityId}')" title="${l.clickView}">&nbsp;&nbsp;&nbsp;&nbsp;</div>
         <div class="groupMemberName"><span id="mem_${m.entityId}">${h m.name}</span></div>
 
             <br class="clearBoth">

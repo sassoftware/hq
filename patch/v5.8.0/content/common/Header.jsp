@@ -46,7 +46,16 @@
 	actStr=alertBtnAct;
 </jsu:script>	
 <jsu:script>
-	
+	var evwindow;
+	function opennew(winurl,title){
+	  if(!evwindow || evwindow.closed)
+	  {
+		  evwindow = window.open(winurl,title,'width=800,height=650,scrollbars=yes,toolbar=yes,location=yes,left=80,top=80,resizable=yes');
+	  }
+	  else {
+		  evwindow.focus();
+	  }
+	}
     function getUpdateStatus(opt) {
         if (opt == "<fmt:message key="header.Acknowledge"/>") {
         	var postData = { update: true};
@@ -261,7 +270,7 @@
                 	<tiles:put name="location" value="resources"/>
                 </tiles:insert>
                 <li class="hasSubmenu">
-                	<a href=""><fmt:message key=".dashContent.recentResources"/></a>
+                	<a href="#"><fmt:message key=".dashContent.recentResources"/></a>
                   	<ul>
                     	<tiles:insert definition=".toolbar.recentResources"/>
                   	</ul>
@@ -277,34 +286,13 @@
               	</tiles:insert>
           	</ul>
         </div>
-        <%@page import="java.io.InputStream" %> 
-	<%@page import="java.util.Properties" %> 
-	<%@page import="java.util.HashMap" %> 
-	<%@page import="java.util.Map" %> 
-	<% 
-		InputStream stream = application.getResourceAsStream("/sas/sas.properties"); 
-		Properties props = new Properties(); 
-		props.load(stream); 
-		Map<String, String> sasMap = new HashMap<String, String>((Map) props);
-		if (sasMap.size() > 0) {
-	%>
-
-                <div id="evTab" class="tab" onkeyup="hideSubMenu('analyzeSubMenu');">    
+        <div id="evTab" class="tab" onkeyup="hideSubMenu('analyzeSubMenu');">    
 				<c:set value="${tabIndex+1}" var="tabIndex" />
-                <a href="<html:rewrite page="<%=sasMap.entrySet().iterator().next().getValue()%>" />" tabindex="${tabIndex}"><fmt:message key="header.ev"/></a>
-                <!--     
-			<a href="#"><fmt:message key="header.ev"/></a>
-			<ul class="root">
-				<tiles:insert definition=".header.optional.tabs">
-					<tiles:put name="location" value="sas"/>
-				</tiles:insert>
-	          	</ul>
-	          	-->
-	        </div>
-	 <%
-	        }
-	 %>
-      <div id="adminTab" class="tab">
+				<c:set var="evurl"><%= application.getInitParameter("ModuleFrameworkURL") %></c:set>
+				<c:set var="winNum"><%= (int)(Math.random()*1000) %></c:set>
+        <a href="${evurl}" onclick="opennew('<c:out value="${evurl}" />','SASEV_${winNum}');return false;" tabindex="${tabIndex}"><fmt:message key="header.ev"/></a>     		
+	    </div>
+        <div id="adminTab" class="tab">
 			<c:set value="${tabIndex+1}" var="tabIndex" />
         	<a href="<html:rewrite page="/Admin.do" />" tabindex="${tabIndex}"><fmt:message key="header.admin"/></a>
         </div>

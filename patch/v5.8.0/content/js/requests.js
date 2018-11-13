@@ -241,6 +241,7 @@
                     imgNode.setAttribute("src", "images/icon_ack.gif");
                     imgNode.setAttribute("border", "0");
                     imgNode.setAttribute("alt", recentalerts_acknowledge);
+					imgNode.setAttribute("title", recentalerts_acknowledge);
                     imgNode.setAttribute('id', 'ack_'+ aList[i].alertId);
                     ackAnchor.appendChild(imgNode);
                     ackAnchor.href = "javascript:MyAlertCenter.acknowledgeAlert('" + checkbox.id + "');";
@@ -594,9 +595,31 @@ function addOption(sel, val, txt, selected) {
     }
 
 
-function refreshTime() {   
-    return hqDojo.date.locale.format(new Date(), {selector:'time'});
+function refreshTime() {
+	if((hqDojo.locale == 'zh') || (hqDojo.locale == 'zh-cn') || (hqDojo.locale == 'zh-tw') || (hqDojo.locale == 'ko') ) {
+		return refreshTime_cjk();
+	}
+	else {   
+    	return hqDojo.date.locale.format(new Date(), {selector:'time'});
+    }
 }
+function refreshTime_cjk() {
+    var curDateTime = new Date()
+    var curHour = curDateTime.getHours()
+    var curMin = curDateTime.getMinutes()
+    var curSec = curDateTime.getSeconds()
+    var curAMPM = curAM
+    var curTime = ""
+    if (curHour >= 12) {
+        curHour -= 12
+        curAMPM = curPM
+    }
+    if (curHour == 0) curHour = 12
+    curTime = curAMPM + curHour + ":"
+            + ((curMin < 10) ? "0" : "") + curMin
+    return curTime;
+}
+
 
 function refreshDate() {
     var today = new Date()

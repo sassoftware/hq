@@ -9,6 +9,7 @@
 <%@ taglib uri="/WEB-INF/tld/hq.tld" prefix="hq" %>
 <%@ taglib uri="/WEB-INF/tld/display.tld" prefix="display" %>
 <%@ taglib tagdir="/WEB-INF/tags/jsUtils" prefix="jsu" %>
+<%@ taglib uri="https://www.owasp.org/index.php/OWASP_Java_Encoder_Project" prefix="owasp" %>
 <%--
   NOTE: This copyright does *not* cover user programs that use HQ
   program services by normal system calls through the application
@@ -60,7 +61,7 @@
     <c:param name="pn" value="${param.pn}"/>
   </c:if>
   <c:if test="${not empty param.so}">
-    <c:param name="so" value="${param.so}"/>
+    <c:param name="so" value="${owasp:forUriComponent(param.so)}"/>
   </c:if>
   <c:if test="${not empty param.sc}">
     <c:param name="sc" value="${param.sc}"/>
@@ -72,7 +73,7 @@
     <c:param name="ps" value="${param.ps}"/>
   </c:if>
   <c:if test="${not empty param.so}">
-    <c:param name="so" value="${param.so}"/>
+    <c:param name="so" value="${owasp:forUriComponent(param.so)}"/>
   </c:if>
   <c:if test="${not empty param.sc}">
     <c:param name="sc" value="${param.sc}"/>
@@ -159,11 +160,30 @@
 <html:hidden property="rid" value="${Resource.id}"/>
 <html:hidden property="type" value="${Resource.entityId.type}"/>
 
+<%
+   Object oal = request.getAttribute("hstDetailAttr");
+   if(oal!=null && oal instanceof java.util.ArrayList){
+     java.util.ArrayList al = (java.util.ArrayList)oal;
+     java.util.Locale locale1 = request.getLocale();
+     
+     for (java.util.Iterator it = al.iterator(); it.hasNext();){
+     Object ohist = it.next();
+     if(ohist instanceof org.hyperic.hq.control.server.session.ControlHistory){
+        org.hyperic.hq.control.server.session.ControlHistory hist = (org.hyperic.hq.control.server.session.ControlHistory)ohist ;
+        hist.setLocale(locale1);     
+     }
+     
+     }
+     
+   }
+   
+%>
+
 <c:set var="tmpNoErrors"><fmt:message key="resource.common.control.NoErrors"/></c:set>
 
 <div id="listDiv">
   <display:table cellspacing="0" cellpadding="0" width="100%" action="${selfActionUrl}"
-                  orderValue="so" order="${param.so}" sortValue="sc" sort="${param.sc}" pageValue="pn" 
+                  orderValue="so" order="${owasp:forUriComponent(param.so)}" sortValue="sc" sort="${param.sc}" pageValue="pn" 
                   page="${param.pn}" pageSizeValue="ps" pageSize="${param.ps}" items="${hstDetailAttr}" var="hstDetail" >
    <display:column width="1%" property="id" 
                     title="<input type=\"checkbox\" onclick=\"ToggleAll(this, widgetProperties)\" name=\"listToggleAll\">"  
@@ -172,24 +192,24 @@
    </display:column>
   <c:choose>
    <c:when test="${section eq 'group'}">
-    <display:column width="12%" property="action" sort="true" sortAttr="9"
+    <display:column width="12%" property="actionOnLocale" sort="true" sortAttr="9"
                     defaultSort="true" title="resource.server.ControlHistory.ListHeader.Action" 
                     href="/resource/${section}/Control.do?mode=hstDetail&type=${Resource.entityId.type}&rid=${Resource.id}" paramId="bid" paramProperty="id" nowrap="true" />
     </c:when>
     <c:otherwise>
-     <display:column width="12%" property="action"  
+     <display:column width="12%" property="actionOnLocale"  
                      title="resource.server.ControlHistory.ListHeader.Action"/> 
     </c:otherwise>
    </c:choose>
    <display:column width="12%" property="args" title="resource.server.ControlHistory.ListHeader.Arguments">
    </display:column>
-   <display:column width="10%" property="status" title="resource.server.ControlHistory.ListHeader.Status" sort="true" sortAttr="10" nowrap="true">
+   <display:column width="10%" property="statusOnLocale" title="resource.server.ControlHistory.ListHeader.Status" sort="true" sortAttr="10" nowrap="true">
    </display:column> 
    <display:column width="16%" property="startTime" title="resource.server.ControlHistory.ListHeader.Started" 
                    sort="true" defaultSort="false" sortAttr="11" nowrap="true" >
        <display:eventdatetimedecorator/>
    </display:column>
-   <display:column width="12%" property="duration" title="resource.server.ControlHistory.ListHeader.Elapsed" sort="true" sortAttr="12" >
+   <display:column width="12%" property="duration" title="resource.server.ControlHistory.ListHeader.Elapsed" >
       <display:datedecorator isElapsedTime="true"/>
    </display:column>
    <display:column width="8%" property="subject" title="resource.server.ControlHistory.ListHeader.Subject">

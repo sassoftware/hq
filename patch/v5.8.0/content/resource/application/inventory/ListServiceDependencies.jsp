@@ -102,15 +102,13 @@
       onclick="ToggleSelection(this, widgetPropertiesListServices, true)" 
       styleClass="listMember"/>
   </display:column>
-  <display:column width="10%" align="middle" property="appServiceId" value="${linkName}"
+  <display:column width="10%" align="left" property="appServiceId" value="${linkName}"
     title="resource.application.inventory.services.DependenciesTH" styleClass="ListCell" headerStyleClass="ListHeader"
     href="/resource/application/Inventory.do?mode=listServiceDependencies&appSvcId=${service.appServiceId}&rid=${Resource.id}&type=${Resource.entityId.type}" />
-  <display:column width="30%" property="name" sort="true" sortAttr="5"
-    defaultSort="true" 
+  <display:column width="30%" property="name"  
     title="resource.application.inventory.services.ServiceTH" 
     href="/resource/${service.entityId.typeName}/Inventory.do?mode=view&rid=${service.id}&type=${service.appdefType}" />
-  <display:column width="30%" property="serviceType.name" sort="true" 
-    sortAttr="4" defaultSort="false" 
+  <display:column width="30%" property="serviceType.name"  
     title="resource.application.inventory.services.TypeTH" /> 
   <display:column width="30%" property="server.name"
     title="resource.application.inventory.services.HostServerTH" />
@@ -162,16 +160,14 @@
 <c:otherwise>
 <display:table items="${appSvcDependers}" cellspacing="0" cellpadding="0" 
   width="100%" action="${selfAction}" var="service" pageSize="${requestScope[DependerPageSize]}">
-   <display:column width="10%" align="middle" property="appServiceId" value="${linkName}"
+   <display:column width="10%" align="left" property="appServiceId" value="${linkName}"
     title="resource.application.inventory.services.DependenciesTH" styleClass="ListCell" headerStyleClass="ListHeader"
     href="/resource/application/Inventory.do?mode=listServiceDependencies&appSvcId=${service.appServiceId}&rid=${Resource.id}&type=${Resource.entityId.type}" />
  
-  <display:column width="30%" property="name" sort="true" sortAttr="5"
-    defaultSort="true" 
+  <display:column width="30%" property="name" 
     title="resource.application.inventory.services.ServiceTH" 
     href="/resource/${service.entityId.typeName}/Inventory.do?mode=view&rid=${service.id}&type=${service.appdefType}" />
-  <display:column width="30%" property="serviceType.name" sort="true" 
-    sortAttr="4" defaultSort="false" 
+  <display:column width="30%" property="serviceType.name" 
     title="resource.application.inventory.services.TypeTH" /> 
   <display:column width="30%" property="server.name"
     title="resource.application.inventory.services.HostServerTH" />

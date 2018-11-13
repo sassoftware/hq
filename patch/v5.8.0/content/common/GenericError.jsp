@@ -1,4 +1,5 @@
 <%@ page language="java" %>
+<%@ page contentType="text/html; charset=UTF-8" %>
 <%@ page isErrorPage="true" %>
 <%@ page import="org.hyperic.util.StringUtil" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
@@ -67,11 +68,10 @@
     <td class="BlockContent" colspan="2">
       <p>
       <fmt:message key="error.Error.ThePageRequestedEtc"/>  
-      <fmt:message key="error.Error.ReturnTo"/>
-      <html:link href="javascript:history.back(1)"><fmt:message key="error.Error.PreviousPageLink"/></html:link> 
-      <html:link action="/Dashboard"><fmt:message key="error.Error.DashboardLink"/></html:link> 
-      <html:link action="/ResourceHub"><fmt:message key="error.Error.ResourceHubLink"/></html:link> 
-      <fmt:message key="error.Error.Page"/>
+      <fmt:message key="error.Error.Generice.Returnto">
+			<fmt:param value="/Dashboard.do" />
+			<fmt:param value="/ResourceHub.do" />
+      </fmt:message>
       </p>
     </td>
   </tr>
@@ -87,6 +87,7 @@
 </table>
 
 <%
+pageContext.getServletContext().getInitParameter("disable-stacktrace");
     // XXX: move this all into an action
 /* get the exception from one of the many places it could be hiding */
 if (exception == null)

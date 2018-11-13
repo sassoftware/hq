@@ -84,21 +84,14 @@
             <tr>
               <td><html:img page="/images/spacer.gif" width="20" height="1" border="0"/></td>
               <td width="100%">
-                <c:choose>
-                <c:when test="${not sessionScope.modifyDashboard}">
-                    <input type="checkbox" class="applicationCheckAll" onclick="ToggleAll(this, 'application')" disabled="true"/><b><fmt:message key="dash.home.DisplayCategory.AppCheckAll"/></b><br>&nbsp;
-                </c:when>
-                <c:otherwise>
-                    <input type="checkbox" class="applicationCheckAll" onclick="ToggleAll(this, 'application')" /><b><fmt:message key="dash.home.DisplayCategory.AppCheckAll"/></b><br>&nbsp;
-                </c:otherwise>
-                </c:choose>
+      
               </td>
             </tr>
             <tr>
               <td><html:img page="/images/spacer.gif" width="20" height="1" border="0"/></td>
               <td width="100%">
               <c:forEach var="type" items="${summary.appTypeMap}">
-                <html:multibox property="applicationTypes" value="${type.key}" styleClass="application" onclick="checkChild(this)" disabled="${not sessionScope.modifyDashboard}"/><c:out value="${type.key}"/><br>
+                <html:multibox property="applicationTypes" value="${type.key}" style="display: none;" onclick="checkChild(this)" disabled="${not sessionScope.modifyDashboard}"/><c:out value="${type.key}"/><br>
               </c:forEach>             
                 &nbsp;
               </td>
@@ -115,21 +108,14 @@
             <tr>
               <td><html:img page="/images/spacer.gif" width="20" height="1" border="0"/></td>
               <td width="100%">
-              <c:choose>
-                <c:when test="${not sessionScope.modifyDashboard}">
-                    <input type="checkbox" class="platformCheckAll" onclick="ToggleAll(this, 'platform')" disabled="true"/><b><fmt:message key="dash.home.DisplayCategory.PlatformCheckAll"/></b><br>&nbsp;
-                </c:when>
-                <c:otherwise>
-                    <input type="checkbox" class="platformCheckAll" onclick="ToggleAll(this, 'platform')"/><b><fmt:message key="dash.home.DisplayCategory.PlatformCheckAll"/></b><br>&nbsp;
-                </c:otherwise>
-                </c:choose>
+              
               </td>
             </tr>
             <tr>
               <td><html:img page="/images/spacer.gif" width="20" height="1" border="0"/></td>
               <td width="100%">
               <c:forEach var="type" items="${summary.platformTypeMap}">
-                <html:multibox property="platformTypes" value="${type.key}" styleClass="platform" onclick="checkChild(this)" disabled="${not sessionScope.modifyDashboard}"/><c:out value="${type.key}"/><br>
+                <html:multibox property="platformTypes" value="${type.key}" style="display: none;"  onclick="checkChild(this)" disabled="${not sessionScope.modifyDashboard}"/><c:out value="${type.key}"/><br>
               </c:forEach>           
                 &nbsp;
               </td>
@@ -146,21 +132,14 @@
             <tr>
               <td><html:img page="/images/spacer.gif" width="20" height="1" border="0"/></td>
               <td width="100%">
-                <c:choose>
-                <c:when test="${not sessionScope.modifyDashboard}">
-                    <input type="checkbox" class="serverCheckAll" onclick="ToggleAll(this, 'server')" disabled="true"/><b><fmt:message key="dash.home.DisplayCategory.ServerCheckAll"/></b><br>&nbsp;
-                </c:when>
-                <c:otherwise>
-                    <input type="checkbox" class="serverCheckAll" onclick="ToggleAll(this, 'server')"/><b><fmt:message key="dash.home.DisplayCategory.ServerCheckAll"/></b><br>&nbsp;
-                </c:otherwise>
-                </c:choose>
+               
               </td>
             </tr>
             <tr>
               <td><html:img page="/images/spacer.gif" width="20" height="1" border="0"/></td>
               <td width="100%">
                 <c:forEach var="type" items="${summary.serverTypeMap}">
-                  <html:multibox property="serverTypes" value="${type.key}" styleClass="server" onclick="checkChild(this)" disabled="${not sessionScope.modifyDashboard}"/><c:out value="${type.key}"/><br>            
+                  <html:multibox property="serverTypes" value="${type.key}" style="display: none;" onclick="checkChild(this)" disabled="${not sessionScope.modifyDashboard}"/><c:out value="${type.key}"/><br>            
                 </c:forEach>
                 &nbsp;
               </td>
@@ -176,21 +155,14 @@
               <tr>
                 <td><html:img page="/images/spacer.gif" width="20" height="1" border="0"/></td>
                 <td width="100%">
-                <c:choose>
-                <c:when test="${not sessionScope.modifyDashboard}">
-                  <input type="checkbox" class="serviceCheckAll" onclick="ToggleAll(this, 'service')" disabled="true"/><b><fmt:message key="dash.home.DisplayCategory.ServiceCheckAll"/></b><br>&nbsp;
-                </c:when>
-                <c:otherwise>
-                   <input type="checkbox" class="serviceCheckAll" onclick="ToggleAll(this, 'service')"/><b><fmt:message key="dash.home.DisplayCategory.ServiceCheckAll"/></b><br>&nbsp;
-                </c:otherwise>
-                </c:choose>
+               
                 </td>
               </tr>
               <tr>
                 <td><html:img page="/images/spacer.gif" width="20" height="1" border="0"/></td>
                 <td width="100%">
                   <c:forEach var="type" items="${summary.serviceTypeMap}">
-                    <html:multibox property="serviceTypes" value="${type.key}" styleClass="service" onclick="checkChild(this)" disabled="${not sessionScope.modifyDashboard}"/><c:out value="${type.key}"/><br>                
+                    <html:multibox property="serviceTypes" value="${type.key}" style="display: none;"  onclick="checkChild(this)" disabled="${not sessionScope.modifyDashboard}"/><c:out value="${type.key}"/><br>                
                   </c:forEach>
                   &nbsp;
                 </td>
@@ -215,14 +187,7 @@
               <tr>
                 <td><html:img page="/images/spacer.gif" width="20" height="1" border="0"/></td>
                 <td width="100%">
-                <c:choose>
-                <c:when test="${not sessionScope.modifyDashboard}">
-                    <input type="checkbox" class="groupMixedCheckAll" onclick="ToggleAll(this, 'groupMixed')" disabled="true"/><b><fmt:message key="dash.home.DisplayCategory.MixedGroupCheckAll"/></b><br>&nbsp;
-                </c:when>
-                <c:otherwise>
-                    <input type="checkbox" class="groupMixedCheckAll" onclick="ToggleAll(this, 'groupMixed')"/><b><fmt:message key="dash.home.DisplayCategory.MixedGroupCheckAll"/></b><br>&nbsp;
-                </c:otherwise>
-                </c:choose>
+          
                 </td>
               </tr>
               <tr>

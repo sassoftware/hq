@@ -7,6 +7,8 @@
 <%@ taglib uri="/WEB-INF/tld/hq.tld" prefix="hq" %>
 <%@ taglib uri="/WEB-INF/tld/display.tld" prefix="display" %>
 <%@ taglib tagdir="/WEB-INF/tags/jsUtils" prefix="jsu" %>
+<%@ taglib uri="https://www.owasp.org/index.php/OWASP_Java_Encoder_Project" prefix="owasp" %>
+
 <%--
   NOTE: This copyright does *not* cover user programs that use HQ
   program services by normal system calls through the application
@@ -74,7 +76,7 @@
     <c:param name="pn" value="${param.pn}"/>
   </c:if>
   <c:if test="${not empty param.so}">
-    <c:param name="so" value="${param.so}"/>
+    <c:param name="so" value="${owasp:forUriComponent(param.so)}"/>
   </c:if>
   <c:if test="${not empty param.sc}">
     <c:param name="sc" value="${param.sc}"/>
@@ -99,7 +101,7 @@
 <div id="listDiv">
 
   <display:table var="resourceItem" cellspacing="0" cellpadding="0" width="100%" action="${tableAction}"
-                  orderValue="so" order="${param.so}" sortValue="sc" sort="${param.sc}" pageValue="pn"
+                  orderValue="so" order="${owasp:forUriComponent(param.so)}" sortValue="sc" sort="${param.sc}" pageValue="pn"
                   page="${param.pn}" pageSizeValue="ps" pageSize="${param.ps}" items="${AppdefEntries}" >
       <c:if test="${!(groupType == CONST_DYNAMIC_GRP)}">
         <display:column width="1%" property="entityId.appdefKey"
@@ -108,8 +110,7 @@
           <display:checkboxdecorator name="resources" onclick="ToggleSelection(this, widgetProperties, true)" styleClass="listMember"/>
         </display:column>
       </c:if>
-    <display:column width="18%" property="name" sort="true" sortAttr="5"
-                    defaultSort="true" title="common.header.Name"
+    <display:column width="18%" property="name"  title="common.header.Name"
                      href="/Resource.do?mode=currentHealth&eid=${resourceItem.entityId.type}:${resourceItem.id}"/>
 <c:if test="${appdefResourceTypeValue!=null}">
     <display:column width="18%" property="appdefResourceTypeValue.name" title="resource.group.inventory.TypeTH" />

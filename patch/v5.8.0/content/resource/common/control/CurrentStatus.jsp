@@ -138,14 +138,18 @@
   <fmt:message var="statusMsg" key="resource.group.ControlStatus.Content.Completed"/>
  </c:when>
 </c:choose>
-
-<!--  CURRENT STATUS CONTENTS -->
+<%
+   org.hyperic.hq.control.server.session.ControlHistory hist = (org.hyperic.hq.control.server.session.ControlHistory)request.getAttribute("controlCurrentStatus");  
+   if(hist!=null){
+    hist.setLocale(request.getLocale());
+   }
+%><!--  CURRENT STATUS CONTENTS -->
 <c:choose>
 <c:when test="${controlStatus eq 'Failed' || controlStatus eq 'In Progress' || controlStatus eq 'Completed' }">
 <table width="100%" cellpadding="0" cellspacing="0" border="0">
     <tr valign="top">
         <td width="20%" class="BlockLabel"><fmt:message key="resource.server.ControlStatus.Label.Action"/></td>
-        <td width="30%" class="BlockContent"><span id="ctrlAction"><c:out value="${controlCurrentStatus.action}"/></span></td>
+        <td width="30%" class="BlockContent"><span id="ctrlAction"><c:out value="${controlCurrentStatus.actionOnLocale}"/></span></td>
         <td width="20%" class="BlockLabel"><fmt:message key="common.label.Description"/></td>
         <td width="30%" class="BlockContent"><span id="ctrlDesc"><c:out value="${controlCurrentStatus.description}"/></span></td>
     </tr>

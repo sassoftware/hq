@@ -47,7 +47,17 @@
 	}
 	function refreshTime(target,animationNode,endColor){
 		var now = new Date();
-		target.innerHTML=dateFormatShort(now);
+		if((hqDojo.locale == 'zh') || (hqDojo.locale == 'zh-cn') || (hqDojo.locale == 'zh-tw') || (hqDojo.locale == 'ko') ) {
+			var curHour = now.getHours();
+			var curAMPM = curAM;
+			if (curHour >= 12) {
+				curAMPM = curPM;
+			}
+			target.innerHTML= curAMPM + hqDojo.date.locale.format(now,{selector: "date", datePattern: "hh:mm:ss"});
+		}
+		else {
+			target.innerHTML=dateFormatShort(now);
+		}
 		
 		if(animationNode!==undefined){
 			if(endColor === undefined){

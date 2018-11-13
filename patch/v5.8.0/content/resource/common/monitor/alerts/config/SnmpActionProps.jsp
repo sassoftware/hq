@@ -2,7 +2,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ taglib uri="http://struts.apache.org/tags-html-el" prefix="html" %>
 <%@ taglib uri="http://struts.apache.org/tags-logic" prefix="logic" %>
-
+<%@ include file="/common/replaceButton.jsp"%>
 <script type="text/javascript">
 window.onload = function() {
 	setDefaultSnmpTrapOID();
@@ -63,7 +63,7 @@ window.onload = function() {
         vbDiv.innerHTML = '<br/>'
             + '<fmt:message key="alert.config.escalation.action.snmp.oid"/> <fmt:message key="inform.config.escalation.scheme.OID"/><br>'
             + '<input type=text name="snmpVarbindOID" style="width:250px"><br>'
-            + 'Value:<br>'
+            + '<fmt:message key="common.label.escalation.param.values"/><br>'
             + '<input type=text name="snmpVarbindValue" style="width:250px"><br>'
             + '<a href="javascript:removeVariableBinding(' + vbDivNum + ');"><fmt:message key="alert.config.escalation.action.snmp.varbinds.remove"/></a><br/>';
         /* Add OID and Value to div */
@@ -252,8 +252,8 @@ window.onload = function() {
 <logic:match name="SnmpTrapForm" property="canModify" value="true">
     <table width="100%" cellpadding="5" cellspacing="0" border="0" class="ToolbarContent">
         <tr>
-            <td><html:image page="/images/tbb_set.gif" border="0" titleKey="FormButtons.ClickToOk" property="ok" onclick="rebuildVariableBindings();"/></td>
-            <td><html:image page="/images/tbb_remove.gif" border="0" titleKey="FormButtons.ClickToDelete" property="delete"/></td>
+            <td><html:image page="/images/tbb_set.gif" border="0" altKey="FormButtons.ClickToOk" property="ok" onclick="rebuildVariableBindings();"/></td>
+            <td><html:image page="/images/tbb_remove.gif" border="0" altKey="FormButtons.ClickToDelete" property="delete"/></td>
             <td width="100%">&nbsp;</td>
         </tr>
         <tr>

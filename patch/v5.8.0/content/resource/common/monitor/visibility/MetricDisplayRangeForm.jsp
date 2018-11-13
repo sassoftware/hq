@@ -207,6 +207,7 @@
             <html:select property="startYear" styleId="startYear" onchange="toggleRadio('a', 1); changeMonitorDropDown('startMonth', 'startDay', 'startYear');" style="display:none;"> 
               <html:options property="yearOptions"/>
             </html:select>&nbsp;<!--<html:link href="#" onclick="toggleRadio('a', 1); calMonitor('startMonth', 'startDay', 'startYear'); return false;"><html:img page="/images/schedule_iconCal.gif" width="19" height="17" altKey="button.popupCalendar" titleKey="button.popupCalendar" border="0"/></html:link>-->
+			<input type="hidden" id="calendarTitle" value="<fmt:message key='common.alert.calendar.title'/>"/>
 			<html:link href="#" onclick="calUntilNow('startMonth', 'startDay', 'startYear'); return false;"><html:img page="/images/schedule_iconCal.gif" altKey="button.popupCalendar" titleKey="button.popupCalendar" width="19" height="17" hspace="5" border="0"/></html:link>
             &nbsp;<fmt:message key="schedule.datatime.separator"/>&nbsp;
 			</td>

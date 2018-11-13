@@ -38,7 +38,7 @@
 <hq:constant 
   classname="org.hyperic.hq.measurement.MeasurementConstants" 
   symbol="COLL_TYPE_STATIC"
-  var="static"/>
+  var="sstatic"/>
 <hq:constant 
   classname="org.hyperic.hq.measurement.MeasurementConstants" 
   symbol="COLL_TYPE_TRENDSUP"
@@ -115,7 +115,7 @@
   <c:when test="${MetricSummaries[0].measurementTemplate.collectionType == dynamic}">
   <fmt:message var="collectionType" key="resource.common.monitor.visibility.metricmetadata.collection.type.dynamic" />
   </c:when>
-  <c:when test="${MetricSummaries[0].measurementTemplate.collectionType == static}">
+  <c:when test="${MetricSummaries[0].measurementTemplate.collectionType == sstatic}">
   <fmt:message var="collectionType" key="resource.common.monitor.visibility.metricmetadata.collection.type.static" />
   </c:when>
   <c:when test="${MetricSummaries[0].measurementTemplate.collectionType == trendsup}">

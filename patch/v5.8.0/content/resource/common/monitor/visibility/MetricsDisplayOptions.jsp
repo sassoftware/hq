@@ -72,7 +72,7 @@
 </table>
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
   <tr>
-    <td class="ListCell" align="right"> 
+    <td class="ListCell" align="right" nowrap> 
       <fmt:message key="resource.hub.search.KeywordSearchLabel"/>
       <html:text property="keyword" size="20"/>
     </td>

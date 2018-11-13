@@ -82,7 +82,7 @@
         </c:choose>
         <c:param name="eid" value="${resourceType}:${resourceId}"/>
       </c:url>
-      <td><a href="${tabLink}"><span><fmt:message key="resource.common.tabs.${tab.value}"/></span></a></td>
+      <td><a href="${tabLink}" onfocus="if(hqDojo.byId('toolMenu')&&hqDojo.byId('toolMenu').shown){toggleMenu('toolMenu');}"><span><fmt:message key="resource.common.tabs.${tab.value}"/></span></a></td>
      </c:otherwise>
     </c:choose>
   </c:forEach>

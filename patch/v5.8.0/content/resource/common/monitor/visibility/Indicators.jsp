@@ -75,6 +75,9 @@
 	    if (option.value == 'go') {
 	        hqDojo.byId('viewname').style.display = "";
 	        form.view.value = option.text;
+	        if(form.view.value=='<fmt:message key="resource.common.monitor.visibility.defaultview" />'){
+	         form.view.value='Default';
+	        }
 	        form.submit();
 	    } else if (option.value == 'delete') {
 	        form.view.value = "";
@@ -119,7 +122,16 @@
 							<html:select property="action" onchange="reviewAction(this.options[this.selectedIndex]);">
 								<option value="update">
 									<fmt:message key="resource.common.monitor.visibility.view.Update" /> 
-									<c:out value="${view}" />
+									<c:choose>
+					                   <c:when test="${view eq 'Default'}">
+									      <fmt:message key="resource.common.monitor.visibility.defaultview" />
+									   </c:when>
+									
+									   <c:otherwise>
+									      <c:out value="${view}" />
+									   </c:otherwise>
+									</c:choose>
+									
 								</option>
 								<option value="create">
 									<fmt:message key="resource.common.monitor.visibility.view.New" />
@@ -127,7 +139,15 @@
 								<c:if test="${not empty IndicatorViewsForm.views[1]}">
 									<option value="delete">
 										<fmt:message key="resource.common.monitor.visibility.view.Delete" /> 
-										<c:out value="${view}" />
+										<c:choose>
+										  <c:when test="${IndicatorViewsForm.view eq 'Default'}">
+										   <fmt:message key="resource.common.monitor.visibility.defaultview" />
+										  </c:when>
+										  <c:otherwise>
+										   <c:out value="${view}" />
+										  </c:otherwise>
+										</c:choose>
+										
 									</option>
 									<option disabled="true">
 										<fmt:message key="resource.common.monitor.visibility.view.Separator" />
@@ -137,13 +157,34 @@
 									</option>
 									
 									<c:forEach var="viewname" items="${IndicatorViewsForm.views}">
-										<option value="go"><c:out value="${viewname}" /></option>
+										<option value="go">
+										<c:choose>
+										  <c:when test="${viewname eq 'Default'}">
+										   <fmt:message key="resource.common.monitor.visibility.defaultview" />
+										  </c:when>
+										  <c:otherwise>
+										   <c:out value="${viewname}" />
+										  </c:otherwise>
+										</c:choose></option>
 									</c:forEach>
 								</c:if>
 							</html:select> 
 							<span id="viewname" style="display: none;"> 
 								<fmt:message key="common.label.Name" /> 
-								<html:text size="20" property="view" />
+								
+								<c:choose>
+			                           <c:when test="${IndicatorViewsForm.view eq 'Default'}">
+			                           <c:set var="theValue">
+									      <fmt:message key="resource.common.monitor.visibility.defaultview" />
+			                           </c:set>
+			                           <input type="text" name="Fakeview" size="20" value="${theValue}" onChange="document.IndicatorViewsForm.view.value=this.value;" maxlength="50"/>
+			                           <html:hidden  property="view" value="Default"/>
+									   </c:when>
+									   <c:otherwise>
+								          <html:text size="20" property="view" maxlength="50"/>
+									   </c:otherwise>
+								
+								</c:choose>
 							</span>
 						</td>
 						<td align="right">

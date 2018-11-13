@@ -74,7 +74,7 @@
               <tr>
                 <td width="40%" class="ListHeaderInactive" nowrap><fmt:message key="dash.home.TableHeader.ResourceName"/></td>
                 <td width="15%" class="ListHeaderInactive" nowrap><fmt:message key="dash.home.TableHeader.ControlAction"/></td>
-                <td width="20%" class="ListHeaderInactiveSorted" nowrap><fmt:message key="dash.home.TableHeader.DateTime"/><html:img page="/images/tb_sortdown.gif" width="9" height="9" border="0"/></td>
+                <td width="20%" class="ListHeaderInactiveSorted" nowrap><fmt:message key="dash.home.TableHeader.DateTime"/></td>
                 <td width="25%" class="ListHeaderInactive" nowrap><fmt:message key="resource.server.ControlHistory.ListHeader.Message"/></td>
               </tr>  
               <c:forEach items="${lastCompleted}" var="resource">
@@ -85,7 +85,7 @@
                   		${resource.entityName}
                   	</html:link>
                   </td>
-                  <td class="ListCell"><c:out value="${resource.action}"/></td>
+                  <td class="ListCell"><%@include file="actionProperty.jsp"%></td>
                   <td class="ListCell"><sas:evmEventDateTimeTag value="${resource.startTime}"/></td>
                   <td class="ListCell">
                   <c:choose>
@@ -127,7 +127,7 @@
                   <table width="100%" cellpadding="0" cellspacing="0" border="0">
                     <tr>
                       <td width="37%" class="ListHeaderInactive" nowrap><fmt:message key="dash.home.TableHeader.ResourceName"/></td>
-                      <td width="21%" class="ListHeaderInactiveSorted" align="center" nowrap><fmt:message key="dash.home.TableHeader.ControlActions"/><html:img page="/images/tb_sortdown.gif" width="9" height="9" border="0"/></td>
+                      <td width="21%" class="ListHeaderInactiveSorted" align="center" nowrap><fmt:message key="dash.home.TableHeader.ControlActions"/></td>
                       <td width="42%" class="ListHeaderInactive" nowrap><fmt:message key="dash.home.TableHeader.FrequentActions"/></td>
                     </tr>
                     <c:forEach items="${mostFrequent}" var="resource">
@@ -139,7 +139,7 @@
                         	</html:link>
                         </td>
                         <td class="ListCell" align="center"><c:out value="${resource.num}"/></td>
-                        <td class="ListCell"><c:out value="${resource.action}"/></td>
+                        <td class="ListCell"><%@include file="actionProperty.jsp"%></td>
                       </tr>
                     </c:forEach>              
                     <tiles:insert definition=".dashContent.seeAll"/>

@@ -256,8 +256,7 @@
           <display:checkboxdecorator name="ids" value="${resource.entityId.type}:${resource.id}" onclick="ToggleSelection(this, widgetProperties, true)" styleClass="listMember"/>
         </display:column>
 
-        <display:column width="50%" property="name" sort="true" sortAttr="7"
-                  defaultSort="true" title="dash.settings.ListHeader.Resource" />
+        <display:column width="50%" property="name" title="dash.settings.ListHeader.Resource" />
 
         <display:column width="50%" property="description"
                         title="common.header.Description" />

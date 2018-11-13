@@ -195,13 +195,14 @@
                         </html:select>
                         
                         <html:select property="startYear" styleId="startYear" onchange="turnOnRecurrence(true); toggleRadio('startTime', 1);" style="display:none;">
-                            <html:option styleId="startYear0" value="1"></html:option>
-                            <html:option styleId="startYear1" value="2"></html:option>
-                            <html:option styleId="startYear2" value="3"></html:option>
-                            <html:option styleId="startYear3" value="4"></html:option>
-                            <html:option styleId="startYear4" value="5"></html:option>
+                            <html:option styleId="startYearSchedule0" value="1"></html:option>
+                            <html:option styleId="startYearSchedule1" value="2"></html:option>
+                            <html:option styleId="startYearSchedule2" value="3"></html:option>
+                            <html:option styleId="startYearSchedule3" value="4"></html:option>
+                            <html:option styleId="startYearSchedule4" value="5"></html:option>
                         </html:select>
-                    </td>											
+                    </td>
+                    <input type="hidden" id="calendarTitle" value="<fmt:message key='common.alert.calendar.title'/>"/>											
                     <td><html:link href="#" onclick="cal('startMonth', 'startDay', 'startYear'); return false;"><html:img page="/images/schedule_iconCal.gif" altKey="button.popupCalendar" titleKey="button.popupCalendar" width="19" height="17" hspace="5" border="0"/></html:link></td>
                     <td nowrap>&nbsp;&nbsp;<b><fmt:message key="schedule.datatime.separator"/></b>&nbsp;&nbsp;</td>
                     <td nowrap>
@@ -437,11 +438,11 @@
                                     <html:select property="endYear" styleId="endYear" onchange="toggleRadio('endTime', 1);" style="display:none;">
                                        <!-- Value and text of options are replaced by script, see beginning of schedule.js 
                                             Dummy value attribute included since Tag Lib DTD requires it to exis  -->
-                                        <html:option styleId="endYear0" value="1"></html:option>
-                                        <html:option styleId="endYear1" value="2"></html:option>
-                                        <html:option styleId="endYear2" value="3"></html:option>
-                                        <html:option styleId="endYear3" value="4"></html:option>
-                                        <html:option styleId="endYear4" value="5"></html:option>
+                                        <html:option styleId="endYearSchedule0" value="1"></html:option>
+                                        <html:option styleId="endYearSchedule1" value="2"></html:option>
+                                        <html:option styleId="endYearSchedule2" value="3"></html:option>
+                                        <html:option styleId="endYearSchedule3" value="4"></html:option>
+                                        <html:option styleId="endYearSchedule4" value="5"></html:option>
                                     </html:select>
                                 </td>								
                                 <td><html:link href="#" onclick="cal('endMonth', 'endDay', 'endYear'); return false;"><html:img page="/images/schedule_iconCal.gif" altKey="button.popupCalendar" titleKey="button.popupCalendar" width="19" height="17"  hspace="5" border="0"/></html:link></td>

@@ -9,6 +9,33 @@
 
 <jsu:script>
   	var help = "<hq:help/>";
+
+	function checkItem(e) {
+  
+		var parentGroup = e.getAttribute(classStr);
+		var endPosition = parentGroup.indexOf("Group");
+		var group = parentGroup.substring(0, endPosition);
+		if ("lastUSE" == group)
+		{
+		
+		}
+		
+		var uList = e.form;
+		var len = uList.elements.length;
+		for (var i = 0; i < len; i++) {
+		  var ie = uList.elements[i];
+		  if (ie.getAttribute(classStr)==group)
+		  {
+		    if (e.checked == false) {
+			  ie.style.display = "none";
+			}
+			else{
+			  ie.style.display = "";
+			}
+		  }
+		}
+
+}
 </jsu:script>
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
   <tr class="PageTitle"> 
@@ -37,13 +64,15 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
          <tr valign="top">
           <td width="20%" class="BlockLabel" rowspan="3"><fmt:message key="dash.settings.FormLabel.ControlRange"/></td>
-          <td width="5%" class="BlockContent" nowrap>
-             <html:checkbox property="useLastCompleted" disabled="${not sessionScope.modifyDashboard}"/>              
-          </td>
-		  <td  class="BlockLabel" nowrap>
-			<fmt:message key="dash.settings.controlActions.number"/>  
+          <td width="10%" class="BlockContent" nowrap>
+             <html:checkbox property="useLastCompleted" styleClass="lastUSEGroup"  onclick="checkItem(this)" disabled="${not sessionScope.modifyDashboard}"/>
+			 
 		  </td>
-             <td width="75%" class="BlockContent">
+          <td width="10%" class="BlockLabel" nowrap>
+		       <fmt:message key="dash.settings.controlActions.number"/> 
+		  </td>
+          <td width="10%" class="BlockContent" nowrap>
+			   <div id="nlastDiv" styleClass="lastUSE">
                   <html:select property="lastCompleted" disabled="${not sessionScope.modifyDashboard}" >
                       <html:option value="1">1</html:option>
                       <html:option value="5">5</html:option>
@@ -51,15 +80,13 @@
                       <html:option value="15">15</html:option>
                   </html:select>                 
                  <br>
-             </td>
-        </tr>
-		<tr>
-			<td class="BlockContent">&nbsp;</td>
-			<td class="BlockLabel" nowrap>
-                <fmt:message key="dash.settings.controlActions.timePeriod"/>
-            </td>
-			<td class="BlockContent">
-			 
+				 </div>
+          </td>
+		  <td width="10%" class="BlockLabel" nowrap>
+			     <fmt:message key="dash.settings.controlActions.timePeriod"/>
+	      </td>
+          <td width="40%" class="BlockContent" nowrap>
+			     <div id="npastDiv" styleClass="lastUSE">
                   <html:select property="past" disabled="${not sessionScope.modifyDashboard}">
                       <html:option value="1800000">30
                           <fmt:message key="admin.settings.Minutes"/>
@@ -80,23 +107,25 @@
                           <fmt:message key="admin.settings.Month"/>
                       </html:option>
                   </html:select>
+				  </div>
 			</td>
 		</tr>
         <tr>
-            <td class="BlockContent">
-                <html:checkbox property="useMostFrequent" disabled="${not sessionScope.modifyDashboard}"/>                
+            <td width="20%" class="BlockContent" nowrap>
+                <html:checkbox property="useMostFrequent" styleClass="freqUSEGroup" onclick="checkItem(this)" disabled="${not sessionScope.modifyDashboard}"/>                
             </td>
-			<td class="BlockLabel" nowrap>
+			<td width="10%" class="BlockLabel" nowrap>
 				<fmt:message key="dash.settings.controlActions.mostFrequently"/>
 			</td>
-          <td class="BlockContent">
+          <td width="70%" class="BlockContent" colspan="3" nowrap>
+		  <div id="npfreqDiv" styleClass="freqUSE">
            <html:select property="mostFrequent" disabled="${not sessionScope.modifyDashboard}">
                <html:option value="1">1</html:option>
                <html:option value="5">5</html:option>
                <html:option value="10">10</html:option>
                <html:option value="15">15</html:option>
            </html:select>
-           
+           </div>
           </td>
         </tr>
         <tr>

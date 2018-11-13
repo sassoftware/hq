@@ -24,11 +24,11 @@ import org.apache.commons.lang.StringEscapeUtils
 
             w.filterElement([label: l.inGroups, 
                              labelMarkup: "<span style='margin-left:15px'> | <span class='clickText' onclick=\"deselectAll('groupSelect');EventLogs_refreshTable();\">${l.eveLogBTNUnselect}</span></span>" ]) { %>
-                <select id="groupSelect" multiple="true" name="groupSelect"
+                <select id="groupSelect" multiple="true" name="groupSelect" onmouseover="showHideTooltip();" 
 			            style="height:200px; width:180px; border:5px solid #ededed;"
 			            onchange="EventLogs_refreshTable();">
      	        <% for (g in allGroups) { %>
-			      <option value="${g.id}">${StringEscapeUtils.escapeHtml(g.name)}</option>
+			      <option value="${g.id}" title="${StringEscapeUtils.escapeHtml(g.name)}">${StringEscapeUtils.escapeHtml(g.name)}</option>
                 <% } %>
                 </select>
             <%

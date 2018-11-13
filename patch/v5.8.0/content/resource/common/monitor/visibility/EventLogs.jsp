@@ -37,7 +37,7 @@
 		             null,
 		             false,
 		             "<fmt:message key="resource.common.monitor.label.elc"/>",
-		             "Events(<c:out value="${count}"/>) details not yet loaded..."
+		             "<fmt:message key='header.Events'/>(<c:out value="${count}"/>) <fmt:message key='Details.Not.Yet.Loaded'/>"
 		            );
 		        eventSource.add(evt);
 		      </c:if>

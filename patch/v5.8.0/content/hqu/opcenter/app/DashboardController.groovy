@@ -508,18 +508,19 @@ class DashboardController extends BaseController
         res = res.sort {a, b ->
             def col1 = a."${d}"
             def col2 = b."${d}"
-            if (col1 instanceof Resource) {
+			
+            if (col1 instanceof Resource && col1.id != null) {
                 col1= rman.getResourceById(col1.id)
-            } else {
+            } else if(col1 != null) {
                 col1= rman.getResourceById(col1.resource.id)
             }
 
-            if (col2 instanceof Resource) {
+            if (col2 instanceof Resource && col2.id != null) {
                 col2 = rman.getResourceById(col2.id)
-            } else {
+            } else if(col2 != null) {
                 col2 = rman.getResourceById(col2.resource.id)
             }
-        
+
             if (!Hibernate.isInitialized(col1)) {
                 Hibernate.initialize(col1)
             }
@@ -553,7 +554,6 @@ class DashboardController extends BaseController
                     return col1.alertDef.name <=> col2.alertDef.name
                 }
             } 
-                
             return col1 <=> col2
         }
 
@@ -576,7 +576,6 @@ class DashboardController extends BaseController
         def res = []
        	def summaryData = [:]
         def start = System.currentTimeMillis()
-
         if (typeFilter == TYPEFILTER_ALL || typeFilter == TYPEFILTER_DOWN) {
             res.addAll(getDownResources(params, summaryData))
         }
@@ -588,7 +587,6 @@ class DashboardController extends BaseController
         if (res.size() == 0) {
             return res
         }
-
         // We'll always have at least 1 page.
         def numPages = Math.max(1, (Integer)Math.ceil(res.size() / pageSize))
 
@@ -596,13 +594,10 @@ class DashboardController extends BaseController
         summaryData["LastUpdated"] = System.currentTimeMillis()
         summaryData["TotalRows"] = res.size()
         summaryData["NumPages"] = numPages
-
         def sortedAndPaged = sortAndPage(res, pInfo)
-
         // After sort/page, add info that is more expensive to gather and is
         // not sortable.
         sortedAndPaged.each {
-
             def resource = it["Resource"]
             if (resource) {
                 def lastLog = OpCenterDAO.getLastLog(resource)
@@ -617,11 +612,9 @@ class DashboardController extends BaseController
                     def last = getLastDataPoint(availMetric)
                     it["LastCheck"] = last.timestamp
                 }
-            }
-
-            def alert = null
-            if (it["Alert"]) {
-                alert = it["Alert"]
+            }          
+            def alert = it["Alert"]
+            if (alert) {
                 def reason = alertMan.getLongReason(alert)
                 it["StatusInfo"] << reason + ". "
                 it["EscalationState"] = escMan.findEscalationState(alert.definition)
@@ -669,7 +662,7 @@ class DashboardController extends BaseController
             if (escState != null) {
                 def esc = escState.escalation
 
-                it["State"] << getIconUrl("notify.gif", "In Escalation: " + esc.name)
+                it["State"] << getIconUrl("notify.gif", bundle['opcenterInEscalation']+": " + esc.name)
 
                 // TODO: There must be a better way to get this..
                 def actionLogs = alert.getActionLog().asList()
@@ -685,8 +678,14 @@ class DashboardController extends BaseController
 
                 def acked = escState.getAcknowledgedBy()
                 if (acked) {
+					def theDetail = lastLog.detail
+					
+					if(theDetail.endsWith("acknowledged the alert")){
+						def ackLocale=bundle['acknowledgedTheAlert']
+						theDetail = theDetail.replaceAll("acknowledged the alert",ackLocale);
+					}
                     def ackedBy = DF.format(lastLog.timeStamp) +
-                                  ": " + lastLog.detail + ". "
+                                  ": " + theDetail + ". "
                     it["State"] << getIconUrl("ack.gif", ackedBy)
                 }
             }                    
@@ -795,9 +794,9 @@ class DashboardController extends BaseController
                  nowrap: false,
                  label:  {
                      if (it.Alert) {
-                         return "<a href=\"${it.Alert.urlFor(null)}\" target=\"_blank\">${StringEscapeUtils.escapeHtml(it.Alert.alertDefinition.name)}</a>"
+                         return "<div style=\"display:none;\">${StringEscapeUtils.escapeHtml(it.Alert.alertDefinition.name)}</div><a href=\"${it.Alert.urlFor(null)}\" target=\"_blank\">${StringEscapeUtils.escapeHtml(it.Alert.alertDefinition.name)}</a>"
                      } else if (it.GroupAlert) {
-                         return "<a href=\"${it.GroupAlert.urlFor(null)}\" target=\"_blank\">${StringEscapeUtils.escapeHtml(it.GroupAlert.alertDef.name)}</a>" 
+                         return "<div style=\"display:none;\">${StringEscapeUtils.escapeHtml(it.GroupAlert.alertDef.name)}</div><a href=\"${it.GroupAlert.urlFor(null)}\" target=\"_blank\">${StringEscapeUtils.escapeHtml(it.GroupAlert.alertDef.name)}</a>" 
                      } else {
                          return ""
                      }
@@ -827,7 +826,7 @@ class DashboardController extends BaseController
                 [field:  durationCol,
                  width:  '5%',
                  nowrap: false,
-                 label:  { it.Duration ? StringUtil.formatDuration(it.Duration) : ""}],
+                 label:  { it.Duration ? "<div style=\"display:none;\">"+String.format("%014d", it.Duration)+"</div>"+StringUtil.formatDuration(it.Duration) : ""}],
                 [field:  stateCol,
                  width:  '5%',
                  nowrap: false,

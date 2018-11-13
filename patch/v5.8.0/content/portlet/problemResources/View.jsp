@@ -46,11 +46,11 @@
     <table class="table" width="100%" border="0" cellspacing="0" cellpadding="0" id="problemResourcesTable">
       	<tbody>
         	<tr class="tableRowHeader" id="problemResourcesTableHeader">
-          		<th width="60%" class="tableRowInactive"><fmt:message key="dash.home.TableHeader.ResourceName"/></th>
-          		<th width="8%" align="center" class="tableRowInactive"><fmt:message key="resource.common.monitor.visibility.AvailabilityTH"/></th>
-          		<th width="7%" align="center" class="tableRowInactive" nowrap><fmt:message key="dash.home.TableHeader.Alerts"/></th>
-          		<th width="5%" align="center" class="tableRowInactive"><fmt:message key="dash.home.TableHeader.OOB"/></th>
-          		<th width="20%" align="center" class="tableRowInactive"><fmt:message key="dash.settings.criticalAlerts.last"/></th>
+          		<th width="50%" style="text-align:left!important;" class="tableRowInactive"><fmt:message key="dash.home.TableHeader.ResourceName"/></th>
+          		<th width="10%" style="text-align:center!important;" class="tableRowInactive" nowrap><fmt:message key="resource.common.monitor.visibility.AvailabilityTH"/></th>
+          		<th width="10%" style="text-align:center!important;" class="tableRowInactive" nowrap><fmt:message key="dash.home.TableHeader.Alerts"/></th>
+          		<th width="10%" style="text-align:center!important;" class="tableRowInactive"><fmt:message key="dash.home.TableHeader.OOB"/></th>
+          		<th width="20%" style="text-align:center!important;" class="tableRowInactive"><fmt:message key="dash.settings.criticalAlerts.last"/></th>
         	</tr>
         	<!-- table rows are inserted here dynamically -->
       	</tbody>

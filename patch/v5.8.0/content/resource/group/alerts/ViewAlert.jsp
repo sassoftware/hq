@@ -278,7 +278,7 @@
 					<tiles:insert page="/common/components/ActionButton.jsp">
 	  					<tiles:put name="labelKey" value="resource.common.alert.action.fixed.label"/>
 	  					<tiles:put name="buttonClick">hqDojo.byId('mode').setAttribute('value', 'FIXED'); document.forms[0].submit();</tiles:put>
-	  					<tiles:put name="icon"><html:img page="/images/icon_fixed.gif" alt="Click to mark as Fixed" align="middle"/></tiles:put>
+	  					<tiles:put name="icon"><html:img page="/images/icon_fixed.gif" alt="Click to mark as Fixed" title="Click to mark as Fixed" align="middle"/></tiles:put>
 	  					<c:choose>
 					  	 <c:when test="${not alert.fixed}">
 					     	<tiles:put name="disabled" value="false"/>

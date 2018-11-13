@@ -43,7 +43,7 @@ class SystemsdownController extends BaseController {
         def imgUrl = urlFor(asset:'images') +
             "/icon_zoom.gif"
         """<img src="${imgUrl}" width="16" height="16" border="0"
-                class="alertListIcon" title="Click to go to the alert list for this resource">"""
+                class="alertListIcon" title="$localeBundle.clickToGoToAlertList">"""
     }
 
     private final SYSTEMSDOWN_SCHEMA = [
@@ -119,6 +119,8 @@ class SystemsdownController extends BaseController {
 
         def appdefType = 1
         def first = true
+		
+	
         map.each { entry ->
             def list = entry.value
 
@@ -130,7 +132,21 @@ class SystemsdownController extends BaseController {
 	                json += ",\n"
 	            }
 	
-                json += "{parent: \"" + entry.key + "\",\n" +
+				def thekey = entry.key
+				
+				if(thekey=="Platforms"){
+					thekey = localeBundle.Platforms
+				}
+
+				if(thekey=="Services"){
+					thekey = localeBundle.Services
+				}
+
+				if(thekey=="Servers"){
+					thekey = localeBundle.Servers
+				}
+
+                json += "{parent: \"" + thekey + "\",\n" +
                         "id: " + appdefType + ",\n" +
                         "count: " + list.size() + ",\n" +
                         "children:[\n"

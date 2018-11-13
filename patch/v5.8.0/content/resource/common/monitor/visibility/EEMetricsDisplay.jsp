@@ -18,6 +18,7 @@
 <tiles:importAttribute name="useConfigure" ignore="true"/>
 <tiles:importAttribute name="useCheckboxes" ignore="true"/>
 <tiles:importAttribute name="favorites" ignore="true"/>
+<tiles:importAttribute name="entityId" ignore="true"/>
 <%
   request.setAttribute("iSinEEMetricsDisplay","Y");
 %>
@@ -70,6 +71,11 @@ sometimes we don't want any left side buttons or checkboxes at all
   <c:set var="useCheckboxes" value="true"/>
 </c:if>
 
+<c:if test="${empty eid}">
+	<c:if test="${not empty entityId}">
+	 <c:set var="eid" value="${entityId}" />
+	</c:if>
+</c:if>
 <table width="100%" cellpadding="0" cellspacing="0" border="0" class="MonitorBlock">
   <tr>
   <c:choose>

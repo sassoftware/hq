@@ -1,4 +1,5 @@
 <%@ page language="java" %>
+<%@ page contentType="text/html; charset=UTF-8" %>
 <%@ page isErrorPage="true" %>
 <%@ page import="javax.servlet.ServletException" %>
 <%@ page import="org.springframework.web.util.HtmlUtils" %>
@@ -36,6 +37,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib tagdir="/WEB-INF/tags/jsUtils" prefix="jsu" %>
 <%
+pageContext.getServletContext().getInitParameter("disable-stacktrace");
     // XXX: move this all into an action
 /* get the exception from one of the many places it could be hiding */
 if (exception == null)
@@ -128,7 +130,7 @@ if (root != null &&
 	"<table width='100%' cellpadding='0' cellspacing='0' border='0'>\n" + 
 	"	<tr>\n" + 
 	"		<td class='ErrorBlock'><img src='<html:rewrite page="/images/tt_error.gif"/>' width='10' height='11' hspace='5' border='0'/></td>\n" + 
-	"       <td class='ErrorBlock' width='100%'><fmt:message key="errors.jsp.ClickHereToSee"/><fmt:param value="${randomNum}" /></fmt:message></td>\n" +
+	"       <td class='ErrorBlock' width='100%'><fmt:message key="errors.jsp.ClickHereToSee"><fmt:param value="${randomNum}" /></fmt:message></td>\n" +
 	"	</tr>\n" +
 	"</table>\n" + 
 	"</td>\n" + 

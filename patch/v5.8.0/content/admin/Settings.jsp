@@ -47,7 +47,7 @@
 				<fmt:message key="admin.home.ServerConfig"/>
 			</html:link> <span class="italicInfo"><fmt:message key="inform.config.admin.HQServerConfig"/></span></td>
 	</tr>
-</c:if>
+
 	<tr>
 		<td  width="20%" class="BlockLabel"></td>
 		<td class="BlockContent">
@@ -68,8 +68,9 @@
             </span>
         </td>
 	</tr>
+</c:if>
     <tr>
-		<td class="BlockLabel"></td>
+		<td  width="20%" class="BlockLabel"></td>
 		<td class="BlockContent">
 			<html:link action="/admin/config/Config">
 				<html:param name="mode" value="escalate"/>

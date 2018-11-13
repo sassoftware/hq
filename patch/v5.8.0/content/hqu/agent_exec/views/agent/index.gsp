@@ -214,7 +214,7 @@ function updateCmdOptions(select){
             var execBtn = document.createElement('input');
             execBtn.setAttribute("type", "button");
             execBtn.setAttribute("id", "execBtn");
-            execBtn.setAttribute("value", "Execute");
+            execBtn.setAttribute("value", "${l.agentExecute}");
             execBtn.onclick = function() { runCommand() };
 
             var execute = document.createElement('div');
@@ -253,7 +253,7 @@ function updateCmdOptions(select){
             var execBtn = document.createElement('input');
             execBtn.setAttribute("type", "button");
             execBtn.setAttribute("id", "execBtn");
-            execBtn.setAttribute("value", "Execute");
+            execBtn.setAttribute("value", "${l.agentExecute}");
             execBtn.onclick = function() { runCommand() };
             var execute = document.createElement('div');
 
@@ -272,7 +272,7 @@ function updateCmdOptions(select){
             var execBtn = document.createElement('input');
             execBtn.setAttribute("type", "button");
             execBtn.setAttribute("id", "execBtn");
-            execBtn.setAttribute("value", "Execute");
+            execBtn.setAttribute("value", "${l.agentExecute}");
             execBtn.onclick = function() { runCommand() };
 
             var execute = document.createElement('div');

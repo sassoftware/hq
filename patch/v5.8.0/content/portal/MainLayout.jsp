@@ -30,6 +30,7 @@
 <%@ taglib uri="http://struts.apache.org/tags-tiles" prefix="tiles"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib tagdir="/WEB-INF/tags/jsUtils" prefix="jsu" %>
+<%@ taglib uri="https://www.owasp.org/index.php/OWASP_Java_Encoder_Project" prefix="owasp" %>
 <html>
 	<head>
 	    <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
@@ -37,12 +38,12 @@
 		<title>
 			<fmt:message key="${portal.name}">
 				<c:if test="${not empty TitleParam}">
-					<fmt:param value="${TitleParam}" />
+					<fmt:param value="${owasp:forHtmlContent(TitleParam)}" />
 				</c:if>
 				<c:if test="${not empty TitleParam2}">
-					<fmt:param value="${TitleParam2}" />
+					<fmt:param value="${owasp:forHtmlContent(TitleParam2)}" />
 				</c:if>
-			</fmt:message>
+			</fmt:message> - <fmt:message key="evm.Title"/>
 		</title>
 		<jsu:script>
         	var onloads = [];

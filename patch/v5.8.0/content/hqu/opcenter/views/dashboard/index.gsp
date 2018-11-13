@@ -112,7 +112,7 @@ import org.apache.commons.lang.StringEscapeUtils
         </table>
     </div>
 
-   <div id="OpsHeaderTableControls" style="float:right;magin-right:10px">
+   <div id="OpsHeaderTableControls" style="clear:both;magin-right:10px">
         <form id="TableControlsForm" action="javascript:refreshOpsDashboard();">
             <table>
                 <tr>
@@ -164,10 +164,15 @@ import org.apache.commons.lang.StringEscapeUtils
 <form id="dashboardTable_FixForm" name="dashboardTable_FixForm" method="POST" action="<%= urlFor(absolute:"/alerts/RemoveAlerts.do", encodeUrl:true) %>">
 
     <!-- Item details -->
-
-    <%= dojoTable(id:'dashboardTable', title:"${l.opcenterResDetail}",
+<%
+  String htmlStr = dojoTable(id:'dashboardTable', title:"${l.opcenterResDetail}",
                   url:urlFor(action:'updateDashboard'),
-                  schema:DASHBOARD_SCHEMA, numRows:50, pageControls:true)
+                  schema:DASHBOARD_SCHEMA, numRows:50, pageControls:true); 
+//htmlStr = "";
+  htmlStr = htmlStr.replaceAll("autoHeight: 50,","autoHeight: 51,"); 
+    
+%>
+    <%= htmlStr
     %>
     <div id="HQAlertCenterDialog" style="display:none;"></div>
     <div id="TableFooter">
@@ -198,7 +203,7 @@ import org.apache.commons.lang.StringEscapeUtils
 	
     var MyAlertCenter = null;
     hqDojo.ready(function(){
-        MyAlertCenter = new hyperic.alert_center("Operations Center");
+        MyAlertCenter = new hyperic.alert_center("${l.opcenterdescription}");
 
         hqDojo.connect("dashboardTable_refreshTable", function() { MyAlertCenter.resetAlertTable(hqDojo.byId('dashboardTable_FixForm'));runUpdateTable(); });
     });
@@ -274,7 +279,8 @@ import org.apache.commons.lang.StringEscapeUtils
             res['typeFilter'] = typeFilter;
         }
         if (platformFilter != null) {
-            res['platformFilter'] = platformFilter;
+            var escPlatform = escape(platformFilter);
+            res['platformFilter'] = escPlatform;  
         }
         if (groupFilter != null) {
             res['groupFilter'] = groupFilter;

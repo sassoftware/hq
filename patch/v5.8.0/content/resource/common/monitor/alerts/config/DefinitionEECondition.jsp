@@ -8,11 +8,15 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="/WEB-INF/tld/hq.tld" prefix="hq" %>
 <%@ taglib tagdir="/WEB-INF/tags/jsUtils" prefix="jsu" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <jsu:script>
   baselinestr = '<fmt:message key='resource.common.config.baseline'/>';
   minvaluestr = '<fmt:message key='resource.common.config.minvalue'/>';
   maxvaluestr = '<fmt:message key='resource.common.config.maxvalue'/>';
 </jsu:script>
+
+<fmt:setBundle basename="controlAction" var="cap"/>
+
 <tiles:importAttribute name="formName"/>
  <!--<input type="hidden" name="remove.x" id="remove.x"/>-->
 <html:hidden property="numConditions"/>
@@ -37,7 +41,7 @@
     <html:radio property="condition[${i}].trigger" value="onMetric"/>
     <fmt:message key="alert.config.props.CB.Content.Metric"/>
     <c:set var="seldd"><fmt:message key="alert.dropdown.SelectOption"/></c:set>
-    <html:select property="condition[${i}].metricId" onchange="javascript:resetNote();selectMetric('condition[${i}].metricId', 'condition[${i}].metricName');changeDropDown('condition[${i}].metricId', 'condition[${i}].baselineOption', '${seldd}');">
+    <html:select property="condition[${i}].metricId" onchange="javascript:resetNote(${i});selectMetric('condition[${i}].metricId', 'condition[${i}].metricName');changeDropDown('condition[${i}].metricId', 'condition[${i}].baselineOption', '${seldd}');">
     <html:option value="-1" key="alert.dropdown.SelectOption"/>
     <c:choose>
     <c:when test="${Resource.entityId.type != 5}"> <%-- group --%>
@@ -103,9 +107,9 @@
             <hq:optionMessageList property="comparators" baseKey="alert.config.props.CB.Content.Comparator" filter="true"/>
           </html:select>
           <html:text property="condition[${i}].percentage" size="6" maxlength="4"/>&nbsp;<fmt:message key="alert.config.props.CB.Content.Percent"/>&nbsp;
-          <html:select property="condition[${i}].baselineOption" disabled="true" onchange="javascript:toggleNoBaselineMessage(this)">
+          <html:select property="condition[${i}].baselineOption" disabled="true" onclick="javascript:toggleNoBaselineMessage(this, ${i})">
           <html:option value="" key="alert.dropdown.SelectOption"/>
-          </html:select><span id="baselineNotCalcMsg" style="display:none;background-color:#FFFD99"><fmt:message key="alert.config.props.CB.baselineNotCalculated"></fmt:message></span>
+          </html:select><span id="baselineNotCalcMsg_${i}" style="display:none;background-color:#FFFD99"><fmt:message key="alert.config.props.CB.baselineNotCalculated"></fmt:message></span>
           <c:if test="${! empty EditAlertDefinitionConditionsForm.conditions[i].metricId }">
 			<jsu:script>
 				var baselineOption = '<c:out value="${EditAlertDefinitionConditionsForm.conditions[i].baselineOption}"/>';
@@ -124,6 +128,8 @@
           <c:if test="${baselineOptionErrs}"><br>- <html:errors property="condition[${i}].baselineOption"/></c:if>
           </span>
           </c:if>
+          <c:set var="percentageErrs" value="false"/>
+          <c:set var="baselineOptionErrs" value="false"/>
         </td>
       </tr>
       <tr>
@@ -159,6 +165,9 @@
       <html:optionsCollection property="customProperties"/>
     </html:select>
     <fmt:message key="alert.config.props.CB.Content.Changes"/>
+    <c:if test="${customPropertyErrs}">
+    <br><span class="ErrorFieldContent">- <html:errors property="condition[${i}].customProperty"/></span>
+    </c:if>
   </td>
 </tr>
 </c:if>
@@ -184,7 +193,40 @@
     <fmt:message key="alert.config.props.CB.Content.ControlAction"/>&nbsp;
     <html:select property="condition[${i}].controlAction">
     <html:option value="" key="alert.dropdown.SelectOption"/>
-    <html:options property="controlActions"/>
+    <c:if test="${EditAlertDefinitionConditionsForm!=null}">
+    <c:forEach var="myIndex" items="${EditAlertDefinitionConditionsForm.controlActions}">
+      <c:set var="theLowerKey" value="${fn:toLowerCase(myIndex)}" />
+      <fmt:message key="ca-${theLowerKey}" var="matchedKey" bundle="${cap}" />
+      <c:choose>
+         <c:when test="${fn:startsWith(matchedKey,'???')}">
+          <html:option value="${myIndex}"><c:out value="${myIndex}"/></html:option>
+         </c:when>
+      
+         <c:otherwise>
+          <html:option value="${myIndex}"><fmt:message key="${matchedKey}" /></html:option>
+         </c:otherwise>
+      
+      </c:choose>    
+    </c:forEach>
+    </c:if>
+    
+    <c:if test="${NewAlertDefinitionForm!=null}">
+    <c:forEach var="myIndex" items="${NewAlertDefinitionForm.controlActions}">
+      <c:set var="theLowerKey" value="${fn:toLowerCase(myIndex)}" />
+      <fmt:message key="ca-${theLowerKey}" var="matchedKey" bundle="${cap}" />
+      <c:choose>
+         <c:when test="${fn:startsWith(matchedKey,'???')}">
+          <html:option value="${myIndex}"><c:out value="${myIndex}"/></html:option>
+         </c:when>
+      
+         <c:otherwise>
+          <html:option value="${myIndex}"><fmt:message key="${matchedKey}" /></html:option>
+         </c:otherwise>
+      
+      </c:choose>    
+    </c:forEach>
+    </c:if>
+    
     </html:select>
     &nbsp;<fmt:message key="alert.config.props.CB.Content.Comparator.="/>&nbsp;
     <html:select property="condition[${i}].controlActionStatus">
@@ -221,9 +263,9 @@
 <tr>
   <td class="BlockLabel">&nbsp;</td>
   <td class="BlockContent" nowrap>
-    <html:radio property="condition[0].trigger" value="onCfgChg"/>
+    <html:radio property="condition[${i}].trigger" value="onCfgChg"/>
     <fmt:message key="alert.config.props.CB.Content.FileMatch"/>
-    <html:text property="condition[0].fileMatch" size="10" maxlength="150"/>
+    <html:text property="condition[${i}].fileMatch" size="10" maxlength="150"/>
   </td>
 </tr>
 </c:if>

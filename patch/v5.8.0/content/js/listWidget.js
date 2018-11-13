@@ -436,6 +436,7 @@ function ToggleSelectionCompare(e, widgetProperties) {
         unhighlight(e);
         var numSelected = getWidgetProperty(widgetInstanceName, "numSelected");
         setWidgetProperty(widgetInstanceName, "numSelected", --numSelected);
+		form.listToggleAll.checked=false;
     }
 	
     ToggleButtonsCompare(widgetInstanceName, prefix, form);

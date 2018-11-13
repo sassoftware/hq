@@ -1885,7 +1885,11 @@ hyperic.dashboard.chartWidget = function(args) {
         // save chart id into a variable so if it cycles away from this chart during the request, we still know which one we're deleting
         var chartId = that.currentChartId;
         var chartIndex = that.chartselect.select.selectedIndex;
-        if(confirm('Remove ' + that.charts[chartId].name + ' from saved charts?')) {
+        
+        var msg = hqDojo.byId('chart_remove_confirm_msg').value;
+        msg = msg.replace("{0}", that.charts[chartId].name);
+        
+        if(confirm(msg)) {
         	var urlToUse = chartUrl.replace("{rid}", that.charts[chartId].rid).replace("{mtid}", that.charts[chartId].mtid);
             hqDojo.xhrPost( {
                 url: urlToUse,
@@ -2055,7 +2059,11 @@ hyperic.dashboard.chartWidget = function(args) {
             that.chart = new hyperic.widget.Chart('chart_container', that.charts[next]);
             that.currentChartId = next;
             chartId = null;
-            that.last_updated_div.innerHTML = updatedStr + hqDojo.date.locale.format(that.charts[next].last_updated, {selector:'time'});
+            if((hqDojo.locale == 'zh') || (hqDojo.locale == 'zh-cn') || (hqDojo.locale == 'zh-tw') || (hqDojo.locale == 'ko') ) {
+            	that.last_updated_div.innerHTML = updatedStr + that.charts[next].last_updated.formatDate('th:mm');
+            } else {
+            	that.last_updated_div.innerHTML = updatedStr + hqDojo.date.locale.format(that.charts[next].last_updated, {selector:'time'});
+            }
         }
         else
         {
@@ -2077,7 +2085,11 @@ hyperic.dashboard.chartWidget = function(args) {
                     {
                         that.chart = new hyperic.widget.Chart('chart_container', {data: {'0': [0]}, name: that.charts[next].name});
                     }
-                    that.last_updated_div.innerHTML = updatedStr + hqDojo.date.locale.format(that.charts[next].last_updated, {selector:'time'});
+                    if((hqDojo.locale == 'zh') || (hqDojo.locale == 'zh-cn') || (hqDojo.locale == 'zh-tw') || (hqDojo.locale == 'ko') ) {
+                    	that.last_updated_div.innerHTML = updatedStr + that.charts[next].last_updated.formatDate('th:mm');
+                    } else {
+                    	that.last_updated_div.innerHTML = updatedStr + hqDojo.date.locale.format(that.charts[next].last_updated, {selector:'time'});
+                    }
                     that.currentChartId = next;
                     chartId = null;
                 });
@@ -2753,7 +2765,11 @@ hyperic.dashboard.summaryWidget = function(args) {
 	        if(that.selected_alert_groups.length > 0)
 	        {
 	            that.last_updated = new Date();
-	            that.last_updated_div.innerHTML = updatedStr + hqDojo.date.locale.format(that.last_updated, {selector:'time'});
+				if((hqDojo.locale == 'zh') || (hqDojo.locale == 'zh-cn') || (hqDojo.locale == 'zh-tw') || (hqDojo.locale == 'ko') ) {
+					that.last_updated_div.innerHTML = updatedStr + that.last_updated.formatDate('th:mm');
+				} else {
+					that.last_updated_div.innerHTML = updatedStr + hqDojo.date.locale.format(that.last_updated, {selector:'time'});
+				}
 	            that.swapSheets('content',
 	                function()
 	                {

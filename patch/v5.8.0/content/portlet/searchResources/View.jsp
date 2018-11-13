@@ -58,7 +58,11 @@
   			</tr>
   			<tr valign="top">
     			<td class="BlockContent" nowrap>
-      				<input type="text" size="12" maxlength="40" value="<fmt:message key='common.header.ResourceName'/>" onfocus="this.value='';" name="keywords">      
+      				<input type="text" size="12" maxlength="40" value="<fmt:message key='common.header.ResourceName'/>" onfocus="this.value='';" name="keywords" id="keywords"> 
+                    <script>
+					 //alert("<fmt:message key='common.header.ResourceName'/>".replace(/[^\x00-\xff]/g,'xx').length);
+					 document.getElementById("keywords").size="<fmt:message key='common.header.ResourceName'/>".replace(/[^\x00-\xff]/g,'xx').length;
+                    </script>					
     			</td>
     			<td class="BlockContent" nowrap>
       				<html:select property="ff" styleClass="FilterFormText" size="1" >

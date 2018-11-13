@@ -5,6 +5,7 @@
 <%@ taglib uri="http://struts.apache.org/tags-tiles" prefix="tiles" %>
 <%@ taglib uri="http://struts.apache.org/tags-logic" prefix="logic" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 
 <%--
   NOTE: This copyright does *not* cover user programs that use HQ
@@ -51,6 +52,7 @@
 <html:hidden property="resourceId" value="${entityId.id}"/>
 <html:hidden property="mode" value="${param.mode}"/>
 
+<fmt:setBundle basename="controlAction" var="cap"/>
 <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr>
     <td colspan="3" class="BlockContent"><html:img page="/images/spacer.gif" width="1" height="1" border="0"/></td>
@@ -71,7 +73,15 @@
       <td width="5%" class="ErrorField">
        <html:select property="resourceAction">
         <html:option value="" key="resource.application.applicationProperties.Select"/>
-        <html:optionsCollection property="controlActions" />
+        <c:forEach var="myIndex" items="${controlActions}">
+<c:set var="theLowerKey" value="${fn:toLowerCase(myIndex.value)}" />
+      <fmt:message key="ca-${theLowerKey}" var="matchedKey" bundle="${cap}" />
+      <c:choose>
+         <c:when test="${fn:startsWith(matchedKey,'???')}"><html:option value="${myIndex.value}"><c:out value="${myIndex.label}"/></html:option></c:when>
+      
+      <c:otherwise>
+      <html:option value="${myIndex.value}"><fmt:message key="${matchedKey}" /></html:option></c:otherwise></c:choose>
+        </c:forEach>
        </html:select>
        <span class="ErrorFieldContent">- <html:errors property="resourceAction"/></span>
       </td>
@@ -80,7 +90,15 @@
       <td width="5%" class="BlockContent">
        <html:select property="resourceAction">
         <html:option value="" key="resource.application.applicationProperties.Select"/>
-        <html:optionsCollection property="controlActions" />
+        <!--html:optionsCollection property="controlActions" /-->
+        <c:forEach var="myIndex" items="${QuickControlForm.controlActions}">
+      <c:set var="theLowerKey" value="${fn:toLowerCase(myIndex.value)}" />
+      <fmt:message key="ca-${theLowerKey}" var="matchedKey" bundle="${cap}" />
+      <c:choose>
+         <c:when test="${fn:startsWith(matchedKey,'???')}"><html:option value="${myIndex.value}"><c:out value="${myIndex.label}"/></html:option></c:when>
+      
+      <c:otherwise>
+      <html:option value="${myIndex.value}"><fmt:message key="${matchedKey}" /></html:option></c:otherwise></c:choose>        </c:forEach>
        </html:select>
       </td>
      </logic:messagesNotPresent>

@@ -36,8 +36,33 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 	<head>
+		<style type="text/css">
+			.exception table {
+				border: 1px solid #c6c6c6;
+				background-color: #efefef;
+			}
+			.blockcontent {
+				padding: 3px;
+				background-color: #ebebeb;
+			}
+			.blockbottomline {
+				height: 1px;
+				padding: 0;
+			}
+			.blocktitle {
+				/* border-top: 1px solid #c6c6c6;
+				border-bottom: 1px solid #c6c6c6;
+				*/
+				background-color: #dadada; 
+				background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#fafafa), to(#cacaca));
+				background-image: -webkit-linear-gradient(top, #fafafa, #cacaca); 
+				background-image:    -moz-linear-gradient(top, #fafafa, #cacaca);
+				background-image:     -ms-linear-gradient(top, #fafafa, #cacaca);
+				background-image:      -o-linear-gradient(top, #fafafa, #cacaca);
+			}
+		</style>
 		<title><fmt:message key="securityAlert.SecurityAlert.Title"/></title>
-		<link rel=stylesheet href="<html:rewrite page="/css/win.css"/>" type="text/css">
+		<link rel=stylesheet href="<html:rewrite page="/css/win.css"/>" type="text/css" />
 		<jsu:importScript path="/js/functions.js" />
 		<jsu:script>
 			var help = "<hq:help/>";	
@@ -60,38 +85,39 @@
 <br>
 <br>
 <div align="center">
-<table width="400" border="0" cellspacing="0" cellpadding="0">
+<table border="0" cellspacing="0" cellpadding="0">
   <tr>
     <td>
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td class="BlockTitle" width="100%" align="left">&nbsp;<fmt:message key="securityAlert.SecurityAlert.Tab"/></td>
+          <td class="blocktitle" width="100%" align="left">&nbsp;<fmt:message key="securityAlert.LogonError.Title" /></td>
         </tr>
       </table>	
     </td>
   </tr>
-    <tr>
-      <td class="BlockContent" colspan="2" align="left">
-        <p>
-        <fmt:message key="securityAlert.AccessibleGroups"/> 
-        <br/>
-        <br/>*&nbsp;<fmt:message key="securityAlert.EVSuperUserGroup"/>
-        <br/>*&nbsp;<fmt:message key="securityAlert.EVGuestGroup"/>
-        <br/>*&nbsp;<fmt:message key="securityAlert.EVAppServerTierGroup"/>
-        <br/><br/>
-        <fmt:message key="securityAlert.GroupManagedGuide"/>         
-        </p>
-        
-        <p align="left">
-        <fmt:message key="securityAlert.ReturnToLogout"/>
-        </p>
-      </td>
-    </tr>
+	<tr>
+	  <td class="blockcontent" colspan="2" align="left">
+		<p>
+		<fmt:message key="securityAlert.LogonError.Head" />
+		<br/>
+		<br/>-&nbsp;<fmt:message key="securityAlert.LogonError.noGroups" />
+		<br/>-&nbsp;<fmt:message key="securityAlert.LogonError.faultURL" />
+		<br/>-&nbsp;<fmt:message key="securityAlert.LogonError.initialData" />
+		<br/>-&nbsp;<fmt:message key="securityAlert.LogonError.sslSpecify" />
+		<br/><br/>
+		<fmt:message key="securityAlert.LogonError.requireSupport" />
+		</p>
+		
+		<p align="left">
+		<fmt:message key="securityAlert.ReturnToLogout"/>
+		</p>
+	  </td>
+	</tr>
       <tr>
-        <td class="BlockContent" colspan="2"><html:img page="/images/spacer.gif" width="1" height="5" alt="" border="0"/></td>
+        <td class="blockcontent" colspan="2"><html:img page="/images/spacer.gif" width="1" height="5" alt="" border="0"/></td>
       </tr>
       <tr>
-        <td class="BlockBottomLine" colspan="2"><html:img page="/images/spacer.gif" width="1" height="1" alt="" border="0"/></td>
+        <td class="blockbottomline" colspan="2"><html:img page="/images/spacer.gif" width="1" height="1" alt="" border="0"/></td>
       </tr>
     </table>
     </td>

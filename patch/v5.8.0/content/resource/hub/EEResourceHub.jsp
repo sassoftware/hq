@@ -63,7 +63,7 @@
 <html:form action="/resource/hub/RemoveResource">
 	<tiles:insert definition=".page.title.resource.hub">
 		<tiles:put name="titleName">
-			<span id="browseFilters"><c:out value="${resourceTitle}"escapeXml="false" />
+			<span id="browseFilters"><c:out value="${resourceTitle}" escapeXml="false" />
 			</span>
 		</tiles:put>
 	</tiles:insert>
@@ -72,7 +72,7 @@
 		<div class="hubContainer">
 			<table width="100%" cellpadding="0" cellspacing="0" border="0">
 				<tr>
-					<td class="ResourceHubBlockTitle" width="100%">
+					<td class="ResourceHubBlockTitle" width="100%">					
 						<c:choose>
 							<c:when test="${ResourceHubForm.ff == PLATFORM}">
 								<fmt:message key="resource.hub.filter.platform" /> 
@@ -86,10 +86,11 @@
 										<c:param name="keywords" value="${owasp:forUriComponent(param.keywords)}" />
 									</c:if>
 								</c:url>
-								<html:link href="${platformUrl}">
-									<fmt:message key="resource.hub.filter.platform" /> 
-									(<c:out value="${ResourceSummary.platformCount}" />)
-								</html:link>
+								<%
+									String str = (String)(pageContext.getAttribute("platformUrl"));
+									str = java.net.URLDecoder.decode(str);
+								%>								
+								<a href='<%=str%>'><fmt:message key="resource.hub.filter.platform" />(<c:out value="${ResourceSummary.platformCount}" />)</a>								
 							</c:otherwise>
 						</c:choose> 
 						<fmt:message key="common.label.Pipe" /> 
@@ -106,10 +107,11 @@
 										<c:param name="keywords" value="${owasp:forUriComponent(param.keywords)}" />
 									</c:if>
 								</c:url>
-								<html:link href="${serverUrl}">
-									<fmt:message key="resource.hub.filter.server" /> 
-									(<c:out value="${ResourceSummary.serverCount}" />)
-								</html:link>
+								<%
+									String str = (String)(pageContext.getAttribute("serverUrl"));
+									str = java.net.URLDecoder.decode(str);
+								%>								
+								<a href='<%=str%>'><fmt:message key="resource.hub.filter.server" />(<c:out value="${ResourceSummary.serverCount}" />)</a>								
 							</c:otherwise>
 						</c:choose> 
 						<fmt:message key="common.label.Pipe" /> 
@@ -126,10 +128,11 @@
 										<c:param name="keywords" value="${owasp:forUriComponent(param.keywords)}" />
 									</c:if>
 								</c:url>
-								<html:link href="${serviceUrl}">
-									<fmt:message key="resource.hub.filter.service" /> 
-									(<c:out value="${ResourceSummary.serviceCount}" />)
-								</html:link>
+								<%
+									String str = (String)(pageContext.getAttribute("serviceUrl"));
+									str = java.net.URLDecoder.decode(str);
+								%>								
+								<a href='<%=str%>'><fmt:message key="resource.hub.filter.service" />(<c:out value="${ResourceSummary.serviceCount}" />)</a>	
 							</c:otherwise>
 						</c:choose> 
 						<fmt:message key="common.label.Pipe" /> 
@@ -147,10 +150,11 @@
 										<c:param name="keywords" value="${owasp:forUriComponent(param.keywords)}" />
 									</c:if>
 								</c:url>
-								<html:link href="${groupUrl}">
-									<fmt:message key="resource.hub.filter.compatibleGroups" /> 
-									(<c:out value="${ResourceSummary.compatGroupCount}" />)
-								</html:link>
+								<%
+									String str = (String)(pageContext.getAttribute("groupUrl"));
+									str = java.net.URLDecoder.decode(str);
+								%>								
+								<a href='<%=str%>'><fmt:message key="resource.hub.filter.compatibleGroups" />(<c:out value="${ResourceSummary.compatGroupCount}" />)</a>
 							</c:otherwise>
 						</c:choose> 
 						<fmt:message key="common.label.Pipe" /> 
@@ -168,10 +172,11 @@
 										<c:param name="keywords" value="${owasp:forUriComponent(param.keywords)}" />
 									</c:if>
 								</c:url>
-								<html:link href="${groupUrl}">
-									<fmt:message key="resource.hub.filter.mixedGroups" /> 
-									(<c:out value="${ResourceSummary.groupCountAdhocGroup + ResourceSummary.groupCountAdhocPSS + ResourceSummary.groupCountAdhocApp}" />)
-								</html:link>
+								<%
+									String str = (String)(pageContext.getAttribute("groupUrl"));
+									str = java.net.URLDecoder.decode(str);
+								%>								
+								<a href='<%=str%>'><fmt:message key="resource.hub.filter.mixedGroups" />(<c:out value="${ResourceSummary.groupCountAdhocGroup + ResourceSummary.groupCountAdhocPSS + ResourceSummary.groupCountAdhocApp}" />)</a>								
 							</c:otherwise>
 						</c:choose>
                         <fmt:message key="common.label.Pipe" />
@@ -188,10 +193,11 @@
 										<c:param name="keywords" value="${owasp:forUriComponent(param.keywords)}" />
 									</c:if>
 								</c:url>
-								<html:link href="${appUrl}">
-									<fmt:message key="resource.hub.filter.application" /> 
-									(<c:out value="${ResourceSummary.applicationCount}" />)
-								</html:link>
+								<%
+									String str = (String)(pageContext.getAttribute("appUrl"));
+									str = java.net.URLDecoder.decode(str);
+								%>								
+								<a href='<%=str%>'><fmt:message key="resource.hub.filter.application" />(<c:out value="${ResourceSummary.applicationCount}" />)</a>
 							</c:otherwise>
 						</c:choose>
 					</td>
@@ -213,7 +219,7 @@
 				<c:param name="ps" value="${param.ps}" />
 			</c:if>
 			<c:if test="${not empty param.so}">
-				<c:param name="so" value="${param.so}" />
+				<c:param name="so" value="${owasp:forUriComponent(param.so)}" />
 			</c:if>
 			<c:if test="${not empty param.sc}">
 				<c:param name="sc" value="${param.sc}" />
@@ -233,7 +239,7 @@
 				<c:param name="ps" value="${param.ps}" />
 			</c:if>
 			<c:if test="${not empty param.so}">
-				<c:param name="so" value="${param.so}" />
+				<c:param name="so" value="${owasp:forUriComponent(param.so)}" />
 			</c:if>
 			<c:if test="${not empty param.sc}">
 				<c:param name="sc" value="${param.sc}" />
@@ -278,10 +284,26 @@
 			<c:if test="${not empty param.g}">
 				<c:param name="g" value="${owasp:forUriComponent(param.g)}" />
 			</c:if>
+			<c:if test="${not empty param.fg}">
+				<c:param name="fg" value="${param.fg}" />
+			</c:if>
+			<c:if test="${not empty param.unavail}">
+				<c:param name="unavail" value="${owasp:forUriComponent(param.unavail)}" />
+			</c:if>
+			<c:if test="${not empty param.own}">
+				<c:param name="own" value="${owasp:forUriComponent(param.own)}" />
+			</c:if>
+			<c:if test="${not empty param.any}">
+				<c:param name="any" value="${owasp:forUriComponent(param.any)}" />
+			</c:if>
 			<c:param name="ff" value="${ResourceHubForm.ff}" />
 			<c:param name="view" value="${ResourceHubForm.view}" />
 		</c:url>
-
+		<%
+			String sortAction = (String)(pageContext.getAttribute("sAction"));
+			sortAction = java.net.URLDecoder.decode(sortAction);
+			pageContext.setAttribute("sAction",sortAction);
+		%>	
 		<c:choose>
 			<c:when test="${ResourceHubForm.view == LIST}">
 				<jsu:script>
@@ -423,13 +445,13 @@
 				<c:param name="keywords" value="${owasp:forUriComponent(param.keywords)}" />
 			</c:if>
 			<c:if test="${not empty param.so}">
-				<c:param name="so" value="${param.so}" />
+				<c:param name="so" value="${owasp:forUriComponent(param.so)}" />
 			</c:if>
 			<c:if test="${not empty param.sc}">
 				<c:param name="sc" value="${param.sc}" />
 			</c:if>
 			<c:if test="${not empty param.ft}">
-				<c:param name="ft" value="${param.ft}" />
+				<c:param name="ft" value="${param.ft}"/>
 			</c:if>
 			<c:if test="${not empty param.g}">
 				<c:param name="g" value="${owasp:forUriComponent(param.g)}" />
@@ -438,7 +460,7 @@
 				<c:param name="fg" value="${param.fg}" />
 			</c:if>
 			<c:if test="${not empty param.unavail}">
-				<c:param name="unavail" value="${param.unavail}" />
+				<c:param name="unavail" value="${owasp:forUriComponent(param.unavail)}"/>
 			</c:if>
 			<c:if test="${not empty param.own}">
 				<c:param name="own" value="${owasp:forUriComponent(param.own)}" />
@@ -455,13 +477,13 @@
 				<c:param name="keywords" value="${owasp:forUriComponent(param.keywords)}" />
 			</c:if>
 			<c:if test="${not empty param.so}">
-				<c:param name="so" value="${param.so}" />
+				<c:param name="so" value="${owasp:forUriComponent(param.so)}" />
 			</c:if>
 			<c:if test="${not empty param.sc}">
 				<c:param name="sc" value="${param.sc}" />
 			</c:if>
 			<c:if test="${not empty param.ft}">
-				<c:param name="ft" value="${param.ft}" />
+				<c:param name="ft" value="${param.ft}"/>
 			</c:if>
 			<c:if test="${not empty param.g}">
 				<c:param name="g" value="${owasp:forUriComponent(param.g)}" />
@@ -470,7 +492,7 @@
 				<c:param name="fg" value="${param.fg}" />
 			</c:if>
 			<c:if test="${not empty param.unavail}">
-				<c:param name="unavail" value="${param.unavail}" />
+				 <c:param name="unavail" value="${owasp:forUriComponent(param.unavail)}"/>
 			</c:if>
 			<c:if test="${not empty param.own}">
 				<c:param name="own" value="${owasp:forUriComponent(param.own)}" />

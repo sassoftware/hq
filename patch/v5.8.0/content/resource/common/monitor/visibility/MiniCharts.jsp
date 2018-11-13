@@ -100,6 +100,7 @@
      allow it --%>
 
 <table width="425" cellpadding="2" cellspacing="0" border="0" id="listTable">
+
 <%
     Iterator i = list.iterator();
 while ( i.hasNext() ) {
@@ -117,9 +118,10 @@ while ( i.hasNext() ) {
     <td>	
       <table cellpadding="0" border="0" cellspacing="0" background="<c:out value="${availabilityUrl}"/>">
         <tr>
-          <td class="MiniChartHeader" width="1%">
+		
+          <td name="selectResourceBox" class="MiniChartHeader" width="1%">
             <html:checkbox property="resources" value="${eid}" onclick="ToggleSelection(this, widgetProperties)" styleClass="listMember"/>
-          </td>
+          </td>		 
           <td class="MiniChartHeader" align="left">
             <html:link action="/Resource">
             	<html:param name="eid" value="${eid}"/>
@@ -146,5 +148,13 @@ while ( i.hasNext() ) {
 <%
 }
 %>
+<script>	
+	var boxes = document.getElementsByName('selectResourceBox');
+	if(!(window.ActiveXObject || "ActiveXObject" in window)){
+		for(var i=0;i<boxes.length;i++){
+			boxes[i].width = 15;
+		}
+	}	
+</script>
 </table>
 <!-- / MINI-CHARTS -->

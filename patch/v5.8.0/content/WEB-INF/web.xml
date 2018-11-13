@@ -100,7 +100,7 @@
 		<filter-class>org.hyperic.hq.web.filters.CsrfIgnoreAllGetsFilter</filter-class>
 		<init-param>
 			<param-name>nonceCacheSize</param-name>
-			<param-value>10</param-value>
+			<param-value>100</param-value>
 		</init-param>
 	</filter>
 	

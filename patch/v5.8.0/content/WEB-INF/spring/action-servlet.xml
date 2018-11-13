@@ -278,6 +278,8 @@
 		class="org.hyperic.hq.ui.action.resource.common.control.RemoveControlJobsAction" />	
 	<bean name="/resource/service/control/RemoveControlJobs"
 		class="org.hyperic.hq.ui.action.resource.common.control.RemoveControlJobsAction" />
+	<bean name="/resource/group/control/RemoveControlJobs"
+		class="org.hyperic.hq.ui.action.resource.common.control.RemoveControlJobsAction" />
 	<bean name="/resource/service/InventoryPortal"
 		class="org.hyperic.hq.ui.action.resource.service.inventory.ServiceInventoryPortalAction" />
 	<bean name="/resource/service/inventory/NewServiceFormPrepare"
@@ -654,5 +656,7 @@
 		class="org.hyperic.hq.ui.action.resource.common.monitor.visibility.MetricsDisplayAction" />
     <bean name="/resource/platform/TopN"
           class="org.hyperic.hq.ui.action.resource.platform.topn.TopNAction" />
-	<bean name="/admin/user/SyncUsers" class="com.sas.hyperic.security.ui.action.admin.user.SynchronizeUserAction"></bean>
+	<bean name="/admin/user/SyncUsers" class="com.sas.hyperic.security.ui.action.admin.user.SynchronizeUserAction">
+		<property name="userDetailServiceProvider" ref="userDetailServiceProvider"/>
+	</bean>
 </beans>

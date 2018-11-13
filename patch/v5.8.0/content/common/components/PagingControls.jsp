@@ -51,6 +51,9 @@
   	<c:set var="pageNumParam" value="pn" />
 </c:if>
 <c:set var="pageNumber" value="${param[pageNumParam]}" />
+<c:if test="${empty pageNumber}">
+  	<c:set var="pageNumber" value="0" />
+</c:if>
 
 <td width="100%">
 	<table width="100%" cellpadding="0" cellspacing="0" border="0" class="ToolbarContent">

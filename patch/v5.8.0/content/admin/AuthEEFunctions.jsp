@@ -20,17 +20,42 @@
                 url: '/admin/user/SyncUsers.do' ,
                 load: function (status){
                         var json = eval("(" +status+")" );
-                        var succ = json['success'];
-                        var fail = json['failure'];
-                        if (json['state' ] == 1){
-                        	var info = "<fmt:message key='admin.home.SyncUsers.success'/>";
-                        	info = info.replace("\{0}",succ).replace("\{1}",fail);
-                            alert(info);
-                        }else if(json['state' ] == 0){ 
-                        	alert("<fmt:message key='admin.home.SyncUsers.failure'/>");
-                        }else if(json['state' ] == 2){
-                        	alert("<fmt:message key='admin.home.SyncUsers.nodata'/>");
+                        var syncStatus = json['syncStatus' ]
+                        var successNum = json['successNum'];
+                        
+                        var message = "";
+                        
+                        if(syncStatus == 0){
+                        	message = "<fmt:message key='admin.home.SyncUsers.failure'/>";
+                        }else if(syncStatus == 1){
+                        	message = "<fmt:message key='admin.home.SyncUsers.success'/>";
+                        	message = message.replace("\{0}",successNum);
+                        }else if(syncStatus == 2){
+                        	var failedNum = json['failedNum'];
+                        	var failedUsers = json['failedUsers'];
+                        	message = "<fmt:message key='admin.home.SyncUsers.finishWithError'/>";
+                        	message = message.replace("\{0}",successNum)
+		                        			 .replace("\{1}",failedNum)
+		                        			 .replace("\{2}",failedUsers);
+                        }else if(syncStatus == 3){
+                        	message = "<fmt:message key='admin.home.SyncUsers.connectionFailure'/>"
+                        }else if(syncStatus == 4){
+                        	message = "<fmt:message key='admin.home.SyncUsers.parseDataFailure'/>"
+                        }else if(syncStatus == 5){
+                        	message = "<fmt:message key='admin.home.SyncUsers.nodata'/>"
                         }
+                        
+                        if(syncStatus == 1 || syncStatus == 2){
+	                        var removeCurrentUser = json['removeCurrentUser'];
+	                        if(removeCurrentUser == true){
+	                        	var removeCurrentUserMsg = "<fmt:message key='admin.home.SyncUsers.removeCurrentUser'/>";  
+	                        	removeCurrentUserMsg = removeCurrentUserMsg.replace("{0}","${webUser.name}");
+	                    		message += removeCurrentUserMsg; 
+	                    	}
+                        }
+                        
+                        alert(message);
+                        
                         window.location.href = "/admin/user/UserAdmin.do?mode=list" ;
                 },
                	error: function (data){
@@ -80,12 +105,9 @@
   <tr>
     <td width="20%" class="BlockLabel">&nbsp;</td>
     <c:choose>
-    <c:when test="${useroperations['createSubject']}">
+    <c:when test="${isSuperUser}">	
     <td width="30%" class="BlockContent">
     	<a href="###" id="syncUsers" onclick="syncUsers();"><fmt:message key="admin.home.SyncUsers"/></a>
-    	<!-- <html:link action="/admin/user/SyncUsers"> 
-    		<fmt:message key="admin.home.SyncUsers"/>
-    	</html:link> -->
     </td>
     </c:when>
     <c:otherwise>

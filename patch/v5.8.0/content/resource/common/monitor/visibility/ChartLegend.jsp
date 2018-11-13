@@ -3,6 +3,7 @@
 <%@ taglib uri="http://struts.apache.org/tags-tiles" prefix="tiles" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="/WEB-INF/tld/sas.tld" prefix="sas" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 
 <%--
   NOTE: This copyright does *not* cover user programs that use HQ
@@ -29,7 +30,7 @@
   USA.
  --%>
 
-
+<fmt:setBundle basename="controlAction" var="cap"/>
 <table width="100%" cellpadding="3" cellspacing="0" border="0">
   <tr>
     <td width="100%">
@@ -42,7 +43,13 @@
       <c:out value="${resource.name}"/><br>
       <c:forEach var="event" varStatus="evStatus" items="${chartLegend[resStatus.index]}">
       <b>(<c:out value="${event.eventID}"/>)</b>
-      <c:out value="${event.detail}"/> -
+      <c:set var="theLowerKey" value="${fn:toLowerCase(event.detail)}" />
+      <fmt:message key="ca-${theLowerKey}" var="matchedKey" bundle="${cap}" />
+      <c:choose>
+         <c:when test="${fn:startsWith(matchedKey,'???')}"><c:out value="${event.detail}"/></c:when>
+      
+      <c:otherwise>
+      <fmt:message key="${matchedKey}" /></c:otherwise></c:choose> -
       <sas:evmTimelineTag value="${event.timestamp}"/><c:if test="${! evStatus.last}">,</c:if>
       </c:forEach></p>
       </c:forEach>

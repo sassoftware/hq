@@ -33,9 +33,9 @@
 
 <c:set var="widgetInstanceName" value="listMetrics"/>
 <jsu:script>
-	//var pageData = new Array();
-	//initializeWidgetProperties('<c:out value="${widgetInstanceName}"/>');
-	//widgetProperties = getWidgetProperties('<c:out value="${widgetInstanceName}"/>');
+	var pageData = new Array();
+	initializeWidgetProperties('<c:out value="${widgetInstanceName}"/>');
+	widgetProperties = getWidgetProperties('<c:out value="${widgetInstanceName}"/>');
 </jsu:script>
 <!--  PARTICIPATING RESOURCE TITLE -->
 <tiles:insert definition=".header.tab">

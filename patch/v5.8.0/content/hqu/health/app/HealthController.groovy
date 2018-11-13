@@ -270,7 +270,7 @@ class HealthController
         def manager = CacheManager.getInstance()
         def caches = manager.getCacheNames()
         List<Map<String,Object>> healths = new ArrayList<Map<String,Object>>(caches.size());
-        for (Cache cacheName : caches ) {
+        for (def cacheName : caches ) {
             def cache = manager.getCache(cacheName)
             CacheConfiguration config = cache.getCacheConfiguration()
             def limit = config.getMaxElementsInMemory()

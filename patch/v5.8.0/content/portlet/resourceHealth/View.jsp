@@ -73,16 +73,16 @@
  	<table width="100%" border="0" cellspacing="0" cellpadding="0" id="favoriteTable" class="portletLRBorder">
  		<tbody>
 			<tr class="tableRowHeader">
-				<th class="tableRowInactive">
+				<th width="45%" style="text-align:left!important;" class="tableRowInactive">
 					<fmt:message key="dash.home.TableHeader.ResourceName"/>
 				</th>
-				<th width="120px" class="tableRowInactive">
+				<th width="25%" style="text-align:left!important;" class="tableRowInactive">
 					<fmt:message key="dash.home.TableHeader.Type"/>
 				</th>
-				<th width="60px" align="center" class="tableRowInactive">
+				<th width="10%" style="text-align:center!important;" class="tableRowInactive">
 					<fmt:message key="resource.common.monitor.visibility.AvailabilityTH"/>
 				</th>
-				<th width="60px" align="center" class="tableRowInactive">
+				<th width="10%" style="text-align:center!important;" class="tableRowInactive">
 					<fmt:message key="dash.home.TableHeader.Alerts"/>
 				</th>
 			</tr>

@@ -599,7 +599,7 @@
 	    emailDiv.setAttribute('class', 'emailDiv');
 	    emailDiv.setAttribute('id', 'emailinputDiv');
 	    hqDojo.byId('emailinputDiv').style.display = 'none';
-	    hqDojo.byId('emailinputDiv').innerHTML = "<fmt:message key="common.label.escalation.action.sms.othersEmail"/><br><textarea rows='2' cols='20' id='emailinput' name='emailinput' onBlur='checkEmail();copyOthersEmail(this);'></textarea>";
+	    hqDojo.byId('emailinputDiv').innerHTML = "<fmt:message key="common.label.escalation.action.sms.othersEmail"/><br><textarea rows='2' cols='20' id='emailinput' name='emailinput' onBlur='copyOthersEmail(this);'></textarea>";
 	    td4.appendChild(sysDiv);
 	    sysDiv.setAttribute('class', 'escInput');
 	    sysDiv.setAttribute('id', 'sysloginput');
@@ -1338,7 +1338,7 @@
             hqDojo.byId('escMsg').innerHTML = '<fmt:message key="error.Error.Tab"/> ' + '<fmt:message key="alert.config.error.250Char"/>';
             return false;
         } else {
-            hideErrorDisplay();
+            hideErrorDisplayForDes();
             return true;
         }
     }
@@ -1353,6 +1353,12 @@
         hqDojo.byId('escMsg').innerHTML = '';
         hqDojo.byId('example').style.display = 'none';
         hqDojo.byId('addEscButtons').style.display = "";
+    }
+
+    function hideErrorDisplayForDes() {
+        hqDojo.byId('escMsg').innerHTML = '';
+        hqDojo.byId('example').style.display = 'none';
+        //hqDojo.byId('addEscButtons').style.display = "";
     }
     
     function ActionTypeNull() {

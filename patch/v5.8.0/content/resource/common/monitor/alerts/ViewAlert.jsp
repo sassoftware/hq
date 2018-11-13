@@ -73,8 +73,20 @@
 			  			<td class="BlockContent" align="right" valign="top" width="20%">
 			    			<div class="BoldText"><fmt:message key="resource.common.alert.previousFix"/></div>
 			    		</td>
-			    		<td class="BlockContent" colspan="2" width="80%">    		
+			    		<td class="BlockContent" colspan="2" width="80%"> 
+			    		<c:choose>
+			  			   <c:when test="${fn:startsWith(fixedNote,'(Fixed by')}">
+                           <c:set var="stringAfter" value="${fn:substringAfter(fixedNote, '(Fixed by')}" />
+                                   (<fmt:message key="Alert.Fixed.By"/>${stringAfter}
+                           </c:when>
+
+			    		   <c:when test="${fixedNote=='Recovery Alert'}">   		
+                            <fmt:message key="resource.common.alert.label.recoveryAlert"/>
+			       		   </c:when>
+			       		   <c:otherwise>
 			       			<c:out value="${fixedNote}"/>
+			       		   </c:otherwise>
+			       		</c:choose>
 			       		</td>
 			       	</tr>
 			       	<tr>
@@ -116,7 +128,7 @@
 			<tiles:insert page="/common/components/ActionButton.jsp">
 	  			<tiles:put name="labelKey" value="resource.common.alert.action.fixed.label"/>
 	  			<tiles:put name="buttonClick">hqDojo.byId('mode').setAttribute('value', 'FIXED'); document.forms[0].submit();</tiles:put>
-	  			<tiles:put name="icon"><html:img page="/images/icon_fixed.gif" alt="${var_resource_common_alert_clickToFixIconTip}" align="middle"/></tiles:put>
+	  			<tiles:put name="icon"><html:img page="/images/icon_fixed.gif" alt="${var_resource_common_alert_clickToFixIconTip}" title="${var_resource_common_alert_clickToFixIconTip}" align="middle"/></tiles:put>
 	  			<c:choose>
 	  	 			<c:when test="${not alert.fixed}">
 	     				<tiles:put name="disabled" value="false"/>

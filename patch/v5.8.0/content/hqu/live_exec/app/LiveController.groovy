@@ -99,7 +99,7 @@ class LiveController
             }
         }
             
-        cmds.add(0, 'Please select..')
+        cmds.add(0, "${localeBundle['cmdSelection']}")
         
         def isGroup = viewedResource.isGroup()
         def members = viewedMembers

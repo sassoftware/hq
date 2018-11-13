@@ -151,7 +151,7 @@ function showErrorResourceListing(errorMessages){
 	var results = "";
 	if (errorMessages){
 		for (var y=0; y < errorMessages.length; y++){
-			results = results + "<img src='/images/icon_right_arrow.gif' border='0'>" + errorMessages[y].key + " had an error: <font color='red'>" + errorMessages[y].value + "</font><br>";
+			results = results + "<img src='/images/icon_right_arrow.gif' border='0'>" + errorMessages[y].key + " ${l.hadAnError}: <font color='red'>" + errorMessages[y].value + "</font><br>";
 		}
 	}
 	return results;
@@ -354,7 +354,7 @@ function populateDeployedAppsTable(applicationStatus){
 		table = table + "</table>";
 		hqDojo.byId("deployedApps").innerHTML = table;
 	} else {
-		hqDojo.byId("deployedApps").innerHTML = "<h2>No data available.</h2>";
+		hqDojo.byId("deployedApps").innerHTML = "<h2>${l.noDataAvailable}</h2>";
 	}
 }
 
@@ -562,7 +562,7 @@ function getAppListing(service, host){
 		<tr style='vertical-align:top;' >		
 			<td>
 				<div id="deployedApps">
-					<span>Loading applications...</span>
+					<span>${l.loadApplications}</span>
 				</div>
 				<% if (!readOnly) { %>
 				<div class="buttonContainer">

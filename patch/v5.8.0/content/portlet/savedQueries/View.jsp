@@ -94,13 +94,14 @@
         </div>
         <div class="content">
             <form method="POST" action="">
-            <input type="text" id="chartsearch" name="chartsearch" value="[ <fmt:message key="dash.home.SavedQueries.configure.search"/> ]"><br />
+            <input type="text" id="chartsearch" title= "[ <fmt:message key="dash.home.SavedQueries.configure.search"/> ]" name="chartsearch" value="[ <fmt:message key="dash.home.SavedQueries.configure.search"/> ]"><br />
             <select id="chartselect" name="chart" size="10" value="0">
             </select>
             </form>
       
             <div id="chart_container">
             </div>
+            <input type="hidden" id="chart_remove_confirm_msg"  value="<fmt:message key='dash.home.SavedQueries.removeChart.confirm'/>"/>
             <button id="chart_remove_btn" name="chart_remove_btn" class="btnGreenBlack"><span><fmt:message key="button.removeChart"/></span></button>
             <img src="<html:rewrite page="/images/4.0/icons/control_pause.png" />" border="0" alt="pause slideshow" class="pause_btn">
             <div class="last_updated"></div>
@@ -112,7 +113,7 @@
                     <ol>
                         <li  style="vertical-align:middle">
                             <label for="chart_rotation"><fmt:message key="dash.home.SavedChart.Rotaton"/></label> 
-                            <input type="checkbox" name="chart_rotation" id="chart_rotation">
+                            <input type="checkbox" name="chart_rotation" id="chart_rotation" style="width:18px !important;"/>
                         </li>
                         <li>
                             <label for="chart_interval"><fmt:message key="dash.home.SavedChart.Interval"/></label>

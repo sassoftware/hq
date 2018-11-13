@@ -25,19 +25,23 @@
 var baselinestr = 'Baseline Value';
 var minvaluestr = 'Min Value';
 var maxvaluestr = 'Max Value';
-function resetNote(){
-    hqDojo.byId('baselineNotCalcMsg').style.display='none';
+function resetNote(i){
+    hqDojo.byId('baselineNotCalcMsg_'+i).style.display='none';
 }
-function toggleNoBaselineMessage(obj){
+function toggleNoBaselineMessage(obj, i){
 	// baselines with values are in the format: 100.0% (Baseline Value)
 	// baselines with no values are in the format: Baseline Value
-	if(obj.selectedIndex > 0
+	if(obj.options.length<=1||(obj.selectedIndex > 0
 			&& obj[obj.selectedIndex].text.indexOf('(') == -1
-			&& obj[obj.selectedIndex].text.indexOf(')') == -1){
-	   hqDojo.byId('baselineNotCalcMsg').style.display='inline';
+			&& obj[obj.selectedIndex].text.indexOf(')') == -1)){
+	   if(i != null){	 
+		   hqDojo.byId('baselineNotCalcMsg_' + i).style.display='inline';
+	   }
 	}
 	else{
-	   hqDojo.byId('baselineNotCalcMsg').style.display='none';
+	   if(i != null){	 
+		   hqDojo.byId('baselineNotCalcMsg_' + i).style.display='none';
+	   }
 	}
 }
 function selectMetric(selName, hidName) {

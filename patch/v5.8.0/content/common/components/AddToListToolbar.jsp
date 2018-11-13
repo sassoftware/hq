@@ -128,12 +128,18 @@
 </c:if>
 
 <!--  ADD TO LIST TOOLBAR -->
+<%
+  int tdIndex=0;
+%>
 <table width="100%" cellpadding="5" cellspacing="0" border="0" class="ToolbarContent">
   <tr>
     <c:if test="${showAddToListBtn}">
-        <td nowrap>
+        <td nowrap width="300">
         	  <a class="buttonGreen" href="${addToListUrl}"><span style="white-space: nowrap"><fmt:message key="resource.common.button.addToList"/></span></a>
         </td>
+        <%
+          tdIndex++;
+        %>
     </c:if>
     <c:if test="${showRemoveBtn}">
         <c:choose>
@@ -144,6 +150,10 @@
 	    <td id="<c:out value="${widgetInstanceName}"/>DeleteButtonTd"><div id="<c:out value="${widgetInstanceName}"/>DeleteButtonDiv"><input id="<c:out value="${widgetInstanceName}"/>DeleteButton" type="button" class="compactbuttoninactive" value="<fmt:message key='${removeImg}' />" name="remove" disabled="disabled" /></div></td>
 	    </c:otherwise>
 	    </c:choose>
+	    <%
+          tdIndex++;
+        %>
+	    
     </c:if>
 
 <c:if test="${not empty showIntervalControls and showIntervalControls}">
@@ -153,6 +163,10 @@
   <html:option value="60000"><fmt:message key="resource.common.monitor.visibility.config.Minutes"/></html:option>
   <html:option value="3600000"><fmt:message key="resource.common.monitor.visibility.config.Hours"/>
 </html:option></html:select></td>
+        <%
+          tdIndex++;
+        %>
+
 <%
   if("Y".equals(request.getAttribute("iSinEEMetricsDisplay"))){
 %>
@@ -190,23 +204,21 @@
   </tr>
 
 <%-- need another row to display collectionInterval error message --%>
-<c:if test="${iSinEEMetricsDisplay=='Y' and not empty showIntervalControls and showIntervalControls}">
-<%
-  request.setAttribute("showCollectionInterval","Y");
- // out.println("inininiijnininininininininini");
-%>
-</c:if> 
-
-<c:if test="${not empty showIntervalControls and showIntervalControls and iSinEEMetricsDisplay!='Y'}">
- <logic:messagesPresent property="collectionInterval">
  <tr>
-  <td width="40">&nbsp;</td>
-  <td width="40">&nbsp;</td>
-  <td class="ErrorField" nowrap="true" colspan="3"><span class="ErrorFieldContent">- <html:errors property="collectionInterval"/></span></td>
-  <td width="100%">&nbsp;</td>
- </tr>
- </logic:messagesPresent>
+  <%
+    for(int i=0;i<tdIndex;i++){%>
+    <td>&nbsp;</td>
+  <%  
+    }
+  %>
+<c:if test="${not empty showIntervalControls and showIntervalControls}">
+   <logic:messagesPresent property="collectionInterval">
+    <td style="background-color:#DBE3F5;" nowrap="true" colspan="3" ><div style="font-size: .95em;font-weight: bold;margin-top:0;margin-bottom:0;">- <html:errors property="collectionInterval"/></div></td>
+   </logic:messagesPresent>
 </c:if>
+  <td>&nbsp;</td>
+ </tr>
+
  
 </table>
 <!--  /  -->

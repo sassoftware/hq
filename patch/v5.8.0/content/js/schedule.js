@@ -30,6 +30,7 @@ var year = today.getFullYear();
 
 var SEL_STARTYEAR = today.getFullYear();
 var SEL_NUMYEARS = 5;
+var SEL_NUMYEARS_UNTILNOW = 8;
 
 var START_DATE = date;
 var START_MONTH = month;
@@ -72,16 +73,32 @@ var weekArr = new Array("Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", 
 var yearArr = new Array();
 for (i=0; i<SEL_NUMYEARS; i++) {
   yearArr[i] = SEL_STARTYEAR + i;
-  yearOpt = document.getElementById("startYear"+i);
+  yearOpt = document.getElementById("startYearSchedule"+i);
   if (yearOpt != null){
     yearOpt.text=yearArr[i];
     yearOpt.value=yearArr[i];
   }
   
-  yearOpt = document.getElementById("endYear"+i);
+  yearOpt = document.getElementById("endYearSchedule"+i);
   if (yearOpt != null){
     yearOpt.text=yearArr[i];
     yearOpt.value=yearArr[i];
+  }
+}
+
+var yearArr2 = new Array();
+for (i=0; i<SEL_NUMYEARS_UNTILNOW; i++) {
+  yearArr2[i] = SEL_STARTYEAR - i;
+  yearOpt = document.getElementById("startYear"+i);
+  if (yearOpt != null){
+    yearOpt.text=yearArr2[i];
+    yearOpt.value=yearArr2[i];
+  }
+  
+  yearOpt = document.getElementById("endYear"+i);
+  if (yearOpt != null){
+    yearOpt.text=yearArr2[i];
+    yearOpt.value=yearArr2[i];
   }
 }
 /*----------- end DECLARATIONS -----------*/
@@ -337,11 +354,28 @@ function setCalMonth(selId, nav, monthId, dateId, yearId) {
     modifier = 1;
 
   var sel = document.getElementById(selId);
-  var newMonth = parseInt(getSelectValue(sel)) + modifier;
+  var newMonth = parseInt(getSelectValue(sel),10) + modifier;
   
   calDate.setMonth(newMonth);
   
   var calHtml = writeCalBody(calDate.getMonth(), calDate.getFullYear(), monthId, dateId, yearId);
+  var bodyHtml = document.getElementById("bodyHtml");
+  bodyHtml.innerHTML = calHtml;
+}
+
+function setCalMonthUntilNow(selId, nav, monthId, dateId, yearId) {
+  var modifier = 0;
+  if (nav == "left")
+    modifier = -1;
+  else if (nav == "right")
+    modifier = 1;
+
+  var sel = document.getElementById(selId);
+  var newMonth = parseInt(getSelectValue(sel),10) + modifier;
+  
+  calDate.setMonth(newMonth);
+  
+  var calHtml = writeCalBodyUntilNow(calDate.getMonth(), calDate.getFullYear(), monthId, dateId, yearId);
   var bodyHtml = document.getElementById("bodyHtml");
   bodyHtml.innerHTML = calHtml;
 }
@@ -359,6 +393,21 @@ function setCalYear(selId, monthId, dateId, yearId) {
   calDate.setMonth(newMonth);
   
   var calHtml = writeCalBody(calDate.getMonth(), calDate.getFullYear(), monthId, dateId, yearId);
+  var bodyHtml = document.getElementById("bodyHtml");
+  bodyHtml.innerHTML = calHtml;
+}
+
+function setCalYearUntilNow(selId, monthId, dateId, yearId) {
+  var yearSel = document.getElementById(selId);
+  var newYear = getSelectValue(yearSel);
+  var newMonth = 11;
+  if (!isMonitorSchedule) {
+    if (newYear == START_YEAR && newMonth > START_MONTH)
+      newMonth = START_MONTH;
+  }
+  calDate.setYear(newYear);
+  calDate.setMonth(newMonth);  
+  var calHtml = writeCalBodyUntilNow(calDate.getMonth(), calDate.getFullYear(), monthId, dateId, yearId);
   var bodyHtml = document.getElementById("bodyHtml");
   bodyHtml.innerHTML = calHtml;
 }
@@ -390,6 +439,24 @@ function cal(monthId, dateId, yearId) {
 	document.getElementById("refreshCont").value=0;
   }
   writeCal(originalMonth, originalYear, monthId, dateId, yearId);
+}
+
+function calUntilNow(monthId, dateId, yearId) {
+  var monthDropDown = document.getElementById(monthId);
+  var dateSel = document.getElementById(dateId);
+  var yearSel = document.getElementById(yearId);
+  
+  var originalMonth = monthDropDown.selectedIndex;
+  var originalDate = dateSel[dateSel.selectedIndex].value;
+  var originalYearIndex = yearSel.selectedIndex;
+  var originalYear = yearSel[originalYearIndex].value;
+  
+  if (originalYear == START_YEAR)
+    //originalMonth = originalMonth + START_MONTH;
+  if(document.getElementById("refreshCont")){
+	document.getElementById("refreshCont").value=0;
+  }
+  writeCalUntilNow(originalMonth, originalYear, monthId, dateId, yearId);
 }
 
 function resetDropdowns(monthId, dateId, yearId) {
@@ -455,7 +522,79 @@ function resetDropdowns(monthId, dateId, yearId) {
   }
   if (monthId == "startMonth")
     resetDropdowns("endMonth", "endDay", "endYear");
-	
+
+  
+  if (!isSetByJsp) // called by /web/resource/server/control/Edit.jsp
+    self.close();
+}
+
+function resetDropdownsUntilNow(monthId, dateId, yearId) {
+  var isStart = false;
+  if(monthId == 'startMonth'){
+	isStart = true;	
+  }
+  var parentWin = window.opener;
+  var d = new Date();
+  // called by /web/resource/server/control/Edit.jsp
+  if (parentWin == null) {
+    parentWin = window;
+    var isSetByJsp = true;
+    if (monthId == "startMonth")
+      d = schedDate;
+    else
+      d = schedEndDate;
+  }
+  else
+    d = calDate;
+  var monthDropDown = parentWin.document.getElementById(monthId);
+  var dateDropDown = parentWin.document.getElementById(dateId);
+  var yearDropDown = parentWin.document.getElementById(yearId);
+  var oldMonthValue = monthDropDown[monthDropDown.selectedIndex].value;
+  var oldYearValue = yearArr2[yearDropDown.selectedIndex];
+  
+  var startMonthIndex = 0;
+  var startDateIndex = 0;
+  
+  var newMonthValue = d.getMonth(); 
+  var newMonthIndex = newMonthValue;
+  var newDateValue = d.getDate();
+  var newYearValue = d.getFullYear();
+  
+  
+  
+  yearDropDown.selectedIndex = yearArr2[0] - newYearValue;
+  
+  //if (newYearValue == START_YEAR) {
+   // newMonthIndex = newMonthValue - START_MONTH;
+    
+    //startMonthIndex = START_MONTH;
+    //if (newMonthIndex < 0)
+      //newMonthIndex = START_MONTH;
+    
+    //if (newMonthIndex == START_MONTH)
+      //startDateIndex = START_DATE - 1;
+  //}
+  
+  if (oldYearValue != START_YEAR && oldYearValue == newYearValue && oldMonthValue == newMonthValue) {
+    monthDropDown.selectedIndex = newMonthValue - startMonthIndex;
+    dateDropDown.selectedIndex = newDateValue - 1;
+  }
+  else {
+    changeMonthDropdown (monthDropDown, newMonthValue, startMonthIndex);
+    changeDateDropdown (dateDropDown, newMonthIndex, newDateValue, newYearValue, startDateIndex);
+  } 
+  	
+  var locale = parentWin.document.getElementById("localeString").value;
+  
+  if (isStart){	    
+	setScheduleDate(yearDropDown.options[yearDropDown.selectedIndex].text,monthDropDown.options[monthDropDown.selectedIndex].text,dateDropDown.options[dateDropDown.selectedIndex].text,parentWin.document.getElementById('scheduleStartDate'),locale);
+  }else{  
+	setScheduleDate(yearDropDown.options[yearDropDown.selectedIndex].text,monthDropDown.options[monthDropDown.selectedIndex].text,dateDropDown.options[dateDropDown.selectedIndex].text,parentWin.document.getElementById('scheduleEndDate'),locale);
+  }
+  
+  if (monthId == "startMonth")
+    resetDropdownsUntilNow("endMonth", "endDay", "endYear");
+
   
   if (!isSetByJsp) // called by /web/resource/server/control/Edit.jsp
     self.close();
@@ -479,6 +618,17 @@ function writeCal(month, year, monthId, dateId, yearId) {
   calPopup.document.close();
 }
 
+function writeCalUntilNow(month, year, monthId, dateId, yearId) {
+  var calPopup = window.open("","calPopup","width=250,height=295,resizable=yes,scrollbars=no,left=600,top=50");
+  calPopup.document.open();
+  var calHtml = getCalHTMLHead(month, year);
+  calHtml += writeCalBodyUntilNow(month, year, monthId, dateId, yearId);
+  calHtml += getCalFooter();
+  
+  calPopup.document.write(calHtml);
+  calPopup.document.close();
+}
+
 function writeCalNLV(weekArgs, month, year, monthId, dateId, yearId) {
   var calPopup = window.open("","calPopup","width=250,height=295,resizable=yes,scrollbars=no,left=600,top=50");
   calPopup.document.open();
@@ -496,7 +646,25 @@ function writeCalBody(month, year, monthId, dateId, yearId) {
 	bodyHtml += "<script> \n";  
 	  bodyHtml += "if(window.opener.document.getElementById(\"refreshCont\")&&window.opener.document.getElementById(\"refreshCont\").value==0){ \n";
 	  bodyHtml += "window.opener.document.getElementById(\"refreshCont\").value=1; \n";
+	  bodyHtml += "window.location.reload(); \n";	  
+	  bodyHtml += "}else if(window.opener.document.getElementById(\"refreshCont\")&&window.opener.document.getElementById(\"refreshCont\").value==1){ \n";  
+	  bodyHtml += "window.opener.document.getElementById(\"refreshCont\").value=0; \n";
+	  bodyHtml += "} \n";  
+	  bodyHtml += "</script> \n";
+  }  
+  return bodyHtml;
+}
+
+function writeCalBodyUntilNow(month, year, monthId, dateId, yearId) {
+  var bodyHtml = getCalHeaderUntilNow(month, year, monthId, dateId, yearId);  
+  bodyHtml += getCalBodyUntilNow(month, year, monthId, dateId, yearId);  
+  if(document.all && navigator.userAgent.indexOf('Opera') === -1){
+	bodyHtml += "<script> \n";  
+	  bodyHtml += "if(window.opener.document.getElementById(\"refreshCont\")&&window.opener.document.getElementById(\"refreshCont\").value==0){ \n";
+	  bodyHtml += "window.opener.document.getElementById(\"refreshCont\").value=1; \n";
 	  bodyHtml += "window.location.reload(); \n";
+	  bodyHtml += "}else if(window.opener.document.getElementById(\"refreshCont\")&&window.opener.document.getElementById(\"refreshCont\").value==1){ \n";  
+	  bodyHtml += "window.opener.document.getElementById(\"refreshCont\").value=0; \n";
 	  bodyHtml += "} \n";  
 	  bodyHtml += "</script> \n";
   }  
@@ -518,10 +686,12 @@ function getCalHTMLHead(month, year) {
   if(cssPath.indexOf("?")>0){
     cssPath = cssPath.substring(0,cssPath.indexOf("?"));
   }
+  var calTitle = document.getElementById("calendarTitle").value;
+  
   var calHtml = "";
   calHtml += "<html style=\"overflow-x: hidden;\">\n" + 
     "<head>\n" + 
-    "<title>Calendar</title>\n" + 	
+    "<title>"+calTitle+"</title>\n" + 	
     "<script src=\"" + jsPath + "functions.js\" type=\"text/javascript\"></script>\n" +
     "<script src=\"" + jsPath + "schedule.js\" type=\"text/javascript\"></script>\n";
 	
@@ -559,10 +729,12 @@ function getCalHTMLHeadNLV(month, year) {
   if(cssPath.indexOf("?")>0){
     cssPath = cssPath.substring(0,cssPath.indexOf("?"));
   }
+  var calTitle = document.getElementById("calendarTitle").value;
+  
   var calHtml = "";
   calHtml += "<html style=\"overflow-x: hidden;\">\n" + 
     "<head>\n" + 
-    "<title>Calendar</title>\n" + 
+    "<title>"+ calTitle +"</title>\n" + 
     "<script src=\"" + jsPath + "functions.js\" type=\"text/javascript\"></script>\n" +
     "<script src=\"" + jsPath + "schedule.js\" type=\"text/javascript\"></script>\n";
   
@@ -685,6 +857,108 @@ if(document.getElementById("sundayLabel")&&document.getElementById("sundayLabel"
 }
 
   
+  return calHtml;
+}
+
+function getCalHeaderUntilNow(month, year, monthId, dateId, yearId) {
+var localeString = "";
+ if(document.getElementById("localeString")){
+	localeString = document.getElementById("localeString").value;
+ }else if(window.opener.document.getElementById("localeString")){
+	localeString = window.opener.document.getElementById("localeString").value;
+ }
+ 
+  var calHtml = "";
+  var startIndex = 11;
+  var leftNav = "<img src=\"" + imagePath + "schedule_left.gif\" onClick=\"setCalMonthUntilNow('calMonth', 'left', '" + monthId + "', '" + dateId + "', '" + yearId+ "')\">";
+  var rightNav = "<img src=\"" + imagePath + "schedule_right.gif\" onClick=\"setCalMonthUntilNow('calMonth', 'right', '" + monthId + "', '" + dateId + "', '" + yearId+ "')\">";
+  if (!isMonitorSchedule) {
+    if (year == START_YEAR) {
+      if (month == START_MONTH)
+        //leftNav = "<img src=\"" + imagePath + "spacer.gif\" height=\"19\" width=\"20\" border=\"0\">";
+		rightNav = "<img src=\"" + imagePath + "spacer.gif\" height=\"19\" width=\"20\" border=\"0\">";
+      startIndex = START_MONTH;
+    }
+  }
+  
+  if(isReverseLocale(localeString)){
+	calHtml += "<table width=\"230\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\">\n" + 
+	"      <tr> \n" + 
+	"        <td class=\"CalHeader\" width=\"50%\" align=\"right\">\n" + leftNav + "</td>\n" + 
+	"        <td class=\"CalHeader\" align=\"center\" nowrap>\n" + 
+	"<select name=\"calYear\" id=\"calYear\" onChange=\"setCalYearUntilNow('calYear', '" + monthId + "', '" + dateId + "', '" + yearId+ "');\">\n";
+	for(i=0; i<yearArr2.length; i++) {
+		var strSelected = "";
+		if (yearArr2[i]==year) 
+		  strSelected = " selected";
+		calHtml += "<option value=\"" + yearArr2[i] + "\"" + strSelected +">" + yearArr2[i] + "</option>\n";
+	  }
+	  calHtml += "</select>\n" + "  <select name=\"calMonth\" id=\"calMonth\" onChange=\"setCalMonthUntilNow('calMonth', 'none', '" + monthId + "', '" + dateId + "', '" + yearId+ "');\">";
+	  for(i=0; i<=startIndex; i++) {
+		var strSelected = "";
+		if (i==month)
+		  strSelected = " selected";
+		calHtml += "<option value=\"" + i + "\"" + strSelected +">" + monthArr[i] + "</option>\n";
+	  }
+  }else{
+	calHtml += "<table width=\"230\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\">\n" + 
+	"      <tr> \n" + 
+	"        <td class=\"CalHeader\" width=\"50%\" align=\"right\">\n" + leftNav + "</td>\n" + 
+	"        <td class=\"CalHeader\" align=\"center\" nowrap>\n" + 
+	"    <select name=\"calMonth\" id=\"calMonth\" onChange=\"setCalMonthUntilNow('calMonth', 'none', '" + monthId + "', '" + dateId + "', '" + yearId+ "');\">";
+	  
+	  for(i=0; i<=startIndex; i++) {
+		var strSelected = "";
+		if (i==month)
+		  strSelected = " selected";
+		calHtml += "<option value=\"" + i + "\"" + strSelected +">" + monthArr[i] + "</option>\n";
+	  }
+	  calHtml += "</select>&nbsp;/&nbsp;\n" + "<select name=\"calYear\" id=\"calYear\" onChange=\"setCalYearUntilNow('calYear', '" + monthId + "', '" + dateId + "', '" + yearId+ "');\">\n";
+	  for(i=0; i<yearArr2.length; i++) {
+		var strSelected = "";
+		if (yearArr2[i]==year) 
+		  strSelected = " selected";
+		calHtml += "<option value=\"" + yearArr2[i] + "\"" + strSelected +">" + yearArr2[i] + "</option>\n";
+	  }
+  }
+  
+  calHtml +=
+"    </select></td>\n" + 
+"        <td class=\"CalHeader\" width=\"50%\">"+ rightNav + "</td>\n" + 
+"      </tr>\n" + 
+"      <tr> \n" + 
+"        <td class=\"BlockContent\">&nbsp;</td>\n" + 
+"        <td class=\"BlockContent\"><table width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"2\">\n" + 
+"            <tr> \n";
+if(document.getElementById("sundayLabel")&&document.getElementById("sundayLabel").value){
+	calHtml +="              <td class=\"CalDays\">"+document.getElementById("sundayLabel").value+"</td>\n" + 
+"              <td class=\"CalDays\">"+document.getElementById("mondayLabel").value+"</td>\n" + 
+"              <td class=\"CalDays\">"+document.getElementById("tuesdayLabel").value+"</td>\n" + 
+"              <td class=\"CalDays\">"+document.getElementById("wednesdayLabel").value+"</td>\n" + 
+"              <td class=\"CalDays\">"+document.getElementById("thursdayLabel").value+"</td>\n" + 
+"              <td class=\"CalDays\">"+document.getElementById("friddayLabel").value+"</td>\n" + 
+"              <td class=\"CalDays\">"+document.getElementById("staturdayLabel").value+"</td>\n" + 
+"            </tr>";
+}else if(window.opener.document.getElementById("sundayLabel")&&window.opener.document.getElementById("sundayLabel").value){
+	calHtml +="              <td class=\"CalDays\">"+window.opener.document.getElementById("sundayLabel").value+"</td>\n" + 
+"              <td class=\"CalDays\">"+window.opener.document.getElementById("mondayLabel").value+"</td>\n" + 
+"              <td class=\"CalDays\">"+window.opener.document.getElementById("tuesdayLabel").value+"</td>\n" + 
+"              <td class=\"CalDays\">"+window.opener.document.getElementById("wednesdayLabel").value+"</td>\n" + 
+"              <td class=\"CalDays\">"+window.opener.document.getElementById("thursdayLabel").value+"</td>\n" + 
+"              <td class=\"CalDays\">"+window.opener.document.getElementById("friddayLabel").value+"</td>\n" + 
+"              <td class=\"CalDays\">"+window.opener.document.getElementById("staturdayLabel").value+"</td>\n" + 
+"            </tr>";
+}else{
+	calHtml +="              <td class=\"CalDays\">Su</td>\n" + 
+"              <td class=\"CalDays\">Mo</td>\n" + 
+"              <td class=\"CalDays\">Tu</td>\n" + 
+"              <td class=\"CalDays\">We</td>\n" + 
+"              <td class=\"CalDays\">Th</td>\n" + 
+"              <td class=\"CalDays\">Fr</td>\n" + 
+"              <td class=\"CalDays\">Sa</td>\n" + 
+"            </tr>";
+}
+
   return calHtml;
 }
 
@@ -812,6 +1086,76 @@ function getCalBody (month, year, monthId, dateId, yearId) {
   return calHtml;
 }
 
+function getCalBodyUntilNow (month, year, monthId, dateId, yearId) {
+  var calHtml = "";
+  var i = 0;
+  var coloredDays = 35;
+  
+  var days = getAllDaysInMonth(month,year);
+  var firstOfMonth = new Date (year, month, 1);
+  var startingPos = firstOfMonth.getDay();
+  days += startingPos;
+  
+  if (startingPos!=0)
+    calHtml += "<tr>\n";
+  for (i = 0; i < startingPos; i++) {
+    calHtml += "<td class=\"BlockContent\">&nbsp;</td>\n";
+  }
+
+  for (i = startingPos; i < days; i++) {
+    var dayStr = "";
+    
+    if (i%7==0 && i!==0)
+      calHtml += "</tr>\n" + "<tr>\n";
+    else if (i==0)
+      calHtml += "<tr>\n";
+    
+    
+    var currDay = i-startingPos+1;
+    if (currDay < 10)
+      dayStr += "0";
+    dayStr += currDay;
+    
+    if (isMonitorSchedule == true) {
+      if (dateId == null || dateId == 'undefined') {
+        calHtml += "<td class=\"BlockContent\"><a href=\"javascript:parentOpen(calDate, " + currDay + ", '" + monthId + "');\">" + dayStr + "</a></td>\n";
+      }
+      else {
+        calHtml += "<td class=\"BlockContent\"><a href=\"javascript:setFullDate(calDate, " + month + ", " + currDay + ", " + year + "); resetMonitorDropdowns('" + monthId + "', '" + dateId + "', '" + yearId+ "');\">" + dayStr + "</a></td>\n";
+      }
+    }
+    else {
+      if (year == START_YEAR && month == START_MONTH && currDay > START_DATE)
+        calHtml += "<td class=\"BlockContent\"><span class=\"CalInactiveDay\">" + dayStr + "</span></td>\n";
+      else
+        calHtml += "<td class=\"BlockContent\"><a href=\"javascript:setFullDate(calDate, " + month + ", " + currDay + ", " + year + "); resetDropdownsUntilNow('" + monthId + "', '" + dateId + "', '" + yearId+ "');\">" + dayStr + "</a></td>\n";
+    }
+    
+  }
+  
+  if (days<=28)
+    coloredDays = 28;
+  else if (days>35)
+    coloredDays = 42;
+    
+  for (i=days; i<coloredDays; i++)  {
+    if ( i%7 == 0 )
+      calHtml += "</tr>\n" + "<tr bgcolor=\"#cccccc\">\n";
+    calHtml += "<td class=\"BlockContent\">&nbsp;</td>\n";
+  }
+  
+  calHtml += "      </tr>\n" + 
+  "    </table></td>\n" +
+  "        <td class=\"BlockContent\">&nbsp;</td>\n" + 
+  "      </tr>\n" + 
+  "      <tr> \n" + 
+  "        <td class=\"BlockBottomLine\" colspan=\"3\"><img src=\"" + imagePath + "spacer.gif\" height=\"1\" width=\"1\" border=\"0\"></td>\n" + 
+  "      </tr>\n" + 
+  "    </table>\n";
+
+  return calHtml;
+}
+
 function getCalFooter() {
   return "</form>\n" +
 "</div></body>\n" +
@@ -834,7 +1178,7 @@ function setScheduleDate(year,month,day,inputItem,locale){
 
 function getDateByLocale(year,month,day,locale){
 	var dateString = year+'-'+month+'-'+day;		
-	var date = new Date(year,parseInt(month)-1,day);		
+	var date = new Date(year,parseInt(month,10)-1,day);		
 	return hqDojo.date.locale.format(date, {selector:'date',formatLength:'medium'});
 }
 

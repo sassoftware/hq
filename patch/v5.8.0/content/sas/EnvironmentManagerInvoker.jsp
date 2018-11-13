@@ -69,7 +69,7 @@
 	      <%
                   String url = application.getInitParameter("ModuleFrameworkURL");
               %>
-                 <iframe src="<%=url%>" width="100%" height="100%" style="z-index:-1000"></iframe>
+                 <iframe id="VisualAnalyticsViewerLogon_iframe" src="<%=url%>" width="100%" height="100%" style="z-index:-1000"></iframe>
 	  
 		<tiles:insert definition=".licensing.footer"/>
 		<tiles:insert page="/sas/Footer.jsp"/>

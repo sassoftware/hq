@@ -7,6 +7,7 @@
 <%@ taglib uri="/WEB-INF/tld/hq.tld" prefix="hq" %>
 <%@ taglib uri="/WEB-INF/tld/display.tld" prefix="display" %>
 <%@ taglib tagdir="/WEB-INF/tags/jsUtils" prefix="jsu" %>
+<%@ taglib uri="https://www.owasp.org/index.php/OWASP_Java_Encoder_Project" prefix="owasp" %>
 <%--
   NOTE: This copyright does *not* cover user programs that use HQ
   program services by normal system calls through the application
@@ -46,7 +47,7 @@
     <c:param name="ps" value="${param.ps}"/>
   </c:if>
   <c:if test="${not empty param.so}">
-    <c:param name="so" value="${param.so}"/>
+    <c:param name="so" value="${owasp:forUriComponent(param.so)}"/>
   </c:if>
   <c:if test="${not empty param.sc}">
     <c:param name="sc" value="${param.sc}"/>
@@ -58,7 +59,7 @@
     <c:param name="pn" value="${param.pn}"/>
   </c:if>
   <c:if test="${not empty param.so}">
-    <c:param name="so" value="${param.so}"/>
+    <c:param name="so" value="${owasp:forUriComponent(param.so)}"/>
   </c:if>
   <c:if test="${not empty param.sc}">
     <c:param name="sc" value="${param.sc}"/>
@@ -77,7 +78,7 @@
 <!-- FORM -->
 <html:form action="/admin/user/Remove">
 <c:if test="${not empty param.so}">
-  <html:hidden property="so" value="${param.so}"/>
+  <html:hidden property="so" value="${owasp:forUriComponent(param.so)}"/>
 </c:if>
 <c:if test="${not empty param.sc}">
   <html:hidden property="sc" value="${param.sc}"/>

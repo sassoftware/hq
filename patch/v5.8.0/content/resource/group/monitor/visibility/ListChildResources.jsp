@@ -127,7 +127,7 @@
 	      				<td class="ListHeaderCheckbox"><input type="checkbox" onclick="ToggleAllGroup(this, widgetProperties, '<c:out value="${listMembersName}"/>')" name="<c:out value="${listMembersName}"/>All"></td>
       				</c:if>
       				<td class="ListHeader" align="left"><fmt:message key="${childResourcesHealthKey}"/></td>
-      				<td class="ListHeaderInactive" width="24" align="center" nowrap><fmt:message key="resource.common.monitor.visibility.AVAILTH"/></td>
+      				<td class="ListHeaderInactive" width="48" align="center" nowrap="nowrap"><fmt:message key="resource.common.monitor.visibility.AVAILTH"/></td>
       				<td class="ListHeaderInactive" width="14">&nbsp;</td>
     			</tr>
     			<c:forEach var="summary" items="${summaries}">

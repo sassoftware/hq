@@ -18,7 +18,10 @@
                 <img id="customIcon" alt="D" src="<spring:url value="/static/images/icon_hub_c.gif"/>"/> 
                         <fmt:message key="admin.managers.Plugin.tip.icon.custom"/>&nbsp;
         </span> 
-        
+<script>
+  curAM = ' <fmt:message key='common.label.time.am'/>';
+  curPM = ' <fmt:message key='common.label.time.pm'/>';
+</script>
         <span style="float:right;" id="refreshTimeInfo"><fmt:message key="admin.managers.Plugin.information.refresh.time"/> <span id="timeNow"></span>
         </span>
         <span style="float:right;">&nbsp;&nbsp;</span>
@@ -63,7 +66,7 @@
     <div class="gridheader clear">
         <span class="first column span-1">&nbsp;</span>
         <span class="column span-1">&nbsp;</span>
-        <span class="column span-small"><fmt:message key="admin.managers.plugin.column.header.product.plugin" /></span>
+        <span class="column span-med"><fmt:message key="admin.managers.plugin.column.header.product.plugin" /></span>
         <span class="column span-small"><fmt:message key="admin.managers.plugin.column.header.version" /></span>
         <span class="column span-med"><fmt:message key="admin.managers.plugin.column.header.jar.name" /></span>
         <span class="column span-med" id="addedTimeHeader"><fmt:message key="admin.managers.plugin.column.header.initial.deploy.date" /></span>
@@ -845,7 +848,8 @@
                         }
                         
                         var pluginName = hqDojo.create("span", {
-                            "class": "column span-small",
+							"style": "word-break:normal; white-space:pre-wrap; word-wrap:break-word;",
+                            "class": "column span-med",
                             "innerHTML": summary.name,
                             "id": "row_"+summary.id
                         }, li);
@@ -865,6 +869,7 @@
                             "innerHTML": version
                         }, li);
                         var spanName = hqDojo.create("span", {
+							"style": "word-break:normal; white-space:pre-wrap; word-wrap:break-word;",
                             "class": "column span-med",
                             "innerHTML": summary.jarName
                         }, li);

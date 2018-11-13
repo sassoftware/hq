@@ -2,9 +2,11 @@
 <%@ page errorPage="/common/Error.jsp" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ taglib uri="http://struts.apache.org/tags-html-el" prefix="html" %>
+<%@ taglib uri="http://struts.apache.org/tags-html" prefix="htmls" %>
 <%@ taglib uri="http://struts.apache.org/tags-tiles" prefix="tiles" %>
 <%@ taglib uri="http://struts.apache.org/tags-logic" prefix="logic" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ taglib uri="/WEB-INF/tld/hq.tld" prefix="hq" %>
 <%@ taglib uri="/WEB-INF/tld/sas.tld" prefix="sas" %>
 <%@ taglib tagdir="/WEB-INF/tags/jsUtils" prefix="jsu" %>
@@ -123,7 +125,17 @@
 									</fmt:message>
 								</c:when>
 								<c:otherwise>
-									<c:out value="${titleName}" escapeXml="false" />
+									<c:choose>
+										<c:when test="${fn:contains(titleName, '<c:out')}">
+											<c:set var="titleName_clean">
+												<c:out value="${fn:substring(titleName, 20, fn:length(titleName)-8)}" />
+											</c:set>
+											<c:out value="${titleName_clean}"  escapeXml="false" />
+										</c:when>
+										<c:otherwise>
+											<c:out value="${titleName}"  escapeXml="false" />
+										</c:otherwise>
+									</c:choose>
 									
 									<c:if test="${not empty subTitleName}">
 										<span class="resourceSubTitle"> 
@@ -177,8 +189,15 @@
  	 	 	 												<c:out value="${cprop.value}" escapeXml="false" />
  	 	 	 											</c:when>
  	 	 	 											<c:otherwise>
- 	 	 	 												<sas:evmMapDefaultDateTimeTag value="${cprop.value}" var="mapped_cprop_value" />
- 	 	 	 												<hq:shortenText maxlength="40" value="${mapped_cprop_value}" styleClass="ListCellPopup5"/>
+ 	 	 	 												<c:choose>
+ 	 	 	 													<c:when test="${resource.name == 'SAS 9.4 Application Server Tier'}">
+ 	 	 	 														<sas:evmMapDefaultDateTimeTag value="${cprop.value}" var="mapped_cprop_value" />
+ 	 	 	 														<hq:shortenText maxlength="40" value="${mapped_cprop_value}" styleClass="ListCellPopup5"/>
+ 	 	 	 													</c:when>
+ 	 	 	 													<c:otherwise>
+ 	 	 	 														<hq:shortenText maxlength="30" value="${cprop.value}" styleClass="ListCellPopup5"/>
+ 	 	 	 													</c:otherwise>
+ 	 	 	 												</c:choose>
  	 	 	 											</c:otherwise>
  	 	 	 										</c:choose>      												
       											</td>
@@ -289,7 +308,7 @@
 									        <fmt:message key="resource.hub.Search"/>
 									    </div>
 									    <div class="filterBoxFields">
-            								<html:text property="keywords" size="15" maxlength="40" onfocus="this.value='';if(hqDojo.byId('toolMenu').shown){toggleMenu('toolMenu');}" value="${initSearchVal}"/>
+            								<htmls:text property="keywords" size="15" maxlength="40" onfocus="this.value='';if(hqDojo.byId('toolMenu').shown){toggleMenu('toolMenu');}" value="${initSearchVal}"/>
 								            <c:choose>
 								                <c:when test="${empty allTypesKey}">
 								                    <html:hidden property="ft" value=""/>&nbsp;

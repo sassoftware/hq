@@ -66,10 +66,12 @@
           							<c:param name="metricName" value="${metric.template.name}"/>
         						</c:if>
       						</c:url>
-      						<html:link href="${alertLink}">
-      							<fmt:message key="resource.common.monitor.visibility.NewAlertLink"/><html:img page="/images/title_arrow.gif" width="11" height="9" alt="" border="0"/>
-      						</html:link>
-      						<br>
+      						<c:if test="${not empty metric}">
+	      						<html:link href="${alertLink}">
+	      							<fmt:message key="resource.common.monitor.visibility.NewAlertLink"/><html:img page="/images/title_arrow.gif" width="11" height="9" alt="" border="0"/>
+	      						</html:link>
+	      						<br>
+      						</c:if>
     					</c:if>
       					<html:hidden property="saveChart" value="false"/>
       					
@@ -229,13 +231,17 @@
     document.forms["ViewChartForm"].elements["showValuesCB"].focus();
 	function clickRedrawButton(){
 		var checked=false;
+		var checkedCounts = 0;
 		if(hqDojo.byId('listDiv')){
 			var inputs = hqDojo.query("input[type=checkbox]",hqDojo.byId('listDiv'));
 			if(inputs.length>0){
 				for(var i=0;i<inputs.length;i++){
 					if(inputs[i].checked){
 						checked = true;
-						break;
+						checkedCounts++;
+						if(checkedCounts>18){
+							break;
+						}
 					}
 				}	
 			}else{
@@ -243,7 +249,11 @@
 			}					
 		}
 		if(checked){
-			document.getElementById('redraw_new_id').click();
+			if(checkedCounts<=18){
+				document.getElementById('redraw_new_id').click();
+			}else{
+				alert('<fmt:message key="resource.metric.redraw.moreSelection"/>');
+			}			
 		}else{
 			alert('<fmt:message key="resource.metric.redraw.noSelection"/>');
 		}		

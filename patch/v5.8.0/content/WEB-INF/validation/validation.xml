@@ -79,7 +79,12 @@
      <constant-name>oid</constant-name>
      <constant-value>^[0-9]+\.[0-9]+(\.[0-9]+)+$</constant-value>
     </constant>
-
+	
+	<constant>
+    	<constant-name>multiEmail</constant-name>
+    	<constant-value>^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*([,][,\s]*(\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*)*)*$</constant-value>
+    </constant>
+	
     <form name="LoginForm">
       <field property="j_username" depends="required">
         <arg key="login.field.username"/>
@@ -211,25 +216,6 @@
         <msg name="intRange" key="resource.platform.inventory.error.MachineTypeIsRequired" />
       </field>
 
-      <!-- The IP addresses -->
-      <field property="ip[0].address" depends="required,mask">
-        <var>
-         <var-name>mask</var-name>
-         <var-value>${ipAddress}</var-value>
-        </var>
-        <msg name="required" key="resource.platform.inventory.error.IpAddressIsRequired" />
-        <msg name="mask" key="resource.platform.inventory.error.IpAddressInvalid" />
-      </field>
-
-      <!-- The netmasks -->
-      <field property="ip[0].netmask" depends="mask">
-        <var>
-         <var-name>mask</var-name>
-         <var-value>${ipAddress}</var-value>
-        </var>
-        <msg name="mask" key="resource.platform.inventory.error.NetmaskInvalid" />
-      </field>
-
     </form>
  
    <form name="EditPlatformGeneralPropertiesForm">
@@ -348,18 +334,7 @@
       </field>
      ****(end comment but leave the form element) 
      --> 
-      <!-- The IP addresses -->
-      <field property="ip[0].address" depends="required,mask">
-        <var>
-         <var-name>mask</var-name>
-         <var-value>${ipAddress}</var-value>
-        </var>
-        <msg name="required"
-             key="resource.platform.inventory.error.IpAddressIsRequired"/>
-        <msg name="mask"
-             key="resource.platform.inventory.error.IpAddressInvalid"/>
-      </field>
-
+    
    </form>
 
     <!-- this is for general properties, don't need resourceType validation -->
@@ -921,6 +896,17 @@
           <var-value>99</var-value>
         </var>
        </field>       
+     </form>
+     
+     <form name="AddAlertOthersForm">
+        <field property="emailAddresses" depends="required, mask">
+     		<arg0 key="alert.config.notification.emailAdresses"/>
+     		<var>
+     			<var-name>mask</var-name>
+     			<var-value>${multiEmail}</var-value>
+     		</var>
+     		<msg name="mask" key="alert.config.notification.error.invalidEmailAddresses"/>
+     	</field>
      </form>
                    
   </formset>

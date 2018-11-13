@@ -78,7 +78,7 @@
 </c:url>
 
 <fmt:message var="listServerAlerts" key="List.Server.Alerts"/>
-<c:set var="tmpImg"><html:img page="/images/icon_alert.gif" width="11" height="11" alt="${listServerAlerts}" border="0"/></c:set>
+<c:set var="tmpImg"><html:img page="/images/icon_alert.gif" width="11" height="11" alt="${listServerAlerts}" title="${listServerAlerts}" border="0"/></c:set>
 
 <c:choose>
   <c:when test="${not empty summaries}">

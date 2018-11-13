@@ -228,7 +228,7 @@
     <c:param name="ps" value="${param.ps}"/>
   </c:if>
   <c:if test="${not empty param.so}">
-    <c:param name="so" value="${param.so}"/>
+    <c:param name="so" value="${owasp:forUriComponent(param.so)}"/>
   </c:if>
   <c:if test="${not empty param.sc}">
     <c:param name="sc" value="${param.sc}"/>
@@ -248,7 +248,7 @@
     <c:param name="ps" value="${param.ps}"/>
   </c:if>
   <c:if test="${not empty param.so}">
-    <c:param name="so" value="${param.so}"/>
+    <c:param name="so" value="${owasp:forUriComponent(param.so)}"/>
   </c:if>
   <c:if test="${not empty param.sc}">
     <c:param name="sc" value="${param.sc}"/>
@@ -435,7 +435,7 @@
     <c:param name="keywords" value="${owasp:forUriComponent(param.keywords)}" />
   </c:if>
   <c:if test="${not empty param.so}">
-    <c:param name="so" value="${param.so}"/>
+    <c:param name="so" value="${owasp:forUriComponent(param.so)}"/>
   </c:if>
   <c:if test="${not empty param.sc}">
     <c:param name="sc" value="${param.sc}"/>
@@ -450,7 +450,7 @@
     <c:param name="fg" value="${param.fg}"/>
   </c:if>
   <c:if test="${not empty param.unavail}">
-    <c:param name="unavail" value="${param.unavail}"/>
+    <c:param name="unavail" value="${owasp:forUriComponent(param.unavail)}"/>
   </c:if>
   <c:if test="${not empty param.own}">
     <c:param name="own" value="${owasp:forUriComponent(param.own)}" />
@@ -467,7 +467,7 @@
     <c:param name="keywords" value="${owasp:forUriComponent(param.keywords)}" />
   </c:if>
   <c:if test="${not empty param.so}">
-    <c:param name="so" value="${param.so}"/>
+    <c:param name="so" value="${owasp:forUriComponent(param.so)}"/>
   </c:if>
   <c:if test="${not empty param.sc}">
     <c:param name="sc" value="${param.sc}"/>
@@ -482,7 +482,7 @@
     <c:param name="fg" value="${param.fg}"/>
   </c:if>
   <c:if test="${not empty param.unavail}">
-    <c:param name="unavail" value="${param.unavail}"/>
+    <c:param name="unavail" value="${owasp:forUriComponent(param.unavail)}"/>
   </c:if>
   <c:if test="${not empty param.own}">
     <c:param name="own" value="${owasp:forUriComponent(param.own)}" />

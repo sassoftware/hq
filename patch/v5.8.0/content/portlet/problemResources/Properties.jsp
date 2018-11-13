@@ -100,14 +100,14 @@
                 
         <display:column width="60%" href="/Resource.do?eid=${resource.resourceType}:${resource.resourceId}" property="entityName" title="dash.home.TableHeader.ResourceName"/>
       
-        <display:column width="10%" property="availability" title="resource.common.monitor.visibility.AvailabilityTH" align="center" >
+        <display:column width="10%" property="availability" title="resource.common.monitor.visibility.AvailabilityTH" align="left" >
           <display:availabilitydecorator value="${resource.availability}" 
                                          monitorable="true" />
         </display:column>
         
-        <display:column width="10%" property="alertCount" title="dash.home.TableHeader.Alerts" align="center"/>          
+        <display:column width="10%" property="alertCount" title="dash.home.TableHeader.Alerts" align="left"/>          
 
-        <display:column width="10%" property="oobCount" title="dash.home.TableHeader.OOB" align="center" /> 
+        <display:column width="10%" property="oobCount" title="dash.home.TableHeader.OOB" align="left" /> 
         
     </display:table>    
   </c:if>

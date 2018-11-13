@@ -7,6 +7,7 @@
 <%@ taglib uri="/WEB-INF/tld/hq.tld" prefix="hq" %>
 <%@ taglib uri="/WEB-INF/tld/display.tld" prefix="display" %>
 <%@ taglib tagdir="/WEB-INF/tags/jsUtils" prefix="jsu" %>
+<%@ taglib uri="https://www.owasp.org/index.php/OWASP_Java_Encoder_Project" prefix="owasp" %>
 <%--
   NOTE: This copyright does *not* cover user programs that use HQ
   program services by normal system calls through the application
@@ -38,7 +39,7 @@
 <c:url var="selfAction" value="/dashboard/Admin.do">
 	<c:param name="mode" value="availSummary" />
  	<c:if test="${not empty param.token}">
- 		<c:param name="token" value="${param.token}"/>
+ 		<c:param name="token" value="${owasp:forUriComponent(param.token)}"/>
  	</c:if>
 </c:url>
 <jsu:importScript path="/js/listWidget.js" />
@@ -146,8 +147,8 @@
       <c:url var="availAddToListUrl" value="/Admin.do" context="/dashboard">
           <c:param name="mode" value="availSummaryAddResources"/>
           <c:if test="${not empty AvailSummaryForm.token}">
-            <c:param name="key" value=".dashContent.availsummary.resources${AvailSummaryForm.token}"/>
-            <c:param name="token" value="${AvailSummaryForm.token}"/>
+            <c:param name="key" value=".dashContent.availsummary.resources${owasp:forUriComponent(AvailSummaryForm.token)}"/>
+            <c:param name="token" value="${owasp:forUriComponent(AvailSummaryForm.token)}"/>
           </c:if>
           <c:if test="${empty AvailSummaryForm.token}">
             <c:param name="key" value=".dashContent.availsummary.resources"/>

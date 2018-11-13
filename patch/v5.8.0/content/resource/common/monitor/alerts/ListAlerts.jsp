@@ -9,6 +9,7 @@
 <%@ taglib uri="/WEB-INF/tld/sas.tld" prefix="sas" %>
 <%@ taglib uri="/WEB-INF/tld/display.tld" prefix="display" %>
 <%@ taglib tagdir="/WEB-INF/tags/jsUtils" prefix="jsu" %>
+<%@ taglib uri="https://www.owasp.org/index.php/OWASP_Java_Encoder_Project" prefix="owasp" %>
 <%--
   NOTE: This copyright does *not* cover user programs that use HQ
   program services by normal system calls through the application
@@ -83,7 +84,7 @@
     	<c:param name="ps" value="${param.ps}"/>
   	</c:if>
   	<c:if test="${not empty param.so}">
-    	<c:param name="so" value="${param.so}"/>
+    	<c:param name="so" value="${owasp:forUriComponent(param.so)}"/>
   	</c:if>
   	<c:if test="${not empty param.sc}">
     	<c:param name="sc" value="${param.sc}"/>
@@ -121,7 +122,7 @@
   	<c:param name="mode" value="list"/>
   	<c:param name="eid" value="${entityId.type}:${Resource.id}"/>
   	<c:if test="${not empty param.so}">
-    	<c:param name="so" value="${param.so}"/>
+    	<c:param name="so" value="${owasp:forUriComponent(param.so)}"/>
   	</c:if>
   	<c:if test="${not empty param.sc}">
 	    <c:param name="sc" value="${param.sc}"/>
@@ -325,6 +326,25 @@
              '<c:out value="${calAction}" escapeXml="false"/>');
   	}
 </jsu:script>
+	<%
+   Object oal = request.getAttribute("Alerts");
+   if(oal!=null && oal instanceof java.util.ArrayList){
+     java.util.ArrayList al = (java.util.ArrayList)oal;
+     java.util.Locale locale1 = request.getLocale();
+     
+     for (java.util.Iterator it = al.iterator(); it.hasNext();){
+     Object ohist = it.next();
+     if(ohist instanceof org.hyperic.hq.ui.beans.AlertBean){
+        org.hyperic.hq.ui.beans.AlertBean hist = (org.hyperic.hq.ui.beans.AlertBean)ohist ;
+        hist.setLocale(locale1);     
+     }
+     
+     }
+     
+   }
+   
+%>
+
 <!-- FORM -->
 <html:form styleId="${widgetInstanceName}_FixForm" method="POST" action="/alerts/RemoveAlerts">
 	<html:hidden property="eid" value="${Resource.entityId}"/>
@@ -348,20 +368,20 @@
 		var MyAlertCenter = null;
 	</jsu:script>
 	<jsu:script onLoad="true">
-		MyAlertCenter = new hyperic.alert_center("Alerts");          		
+		MyAlertCenter = new hyperic.alert_center("<fmt:message key='alert.current.list.Title'/>");          		
 	</jsu:script>
 	<table width="100%">
 		<tr>
 			<td>
-				<a href="javascript:previousDay()"><html:img page="/images/schedule_left.gif" border="0" altKey="button.prevDay"/></a>
+				<a href="javascript:previousDay()"><html:img page="/images/schedule_left.gif" border="0" altKey="button.prevDay" titleKey="button.prevDay"/></a>
 			</td>
 			<td nowrap="true" class="BoldText"><sas:evmServerDateTag value="${date}"/></td>
-			<td><a href="javascript:nextDay()"><html:img page="/images/schedule_right.gif" border="0" altKey="button.nextDay"/></a></td>
+			<td><a href="javascript:nextDay()"><html:img page="/images/schedule_right.gif" border="0" altKey="button.nextDay" titleKey="button.nextDay"/></a></td>
 			<td>
 			<html:link href="javascript:popupCal()">
 			<html:img page="/images/schedule_iconCal.gif" width="19" height="17" altKey="button.popupCalendar" titleKey="button.popupCalendar" border="0"/>
 			</html:link>
-			<input type="hidden"
+			<input type="hidden" id="calendarTitle" value="<fmt:message key='common.alert.calendar.title'/>"/>	
 			</td>
 			<td class="ButtonCaptionText" width="100%">
     			<c:url var="path" value="/images/icon_ack.gif"/>
@@ -373,12 +393,14 @@
 	</table>
 	<c:choose>
   		<c:when test="${not empty param.so}">
-    		<c:set var="so" value="${param.so}"/>
+    		<c:set var="so" value="${owasp:forUriComponent(param.so)}"/>
   		</c:when>
   		<c:otherwise>
     		<c:set var="so" value="dec"/>
   		</c:otherwise>
 	</c:choose>
+	
+	
 	<display:table cellspacing="0" cellpadding="0" width="100%" order="${so}" action="${sortAction}" items="${Alerts}" var="Alert">
 		<display:column width="1%" property="id" 
 	                title="<input type=\"checkbox\" onclick=\"MyAlertCenter.toggleAll(this)\" id=\"${widgetInstanceName}_CheckAllBox\">" 
@@ -402,7 +424,7 @@
 			<display:conditionallinkdecorator test="${Alert.viewable}"
 					                      href="/alerts/Config.do?mode=viewDefinition&eid=${Resource.entityId.appdefKey}&ad=${Alert.alertDefId}" />
 		</display:column>
-		<display:column width="20%" property="conditionFmt" title="alerts.alert.AlertList.ListHeader.AlertCondition"/>
+		<display:column width="20%" property="conditionFmtOnLocale" title="alerts.alert.AlertList.ListHeader.AlertCondition"/>
 		<display:column width="12%" property="value" title="alerts.alert.AlertList.ListHeader.ActualValue" />
 		<display:column width="7%" property="fixed" title="alerts.alert.AlertList.ListHeader.Fixed">
   			<display:booleandecorator flagKey="yesno"/>

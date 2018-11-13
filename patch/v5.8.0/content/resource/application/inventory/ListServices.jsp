@@ -122,21 +122,19 @@
       onclick="ToggleSelection(this, widgetPropertiesListServices, true)" 
       styleClass="listMember"/>
   </display:column>
-  <display:column width="10%" align="middle" property="appServiceId" value="${linkName}"
+  <display:column width="10%" align="left" property="appServiceId" value="${linkName}"
     title="resource.application.inventory.services.DependenciesTH" styleClass="ListCell" headerStyleClass="ListHeader"
     href="/resource/application/Inventory.do?mode=listServiceDependencies&appSvcId=${service.appServiceId}&rid=${Resource.id}&type=${Resource.entityId.type}" />
-  <display:column width="20%" property="name" sort="true" sortAttr="22"
-    defaultSort="true" 
+  <display:column width="20%" property="name"  
     title="resource.application.inventory.services.ServiceTH" 
     href="/resource/${service.entityId.typeName}/Inventory.do?mode=view&rid=${service.id}&type=${service.appdefType}" />
-  <display:column width="8%" property="entryPoint" align="middle" styleClass="ListCell" 
+  <display:column width="8%" property="entryPoint" align="left" styleClass="ListCell" 
     title="resource.application.inventory.services.EntryPointTH">
     <display:booleandecorator flagKey="yesno"/>
   </display:column>
-  <display:column width="20%" property="serviceType.name" sort="true" 
-    sortAttr="23" defaultSort="false" 
+  <display:column width="20%" property="serviceType.name" 
     title="resource.application.inventory.services.TypeTH" /> 
-  <display:column width="8%" property="cluster" align="middle" styleClass="ListCell" 
+  <display:column width="8%" property="cluster" align="left" styleClass="ListCell" 
     title="resource.application.inventory.services.ClusterTH">
     <display:booleandecorator 
       flagKey="resource.application.inventory.service.iscluster"/>
@@ -146,7 +144,7 @@
   <display:column property="id" 
     title="resource.common.monitor.visibility.AvailabilityTH"
     width="10%" styleClass="ListCellCheckbox" 
-    headerStyleClass="ListHeaderCheckbox" valign="middle">
+    headerStyleClass="ListHeaderCheckbox" valign="left">
     <display:availabilitydecorator resourceId="${service.id}" resourceTypeId="${service.appdefType}" monitorable="${service.cluster}" />
   </display:column>
 </display:table>

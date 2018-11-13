@@ -53,7 +53,7 @@
 	getSystemStats();
 </script>
 
-<div id="metrics" style="width:100%;height:100%;text-align:center;margin-left:auto;margin-right:auto;">
+<div id="metrics" style="width:100%;height:100%;text-align:left;margin-left:auto;margin-right:auto;">
 	<div class="metricGroupBlock">
   		<div id="systemLoad" class="metricGroup">
     		<div class="metricCatLabel">${l.sysLoad}</div>

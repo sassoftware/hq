@@ -154,7 +154,7 @@
 
     td4.innerHTML = alerts[i].reason;
 
-    td5.setAttribute("align", "center");
+    td5.setAttribute("align", "left");
     if (alerts[i].fixed) {
         td5.innerHTML = '<fmt:message key="Yes"/>';
     }
@@ -162,7 +162,7 @@
         td5.innerHTML = '<fmt:message key="No"/>';
     }
 
-    td6.setAttribute("align", "center");
+    td6.setAttribute("align", "left");
     if (alerts[i].acknowledgeable && alerts[i].canTakeAction) {
         var ackAnchor = document.createElement("a");
         td6.appendChild(ackAnchor);
@@ -223,7 +223,7 @@ hqDojo.require("dijit.ProgressBar");
 var MyAlertCenter = null;
 </jsu:script>
 <jsu:script onLoad="true">
-	MyAlertCenter = new hyperic.alert_center("Alerts");
+	MyAlertCenter = new hyperic.alert_center("<fmt:message key='alert.current.list.Title'/>");
 
 	hqDojo.connect("requestGroupAlerts", function() { MyAlertCenter.resetAlertTable(hqDojo.byId('<c:out value="${widgetInstanceName}"/>_FixForm')); });
 
@@ -373,6 +373,7 @@ var MyAlertCenter = null;
              '<c:out value="${calAction}" escapeXml="false"/>');
   	}
 	</jsu:script>
+<input type="hidden" id="calendarTitle" value="<fmt:message key='common.alert.calendar.title'/>"/>
 	
 <!-- FORM -->
 <html:form styleId="${widgetInstanceName}_FixForm" method="POST" action="/alerts/group/Acknowledge">
@@ -393,11 +394,11 @@ var MyAlertCenter = null;
   <table width="100%">
     <tr>
       <td><a href="javascript:previousDay()"><html:img
-        page="/images/schedule_left.gif" border="0" altKey="button.prevDay" /></a></td>
+        page="/images/schedule_left.gif" border="0" altKey="button.prevDay" titleKey="button.prevDay"/></a></td>
       <td nowrap="true" class="BoldText"><hq:dateFormatter value="${date}"
         showTime="false" /></td>
       <td><a href="javascript:nextDay()"><html:img
-        page="/images/schedule_right.gif" border="0" altKey="button.nextDay"/></a></td>
+        page="/images/schedule_right.gif" border="0" altKey="button.nextDay" titleKey="button.nextDay"/></a></td>
       <td><html:link href="javascript:popupCal()">
         <html:img page="/images/schedule_iconCal.gif" width="19" height="17"
           altKey="button.popupCalendar" border="0" />
@@ -424,9 +425,9 @@ var MyAlertCenter = null;
           <fmt:message key="alerts.alert.AlertList.ListHeader.AlertDefinition" /></th>
         <th class="tableRowSorted">
           <fmt:message key="alerts.alert.AlertList.ListHeader.AlertCondition" /></th>
-        <th class="tableRowSorted" align="center">
+        <th class="tableRowSorted" align="left">
           <fmt:message key="alerts.alert.AlertList.ListHeader.Fixed" /></th>
-        <th class="tableRowSorted" align="center">
+        <th class="tableRowSorted" align="left">
           <fmt:message key="alerts.alert.AlertList.ListHeader.Acknowledge" /></th>
       </tr>
     </tbody>

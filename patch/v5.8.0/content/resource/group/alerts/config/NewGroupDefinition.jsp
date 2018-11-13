@@ -134,7 +134,11 @@
 	  		var escalationSel = hqDojo.byId('escIdSel');
 	  
 	  		for (var i = 0; i < schemes.length; i++) {
-	    		addOption(escalationSel , schemes[i].id, schemes[i].name);
+	  		if(schemes[i].id=='100' && schemes[i].name=='Default Escalation'){
+	    		addOption(escalationSel , schemes[i].id, '<fmt:message key="alert.config.escalation.defaultEscalationName"/>');
+	    	}else{
+	    	    addOption(escalationSel , schemes[i].id, schemes[i].name);
+	    	}
 	  		}
 		</jsu:script>
     </td>

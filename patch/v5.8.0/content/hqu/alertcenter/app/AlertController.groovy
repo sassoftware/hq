@@ -67,7 +67,38 @@ class AlertController
         """<img src="${imgUrl}" width="16" height="16" border="0" 
                 class="severityIcon">  ${imgLabel}"""
     }
-            
+    
+	private getFixed(fixed) {
+		if(fixed == null){
+		 return ""	
+		}
+		
+		if(fixed.equals("Yes")){
+			return localeBundle.YES
+		}else if(fixed.equals("No")){
+			return localeBundle.NO
+		}else{
+			return fixed
+		}
+	  
+	}    
+	
+	private getActive(act) {
+		
+	 if(act == null){
+			return ""
+     }
+   
+		
+	 if(act.equals("Yes")){
+	  return localeBundle.YES
+	 }else if(act.equals("No")){
+	  return localeBundle.NO
+	 }else{
+	  return act
+	 }
+    }
+
     private getPriority(params) {
         def minPriority = params.getOne('minPriority', '1')
         def severity = AlertSeverity.findByCode(minPriority.toInteger())
@@ -129,7 +160,7 @@ class AlertController
                            [resource:it.alertDefinition.resource.platform])}],
             [field:[getValue: {localeBundle.AlertFixed},
                  description:'AlertFixed', sortable:false], width:'40px',
-             label:{YesOrNoMap.valueFor(it.fixed, LocaleSetId.getLocale())}],
+             label:{getFixed(YesOrNoMap.valueFor(it.fixed, LocaleSetId.getLocale()))}],
             [field:[getValue: {localeBundle.AlertAck},
                  description:'AlertAck', sortable:false], width:'75px',
              label:{
@@ -202,7 +233,7 @@ class AlertController
                     [resource:it.alertDef.group])}],
             [field:[getValue: {localeBundle.AlertFixed},
                  description:'AlertFixed', sortable:false], width:'40px',
-             label:{YesOrNo.valueFor(it.fixed).value.capitalize()}],
+             label:{getFixed(YesOrNo.valueFor(it.fixed).value.capitalize())}],
             [field:[getValue: {localeBundle.AlertAck},
                  description:'AlertAck', sortable:false], width:'75px',
              label:{
@@ -256,9 +287,9 @@ class AlertController
             	if (it.active && !it.enabled) {
 	             	def imgUrl = urlFor(asset:'images') + "/flag_yellow.gif"
 	             	
-        			markUp += YesOrNo.valueFor(it.active).value.capitalize() + "&nbsp;<img align='absmiddle' src='${imgUrl}' width='16' height='16' border='0' class='severityIcon' title='$localeBundle.ActiveButDisabled'/>"
+        			markUp += getActive(YesOrNo.valueFor(it.active).value.capitalize()) + "&nbsp;<img align='absmiddle' src='${imgUrl}' width='16' height='16' border='0' class='severityIcon' title='$localeBundle.ActiveButDisabled'/>"
              	} else {
-             		markUp += YesOrNo.valueFor(it.active).value.capitalize()
+             		markUp += getActive(YesOrNo.valueFor(it.active).value.capitalize())
              	} 
              	
              	return markUp + "</span>"
@@ -281,7 +312,9 @@ class AlertController
              label:{
                 if (it.escalation == null)
                     return ""
-                else
+                else if(it.escalation.id==100 && it.escalation.name=="Default Escalation")
+				    return linkTo(localeBundle.DefaultEscalation, [resource:it.escalation])
+				else
                     return linkTo(it.escalation.name, [resource:it.escalation])
             }],
             [field:[getValue: {localeBundle.AlertDefPriority},
@@ -312,7 +345,7 @@ class AlertController
              label:{
             	def markUp = "<span style='whitespace:nowrap:'>"
                 	 
-                markUp += YesOrNo.valueFor(it.active).value.capitalize()
+                markUp += getActive(YesOrNo.valueFor(it.active).value.capitalize())
 
                 return markUp + "</span>"
              }],
@@ -324,6 +357,8 @@ class AlertController
               label:{
                  if (it.escalation == null)
                      return ""
+                 else if(it.escalation.id==100 && it.escalation.name=="Default Escalation")
+				    return linkTo(localeBundle.DefaultEscalation, [resource:it.escalation])
                  else
                      return linkTo(it.escalation.name, [resource:it.escalation])
              }],
@@ -353,7 +388,7 @@ class AlertController
              label:{df.format(it.mtime)}],
             [field:[getValue: {localeBundle.AlertDefActive},
                  description:'AlertDefActive', sortable:false], width:'40px',
-             label:{YesOrNo.valueFor(it.enabled).value.capitalize()}],
+             label:{getActive(YesOrNo.valueFor(it.enabled).value.capitalize())}],
             [field:[getValue: {localeBundle.AlertDefLastAlert},
                  description:'AlertDefLastAlert', sortable:false], width:'100px',
              label:{
@@ -368,7 +403,13 @@ class AlertController
              label:{linkTo(it.group.name, [resource:it.group])}],
             [field:[getValue: {localeBundle.AlertDefEscalation},
                  description:'AlertDefEscalation', sortable:false], width:'14%',
-             label:{linkTo(it.escalation.name, [resource:it.escalation])}],
+             label:{                 
+				 if (it.escalation == null)
+                     return ""
+                 else if(it.escalation.id==100 && it.escalation.name=="Default Escalation")
+				    return linkTo(localeBundle.DefaultEscalation, [resource:it.escalation])
+                 else
+                     return linkTo(it.escalation.name, [resource:it.escalation])}],
             [field:[getValue: {localeBundle.AlertDefPriority},
                  description:'AlertDefPriority', sortable:true], width:'70px',
              label:{getSeverityImg(it.severity)}], 

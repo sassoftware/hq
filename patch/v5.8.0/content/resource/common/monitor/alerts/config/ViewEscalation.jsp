@@ -193,8 +193,8 @@
 		      }
 		
 		      if (configListType == "1"){
-		          var emailAdds = emailInfo.split(',');
-		          for (var b = 0; b < emailAdds.length; b++) {
+		         // var emailAdds = emailInfo.split(',');
+		         // for (var b = 0; b < emailAdds.length; b++) {
 		              var displayEmails = "";
 		              var emailAdds = emailInfo.split(',');
 		              var comma = ", ";
@@ -204,7 +204,7 @@
 		                  displayEmails += comma;
 		                }
 		              }
-                      displayEmails = displayEmails.substring(0,displayEmails.length-2);		
+                      // displayEmails = displayEmails.substring(0,displayEmails.length-2);		
 		              if (configSms == "true") {
 		                usersTextDiv.innerHTML = "<fmt:message key="monitoring.events.MiniTabs.Others"/> <fmt:message key="alert.config.action.notify.via.sms"/> " + displayEmails + "<br>";
 		              } else {
@@ -213,7 +213,7 @@
 		          }
 		              //usersTextDiv.innerHTML = "<fmt:message key="monitoring.events.MiniTabs.Others"/>:  " + displayEmails + "<br>";
 		
-		         }
+		        // }
 		           
 		      } else if (configListType == "2") {
 		          var uids = emailInfo.split(',');

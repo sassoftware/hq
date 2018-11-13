@@ -36,7 +36,7 @@ var gconsoleExecuteUrl = "<%= urlFor(action:"execute", encodeUrl:true) %>";
 
 hqDojo.ready(function() {
 	hqDojo.connect(hqDojo.byId("executeLink"), "onclick", function(e) {
-		hqDojo.byId('timeStatus').innerHTML = '... executing';
+		hqDojo.byId('timeStatus').innerHTML = '${l.executing}';
 		
 		hqDojo.xhrPost({
     		url: gconsoleExecuteUrl,
@@ -46,6 +46,9 @@ hqDojo.ready(function() {
 	    	},
     		load: function(response, args) {
       			hqDojo.byId('result').innerHTML = response.result;
+      			if(hqDojo.byId('result').innerHTML=="null"){
+      			 hqDojo.byId('result').innerHTML='${l.nullValue}';
+      			}
       			hqDojo.byId('timeStatus').innerHTML = response.timeStatus;
       			
       			if (response.actionToken) {
