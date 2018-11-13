@@ -12,18 +12,8 @@
 		<delete file="${work_dir}/../${jar_name}"/>
 		<delete dir="${work_dir}"/>
 		<mkdir dir="${work_dir}"/>
-		
-		<unzip src="../../hyperic58lib/${jar_name}" dest="${work_dir}"/>
     </target>
 	
-	<target name="removelist" depends="init">
-		<loadfile property="removelist_txt" srcFile="removelist.txt"/>
-		<filelist id="removelist_id" dir="${work_dir}" files="${removelist_txt}"/>
-		<delete>
-			<filelist refid="removelist_id"/>
-		</delete>
-	</target>
-
     <target name="clean_bin" depends="init">
 		<delete dir="${bin_dir}"/>
 		<mkdir dir="${bin_dir}"/>
@@ -37,21 +27,23 @@
 
     <target name="compile" depends="init">
     	<property name="debuglevel" value="source,lines,vars"/>
-    	<property name="target" value="1.7"/>
-    	<property name="source" value="1.7"/>
+    	<property name="target" value="8"/>
+    	<property name="source" value="8"/>
     	<property name="tomcat6lib" value="../../tomcat6lib"/>
     	<property name="hyperic58lib" value="../../hyperic58lib"/>
     	<path id="hypericorg.classpath">
+    		<pathelement location="${tomcat6lib}/sigar-1.6.6.10.jar"/>
 	        <pathelement location="${tomcat6lib}/commons-logging-api-1.1.jar"/>
-    		<pathelement location="${tomcat6lib}/spring-core-3.0.5.RELEASE.jar"/>
-    		<pathelement location="${tomcat6lib}/httpclient-4.5.1.jar"/>
     		<pathelement location="${tomcat6lib}/httpcore-4.4.3.jar"/>
+    		<pathelement location="${tomcat6lib}/httpclient-4.5.1.jar"/>
+    		<pathelement location="${tomcat6lib}/spring-core-3.0.5.RELEASE.jar"/>
+    		<pathelement location="../Source/Java/lib/dnsjava-2.0.6.jar"/>
+    		<pathelement location="${tomcat6lib}/jsch-0.1.54.jar"/>
 
 	        <pathelement location="${hyperic58lib}/hq-util-5.8.0.jar"/>
 	        <pathelement location="${hyperic58lib}/hq-common-5.8.0.jar"/>
 	        <pathelement location="${hyperic58lib}/hq-lather-5.8.0.jar"/>
 	        <pathelement location="${hyperic58lib}/hq-pdk-5.8.0.jar"/>
-	        <pathelement location="${hyperic58lib}/netservices-plugin.jar"/>
     	</path>
     
         <javac debug="true" debuglevel="${debuglevel}" destdir="${bin_dir}" includeantruntime="false" source="${source}" target="${target}">
@@ -60,7 +52,7 @@
         </javac>
     </target>
     
-	<target name="all" depends="init,clean_jar,removelist,clean_bin,compile">
+	<target name="all" depends="init,clean_jar,clean_bin,compile">
         <copy includeemptydirs="false" todir="${work_dir}">
             <fileset dir="${bin_dir}">
                 <exclude name="**/*.java"/>

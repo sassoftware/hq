@@ -42,6 +42,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.Locale;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -366,7 +367,15 @@ public class HTTPCollector extends SocketChecker {
                 // TODO lock down the expected format (wasn't specified in orig code...
                 lastModified = format.parse(header.getValue()).getTime();
             } catch (java.text.ParseException e) {
-                log.error(e, e);
+                // log.error(e, e);
+            }
+            if(lastModified == 0) {
+            	try {
+            		DateFormat format2 = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss z", new Locale("en"));
+            		lastModified = format2.parse(header.getValue()).getTime();
+            	} catch (java.text.ParseException e2) {
+            		log.warn("Failed to parse header Last-Modified: " + header.getValue());
+            	}
             }
         } else if (statusCode == 200) {
             lastModified = System.currentTimeMillis();
