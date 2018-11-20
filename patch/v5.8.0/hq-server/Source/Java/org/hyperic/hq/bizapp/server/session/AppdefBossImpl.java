@@ -2007,6 +2007,10 @@ public class AppdefBossImpl implements AppdefBoss , ApplicationContextAware {
                     protoType = AuthzConstants.authzApplicationProto;
                     resourceTypes.add(resourceManager.findResourceTypeById(AuthzConstants.authzApplication));
                     break;
+                case AppdefEntityConstants.APPDEF_TYPE_GROUP:
+                	 protoType = AuthzConstants.authzResourceGroupId;
+                     resourceTypes.add(resourceManager.findResourceTypeById(AuthzConstants.authzGroup));
+                     break;
                 default:
                     break;
             }

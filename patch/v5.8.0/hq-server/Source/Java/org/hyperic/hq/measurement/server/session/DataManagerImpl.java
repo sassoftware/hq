@@ -1990,9 +1990,10 @@ public class DataManagerImpl implements DataManager {
                                              final AtomicLong publishedInterval) {
         final String[] tables = getDataTables(start, finish, false);
         if (tables.length <= 0) {
-            throw new SystemException(
-                "ERROR: no data tables represent range " + TimeUtil.toString(start) +
-                " - " + TimeUtil.toString(finish));
+        	return new AggMetricValue[0];
+//            throw new SystemException(
+//                "ERROR: no data tables represent range " + TimeUtil.toString(start) +
+//                " - " + TimeUtil.toString(finish));
         }
         final MeasRange[] ranges = (tables.length > 1) ?
             MeasTabManagerUtil.getMetricRanges(start, finish) :
