@@ -72,6 +72,7 @@
 	        <pathelement location="${hyperic58lib}/hq-api-5.8.0.jar"/>
 	        <pathelement location="${hyperic58lib}/hqee-api-5.8.0.jar"/>
 	        <pathelement location="${hyperic58lib}/hqee-common-5.8.0.jar"/>
+    		<pathelement location="${hyperic58lib}/oro-2.0.8.jar"/>
     	</path>
     
         <javac debug="true" debuglevel="${debuglevel}" destdir="${bin_dir}" includeantruntime="false" source="${source}" target="${target}">

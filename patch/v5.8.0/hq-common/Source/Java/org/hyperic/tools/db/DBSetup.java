@@ -529,9 +529,9 @@ public class DBSetup {
                 System.out.println("Successfully loaded the database driver.");
             
             System.out.println("the database previous is " + database);
-            if (database.endsWith("protocolVersion=3")) {
+            /*if (database.endsWith("protocolVersion=3")) {
               database = database.substring(0, database.length() - 1) + "2";
-            }
+            }*/
 
             m_conn = connect(database, username, password);
             if(this.isQuiet() == false)
