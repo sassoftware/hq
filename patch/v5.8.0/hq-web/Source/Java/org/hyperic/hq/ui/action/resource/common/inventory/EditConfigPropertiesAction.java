@@ -314,7 +314,7 @@ public class EditConfigPropertiesAction
 				if((sv!=null)){
 					if((sv.getServerType()!=null)){
 				       String serverTypeName = sv.getServerType().getName();
-				       if(serverTypeName!=null&&serverTypeName.startsWith("PostgreSQL")){
+				       if(serverTypeName!=null&&(serverTypeName.startsWith("PostgreSQL")||serverTypeName.startsWith("Pivotal Web Server"))){
 				            GlobalTime.put(aeid, Long.valueOf(System.currentTimeMillis()));
 				            log.info("For handling old jobs: for postgres server "+aeid.getID()+" the last config response update time is "+GlobalTime.get(aeid));
 				       }
