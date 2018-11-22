@@ -26,6 +26,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.StringTokenizer;
 import java.util.jar.Attributes;
 import java.util.jar.JarFile;
 import java.util.regex.Matcher;
@@ -271,6 +272,45 @@ public class TomcatServerDetector
             }
         }
         
+      //set control config for Windows SAS Envrionment Manager
+        if (servers != null && isWin32()){
+        	for (Object server : servers) {
+                 ConfigResponse controlConfig = ((ServerResource)server).getControlConfig();
+            	 String installPath = ((ServerResource)server).getInstallPath();
+            	 String windowsServiceName = null;
+            	 if(installPath.endsWith("Web\\SASEnvironmentManager\\server-5.8.0-EE\\hq-engine\\hq-server")){
+            		 String string = installPath.substring(0, installPath.indexOf("Web\\SASEnvironmentManager\\server-5.8.0-EE\\hq-engine\\hq-server")-1);
+            		 StringTokenizer stringTokenizer = new StringTokenizer(string,"\\");
+        			 int countTokens = stringTokenizer.countTokens();
+	        		 int i=0;
+	        		 String configName="", levelName="";
+        			 while (stringTokenizer.hasMoreTokens()) {
+        				String folderName = stringTokenizer.nextToken();
+        				if(i==countTokens-2){
+        					configName = folderName;
+        				}else if (i==countTokens-1) {
+							levelName = folderName;
+						}
+        				i++;
+        			}
+        			if(!configName.equals("")&&!levelName.equals("")){
+        				windowsServiceName = "SAS ["+configName+"-"+levelName+"] SAS Environment Manager";
+        			}
+            	 }
+            	 if(controlConfig!=null){
+            		 if(windowsServiceName!=null){
+            			 controlConfig.setValue("service_name", windowsServiceName);
+            		 }
+            	 }else {
+            		 if(windowsServiceName!=null){
+            			 Map<String, String> map = new HashMap<String, String>();
+            			 map.put("service_name", windowsServiceName);
+            			 ((ServerResource)server).setControlConfig(map);
+            		 }
+				}
+    		}
+        }
+        
         return servers;
     }
 
@@ -313,7 +353,7 @@ public class TomcatServerDetector
         File hq = findVersionFile(new File(catalinaBase), Pattern.compile("hq-common.*\\.jar"));
         if (hq != null) {
             server.setName(getPlatformName()+" Hyperic - Apache Tomcat " + getTypeInfo().getVersion());
-            server.setIdentifier("HQ Tomcat");
+            server.setIdentifier("HQ Tomcat - "+catalinaBase);
         }
 
         return server;

@@ -12,18 +12,8 @@
 		<delete file="${work_dir}/../${jar_name}"/>
 		<delete dir="${work_dir}"/>
 		<mkdir dir="${work_dir}"/>
-		
-		<unzip src="../../hyperic58lib/${jar_name}" dest="${work_dir}"/>
     </target>
 	
-	<target name="removelist" depends="init">
-		<loadfile property="removelist_txt" srcFile="removelist.txt"/>
-		<filelist id="removelist_id" dir="${work_dir}" files="${removelist_txt}"/>
-		<delete>
-			<filelist refid="removelist_id"/>
-		</delete>
-	</target>
-
     <target name="clean_bin" depends="init">
 		<delete dir="${bin_dir}"/>
 		<mkdir dir="${bin_dir}"/>
@@ -49,7 +39,6 @@
 	        <pathelement location="${hyperic58lib}/hq-common-5.8.0.jar"/>
 	        <pathelement location="${hyperic58lib}/hq-lather-5.8.0.jar"/>
 	        <pathelement location="${hyperic58lib}/hq-pdk-5.8.0.jar"/>
-	        <pathelement location="${hyperic58lib}/tomcat-plugin.jar"/>
     	</path>
     
         <javac debug="true" debuglevel="${debuglevel}" destdir="${bin_dir}" includeantruntime="false" source="${source}" target="${target}">
@@ -58,7 +47,7 @@
         </javac>
     </target>
     
-	<target name="all" depends="init,clean_jar,removelist,clean_bin,compile">
+	<target name="all" depends="init,clean_jar,clean_bin,compile">
         <copy includeemptydirs="false" todir="${work_dir}">
             <fileset dir="${bin_dir}">
                 <exclude name="**/*.java"/>

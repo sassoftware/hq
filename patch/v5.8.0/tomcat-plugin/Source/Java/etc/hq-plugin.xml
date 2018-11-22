@@ -181,7 +181,7 @@
   </metrics>
 
   <filter name="template" value="Catalina:type=DataSource,context=*,host=*,class=*,name=*:${alias}"/>
-  <metrics name="Apache Tomcat 8.5 DataSource Pool">
+  <metrics name="Apache Tomcat 9.0 DataSource Pool">
       <metric name="Availability"
               indicator="true"/>
       <metric name="Idle DataSource Connections"
@@ -593,13 +593,13 @@
   </server>
 
   <server name="Apache Tomcat"
-          version="8.5"
+          version="9.0"
           include="5.5">
     <property name="VERSION_FILE"
               value="lib/tomcat-api.jar"/>
     <property name="PROC_HOME_PROPERTY"
               value="catalina.base"/>
-    <property name="tomcatVersion" value="8.5"/>
+    <property name="tomcatVersion" value="9.0"/>
      &internal-services;
      &hibernate-services;
 
@@ -663,5 +663,5 @@
   ]]>
   </help>
   <help name="Apache Tomcat 5.5" include="Apache Tomcat"/>
-  <help name="Apache Tomcat 8.5" include="Apache Tomcat"/>
+  <help name="Apache Tomcat 9.0" include="Apache Tomcat"/>
 </plugin>
