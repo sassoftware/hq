@@ -36,7 +36,7 @@
 
 
 <plugin package="org.hyperic.hq.plugin.activemq" name="activemq">
-  <property name="PLUGIN_VERSION" value="5.12.0.2"/>
+  <property name="PLUGIN_VERSION" value="5.15"/>
 
   <classpath>
     <include name="pdk/lib/mx4j"/>
@@ -585,6 +585,7 @@
   <server name="ActiveMQ" version="5.6" include="5.3"/>
 
   <server name="ActiveMQ" version="5.7" include="5.3"/>
+
   <server name="ActiveMQ" version="5.8">    
       <property name="DEFAULT_CONF" value="conf/activemq.xml"/>
       <property name="DEFAULT_LOG_FILE" value="var/activemq.log"/>
@@ -594,7 +595,7 @@
           <option name="process.query" description="Process Query"/>
           <option name="jmx.username" description="JMX Username" optional="true" default=""/>
           <option name="jmx.password" description="JMX Password" optional="true" type="secret" default=""/>
-          <option name="jmx.url" description="The JMX service URL" optional="true" default="service:jmx:rmi:///jndi/rmi://localhost:1099/jmxrmi"/>
+          <option name="jmx.url" description="The JMX service URL" optional="true" default="service:jmx:rmi:///jndi/rmi://localhost:11099/jmxrmi"/>
       </config>
 
       <plugin type="autoinventory" class="org.hyperic.hq.plugin.activemq.ActiveMQServerDetector"/>
@@ -711,67 +712,6 @@
       <!-- &sun-jvm-service; -->    
   </server>
   <server name="ActiveMQ" version="5.12" include="5.8"/>
-  <server name="ActiveMQ Embedded"
-          version="5.0"
-          include="ActiveMQ 5.0">
-    <property name="PROC_HOME_PROPERTY"
-              value="catalina.base"/>
-   <plugin type="autoinventory"
-            class="org.hyperic.hq.plugin.activemq.EmbeddedActiveMQServerDetector"/>
-  </server>
-  
-  <server name="ActiveMQ Embedded"
-          version="5.1"
-          include="ActiveMQ 5.1">
-  <property name="PROC_HOME_PROPERTY"
-              value="catalina.base"/>
-   <plugin type="autoinventory"
-            class="org.hyperic.hq.plugin.activemq.EmbeddedActiveMQServerDetector"/>
-  </server>
+  <server name="ActiveMQ" version="5.15" include="5.8"/>
 
-  <server name="ActiveMQ Embedded" 
-         version="5.2"
-         include="5.1">
-   </server>
-
-  <server name="ActiveMQ Embedded" 
-         version="5.3" 
-         include="ActiveMQ 5.3">
-   <property name="PROC_HOME_PROPERTY"
-              value="catalina.base"/>
-   <plugin type="autoinventory"
-            class="org.hyperic.hq.plugin.activemq.EmbeddedActiveMQServerDetector"/>
-  </server>
-  
-  <server name="ActiveMQ Embedded" 
-         version="5.4"
-         include="5.3">
-   </server>
-
-  <server name="ActiveMQ Embedded" 
-         version="5.5"
-         include="5.3">
-   </server>
-
-  <server name="ActiveMQ Embedded" 
-         version="5.6"
-         include="5.3">
-   </server>
-
-  <server name="ActiveMQ Embedded" 
-         version="5.7"
-         include="5.3">
-   </server>
-  <server name="ActiveMQ Embedded" 
-         version="5.8" 
-         include="ActiveMQ 5.8">
-   <property name="PROC_HOME_PROPERTY"
-              value="catalina.base"/>
-   <plugin type="autoinventory"
-            class="org.hyperic.hq.plugin.activemq.EmbeddedActiveMQServerDetector"/>
-  </server>
-  <server name="ActiveMQ Embedded" 
-         version="5.12"
-         include="5.8">
-  </server>
 </plugin>
